@@ -1,14 +1,24 @@
-import React, {useContext} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {AuthContext} from '../navigation/AuthNavigator';
+import React, {useContext, useEffect, useState} from 'react';
+import {StyleSheet, Text, View, Button} from 'react-native';
+import {UserContext} from '../navigation/AuthNavigator';
+import {removeToken, removeUser} from '../utils/asynStorage';
 
 const Home = () => {
-  const user = useContext(AuthContext);
+  const {user, setUser} = useContext(UserContext);
+
+  const signOut = () => {
+    removeToken();
+    removeUser();
+    setUser(false);
+  };
 
   return (
-    <View style={styles.container}>
-      <Text>Home {user}</Text>
-    </View>
+    <>
+      <View style={styles.container}>
+        <Text>Home {user.name}</Text>
+        <Button title="Sign Out" onPress={() => signOut()} />
+      </View>
+    </>
   );
 };
 

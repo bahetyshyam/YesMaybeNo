@@ -1,19 +1,50 @@
 import React, {useState, useEffect, createContext} from 'react';
 import AppStack from './AppStack';
 import AuthStack from './AuthStack';
-
-export const AuthContext = createContext(null);
+import {getToken, getUser} from '../utils/asynStorage';
+export const AuthContext = createContext({});
+export const UserContext = createContext({});
 
 const AuthNavigator = () => {
   const [user, setUser] = useState(false);
 
-  return user ? (
-    <AuthContext.Provider value={user}>
-      <AppStack />
-    </AuthContext.Provider>
-  ) : (
-    <AuthStack />
-  );
+  const checkAsyncStorage = async () => {
+    const token = await getToken();
+    if (token) {
+      const user = await getUser();
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkAsyncStorage();
+  }, []);
+
+  if (user) {
+    return (
+      <UserContext.Provider
+        value={{
+          user: user,
+          setUser: setUser,
+        }}>
+        <AppStack />
+      </UserContext.Provider>
+    );
+  } else {
+    return (
+      <AuthContext.Provider
+        value={{
+          user: user,
+          setUser: setUser,
+        }}>
+        <AuthStack />
+      </AuthContext.Provider>
+    );
+  }
 };
 
 export default AuthNavigator;
