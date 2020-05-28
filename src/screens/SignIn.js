@@ -1,10 +1,10 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import AnimatedLoader from 'react-native-animated-loader';
 import {PRIMARY} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
-import {AuthContext} from '../navigation/AuthNavigator';
+import {UserContext} from '../navigation/AuthNavigator';
 import {signIn} from '../api/index';
 import {storeToken, storeUser} from '../utils/asynStorage';
 
@@ -13,7 +13,7 @@ const SignIn = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [visible, setVisible] = useState(false);
 
-  const {setUser} = useContext(AuthContext);
+  const {setUser} = useContext(UserContext);
 
   const handleSignIn = async (email, password) => {
     setVisible(!visible);
@@ -30,10 +30,10 @@ const SignIn = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-       <AnimatedLoader
+      <AnimatedLoader
         visible={visible}
         overlayColor="rgba(83, 83, 83,0.90)"
-        source={require("./loading animation.json")}
+        source={require('./loading animation.json')}
         animationStyle={styles.lottie}
         speed={1}
       />
@@ -53,7 +53,9 @@ const SignIn = ({navigation}) => {
           secureTextEntry={true}
         />
         <FormButton
-          onPress={() => {handleSignIn(email, password);}}
+          onPress={() => {
+            handleSignIn(email, password);
+          }}
           buttonTitle={'Sign In'}
         />
       </View>
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
   lottie: {
     width: 100,
     height: 100,
-  }
+  },
 });
 
 export default SignIn;

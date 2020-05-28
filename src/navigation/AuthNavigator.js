@@ -2,7 +2,6 @@ import React, {useState, useEffect, createContext} from 'react';
 import AppStack from './AppStack';
 import AuthStack from './AuthStack';
 import {getToken, getUser} from '../utils/asynStorage';
-export const AuthContext = createContext({});
 export const UserContext = createContext({});
 
 const AuthNavigator = () => {
@@ -36,13 +35,13 @@ const AuthNavigator = () => {
     );
   } else {
     return (
-      <AuthContext.Provider
+      <UserContext.Provider
         value={{
           user: user,
           setUser: setUser,
         }}>
         <AuthStack />
-      </AuthContext.Provider>
+      </UserContext.Provider>
     );
   }
 };

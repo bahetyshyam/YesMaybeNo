@@ -4,7 +4,7 @@ import AnimatedLoader from 'react-native-animated-loader';
 import {PRIMARY, HEADING} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
-import {AuthContext} from '../navigation/AuthNavigator';
+import {UserContext} from '../navigation/AuthNavigator';
 import {signUp} from '../api/index';
 import {storeToken, storeUser} from '../utils/asynStorage';
 
@@ -14,7 +14,7 @@ const SignUp = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [visible, setVisible] = useState(false);
 
-  const {setUser} = useContext(AuthContext);
+  const {setUser} = useContext(UserContext);
 
   const handleSignUp = async (name, email, password) => {
     try {
@@ -34,7 +34,7 @@ const SignUp = ({navigation}) => {
       <AnimatedLoader
         visible={visible}
         overlayColor="rgba(83, 83, 83,0.90)"
-        source={require("./loading animation.json")}
+        source={require('./loading animation.json')}
         animationStyle={styles.lottie}
         speed={1}
       />
@@ -67,7 +67,9 @@ const SignUp = ({navigation}) => {
       <TouchableOpacity
         style={styles.signIn}
         onPress={() => navigation.navigate('SignIn')}>
-        <Text style={styles.signInText}>Already have an account?<Text style={styles.signInNav}> Sign In</Text></Text>
+        <Text style={styles.signInText}>
+          Already have an account?<Text style={styles.signInNav}> Sign In</Text>
+        </Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,17 +1,37 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import SideBar from '../components/SideBar';
 import Home from '../screens/Home';
+import Groups from '../screens/Groups';
+import Settings from '../screens/Settings';
+import {PRIMARY} from '../styles/colors';
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const AppStack = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none">
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
+      <Drawer.Navigator
+        initialRouteName="Home"
+        drawerContent={props => <SideBar {...props} />}
+        drawerContentOptions={{
+          activeTintColor: '#fff',
+          activeBackgroundColor: PRIMARY,
+          inactiveTintColor: '#000',
+          itemStyle: {
+            marginHorizontal: 0,
+            paddingLeft: 10,
+            borderRadius: 0,
+          },
+          labelStyle: {
+            fontSize: 18,
+          },
+        }}>
+        <Drawer.Screen name="Home" component={Home} />
+        <Drawer.Screen name="Groups" component={Groups} />
+        <Drawer.Screen name="Settings" component={Settings} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 };
