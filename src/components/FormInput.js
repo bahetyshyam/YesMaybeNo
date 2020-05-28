@@ -1,5 +1,5 @@
 import React from 'react';
-import {PLACEHOLDER} from '../styles/colors';
+import {PLACEHOLDER, SEPARATOR} from '../styles/colors';
 import {StyleSheet, TextInput} from 'react-native';
 
 const FormInput = ({value, placeholder, ...rest}) => {
@@ -8,8 +8,8 @@ const FormInput = ({value, placeholder, ...rest}) => {
       value={value}
       style={styles.input}
       placeholder={placeholder}
-      numberOfLines={1}
       placeholderTextColor={PLACEHOLDER}
+      underlineColorAndroid={SEPARATOR}
       {...rest}
     />
   );
@@ -19,10 +19,9 @@ const styles = StyleSheet.create({
   input: {
     padding: 0,
     marginTop: 5,
-    marginBottom: 30,
-    borderBottomWidth: 1,
+    marginBottom: 35,
     width: '100%',
-    height: 35,
+    height: 50,
     fontSize: 16,
   },
 });

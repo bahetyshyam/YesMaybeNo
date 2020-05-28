@@ -16,3 +16,12 @@ export const signUp = async (name, email, password) => {
   });
   return response;
 };
+
+export const event = async (userToken) => {
+  const response = await api.get('/api/event', {
+    headers: {
+      'Authorization': `Bearer ${userToken}`,
+    },
+  });
+  return response;
+};

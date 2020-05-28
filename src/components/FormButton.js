@@ -12,18 +12,19 @@ const FormButton = ({buttonTitle, ...rest}) => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    marginTop: 10,
+    marginTop: 25,
     alignSelf: 'center',
     width: '50%',
+    height: 55,
     padding: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 99999,
+    borderRadius: 10,
     backgroundColor: PRIMARY,
     elevation: 5,
   },
   buttonText: {
-    fontSize: 28,
+    fontSize: 21,
     fontWeight: 'bold',
     color: '#fff',
   },

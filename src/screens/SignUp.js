@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {PRIMARY} from '../styles/colors';
+import AnimatedLoader from 'react-native-animated-loader';
+import {PRIMARY, HEADING} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import {AuthContext} from '../navigation/AuthNavigator';
@@ -11,15 +12,18 @@ const SignUp = ({navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [visible, setVisible] = useState(false);
 
   const {setUser} = useContext(AuthContext);
 
   const handleSignUp = async (name, email, password) => {
     try {
+      setVisible(!visible);
       const response = await signUp(name, email, password);
       storeToken(response.data.token);
       storeUser(response.data.user);
       setUser(response.data.user);
+      setVisible(visible);
     } catch (error) {
       console.log(error.response.data);
     }
@@ -27,7 +31,14 @@ const SignUp = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Create an Account</Text>
+      <AnimatedLoader
+        visible={visible}
+        overlayColor="rgba(83, 83, 83,0.90)"
+        source={require("./loading animation.json")}
+        animationStyle={styles.lottie}
+        speed={1}
+      />
+      <Text style={styles.heading}>Get started</Text>
       <View style={styles.box}>
         <Text style={styles.label}>Name</Text>
         <FormInput
@@ -56,7 +67,7 @@ const SignUp = ({navigation}) => {
       <TouchableOpacity
         style={styles.signIn}
         onPress={() => navigation.navigate('SignIn')}>
-        <Text style={styles.signInText}>Already have an account? Sign In</Text>
+        <Text style={styles.signInText}>Already have an account?<Text style={styles.signInNav}> Sign In</Text></Text>
       </TouchableOpacity>
     </View>
   );
@@ -78,19 +89,23 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     color: PRIMARY,
+    paddingHorizontal: '5%',
   },
   box: {
-    paddingHorizontal: '10%',
-    paddingVertical: '15%',
+    paddingTop: '15%',
+    paddingRight: '10%',
+    paddingBottom: '7%',
+    paddingLeft: '10%',
     backgroundColor: '#fff',
+    borderRadius: 10,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
+    shadowOffset: {width: 2, height: 3},
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
   },
   label: {
-    fontSize: 24,
+    fontSize: 21,
   },
   signIn: {
     marginTop: 20,
@@ -98,7 +113,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   signInText: {
-    fontSize: 20,
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: HEADING,
+  },
+  signInNav: {
+    fontSize: 17,
     fontWeight: 'bold',
     color: PRIMARY,
   },
