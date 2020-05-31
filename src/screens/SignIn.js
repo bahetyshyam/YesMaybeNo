@@ -1,42 +1,37 @@
 import React, {useState, useContext} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import AnimatedLoader from 'react-native-animated-loader';
 import {PRIMARY} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import {UserContext} from '../navigation/AuthNavigator';
 import {signIn} from '../api/index';
 import {storeToken, storeUser} from '../utils/asynStorage';
+import LoadingScreen from '../components/LoadingScreen';
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [visible, setVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {setUser} = useContext(UserContext);
 
   const handleSignIn = async (email, password) => {
-    setVisible(!visible);
+    setIsLoading((value) => !value);
     try {
       const response = await signIn(email, password);
       storeToken(response.data.token);
       storeUser(response.data.user);
       setUser(response.data.user);
-      setVisible(visible);
+      setIsLoading((value) => !value);
     } catch (error) {
+      setIsLoading((value) => !value);
       console.log(error.response.data);
     }
   };
 
   return (
     <View style={styles.container}>
-      <AnimatedLoader
-        visible={visible}
-        overlayColor="rgba(83, 83, 83,0.90)"
-        source={require('./loading animation.json')}
-        animationStyle={styles.lottie}
-        speed={1}
-      />
+      <LoadingScreen visible={isLoading} />
       <Text style={styles.heading}>Sign In</Text>
       <View style={styles.box}>
         <Text style={styles.label}>Email</Text>
@@ -87,8 +82,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: '5%',
   },
   box: {
-    // paddingHorizontal: '10%',
-    // paddingVertical: '15%',
     paddingTop: '15%',
     paddingRight: '10%',
     paddingBottom: '7%',
@@ -113,10 +106,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
     color: PRIMARY,
-  },
-  lottie: {
-    width: 100,
-    height: 100,
   },
 });
 

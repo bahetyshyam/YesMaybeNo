@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {StyleSheet, Text, View, Button, ScrollView} from 'react-native';
 import Header from '../components/Header';
 
+
 const Settings = ({navigation}) => {
+  useEffect(() => {
+    console.log("Settings page mounted");
+  }, []);
+
   return (
     <>
       <View style={styles.screenContainer}>

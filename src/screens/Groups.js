@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, Button, ScrollView} from 'react-native';
 import Header from '../components/Header';
 
 const Groups = ({navigation}) => {
+  useEffect(() => {
+    console.log("Groups page mounted");
+  }, []);
+
   return (
     <>
       <View style={styles.screenContainer}>

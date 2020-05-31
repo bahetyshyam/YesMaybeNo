@@ -1,43 +1,38 @@
 import React, {useState, useContext} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import AnimatedLoader from 'react-native-animated-loader';
 import {PRIMARY, HEADING} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import {UserContext} from '../navigation/AuthNavigator';
 import {signUp} from '../api/index';
 import {storeToken, storeUser} from '../utils/asynStorage';
+import LoadingScreen from '../components/LoadingScreen';
 
 const SignUp = ({navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [visible, setVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {setUser} = useContext(UserContext);
 
   const handleSignUp = async (name, email, password) => {
     try {
-      setVisible(!visible);
+      setIsLoading((value) => !value);
       const response = await signUp(name, email, password);
       storeToken(response.data.token);
       storeUser(response.data.user);
       setUser(response.data.user);
-      setVisible(visible);
+      setIsLoading((value) => !value);
     } catch (error) {
+      setIsLoading((value) => !value);
       console.log(error.response.data);
     }
   };
 
   return (
     <View style={styles.container}>
-      <AnimatedLoader
-        visible={visible}
-        overlayColor="rgba(83, 83, 83,0.90)"
-        source={require('./loading animation.json')}
-        animationStyle={styles.lottie}
-        speed={1}
-      />
+      <LoadingScreen visible={isLoading} />
       <Text style={styles.heading}>Get started</Text>
       <View style={styles.box}>
         <Text style={styles.label}>Name</Text>

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import {PLACEHOLDER} from '../styles/colors';
-import HeaderLogo from '../assets/images/HeaderLogo.png';
+import HeaderLogo from '../assets/images/logo.svg';
 
 const Header = ({navigation}) => {
   return (
@@ -13,8 +13,7 @@ const Header = ({navigation}) => {
         <Icon name="bars" size={32} color={PLACEHOLDER} />
       </TouchableOpacity>
       <View style={styles.logoView}>
-        <Text>Logo Comes Here</Text>
-        {/* <Image style={{flex: 1}} resizeMethod="resize" source={HeaderLogo} /> */}
+        <HeaderLogo />
       </View>
     </View>
   );
@@ -31,8 +30,10 @@ const styles = StyleSheet.create({
   },
   hamburgerView: {},
   logoView: {
-    flexGrow: 1,
+    // flexGrow: 1,
     alignItems: 'center',
+    width: 310,
+    height: 125,
   },
   text: {
     fontSize: 23,
