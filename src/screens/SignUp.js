@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {PRIMARY, HEADING} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
+import Error from '../components/Error';
 import {UserContext} from '../navigation/AuthNavigator';
 import {signUp} from '../api/index';
 import {storeToken, storeUser} from '../utils/asynStorage';
@@ -13,20 +14,26 @@ const SignUp = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const {setUser} = useContext(UserContext);
 
   const handleSignUp = async (name, email, password) => {
+    //Validation Check
+    if (!name || !email || !password) {
+      setError('Please enter all the details');
+      return;
+    }
+    setIsLoading(value => !value);
     try {
-      setIsLoading((value) => !value);
       const response = await signUp(name, email, password);
       storeToken(response.data.token);
       storeUser(response.data.user);
       setUser(response.data.user);
-      setIsLoading((value) => !value);
+      setIsLoading(value => !value);
     } catch (error) {
-      setIsLoading((value) => !value);
-      console.log(error.response.data);
+      setIsLoading(value => !value);
+      setError(error.response.data.message);
     }
   };
 
@@ -54,6 +61,7 @@ const SignUp = ({navigation}) => {
           placeholder={'Enter Password'}
           secureTextEntry={true}
         />
+        {error ? <Error error={error} /> : null}
         <FormButton
           onPress={() => handleSignUp(name, email, password)}
           buttonTitle={'Sign Up'}
