@@ -13,6 +13,7 @@ const AuthNavigator = () => {
       const user = await getUser();
       if (user) {
         setUser(user);
+        console.log(user);
       } else {
         setUser(false);
       }

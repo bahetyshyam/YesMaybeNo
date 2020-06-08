@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {PRIMARY} from '../styles/colors';
 import FormInput from '../components/FormInput';
@@ -88,10 +88,10 @@ const styles = StyleSheet.create({
     paddingLeft: '10%',
     backgroundColor: '#fff',
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
+    // shadowColor: '#000',
+    // shadowOffset: {width: 0, height: 1},
+    // shadowOpacity: 0.8,
+    // shadowRadius: 2,
     elevation: 5,
   },
   label: {

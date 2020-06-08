@@ -27,3 +27,13 @@ export const event = async () => {
   });
   return response;
 };
+
+export const oneEvent = async (eventId) => {
+  const userToken = await getToken();
+  const response = await api.get('/api/event/' + eventId, {
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  });
+  return response;
+}

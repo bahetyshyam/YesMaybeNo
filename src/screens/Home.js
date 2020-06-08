@@ -17,6 +17,7 @@ const Home = ({navigation}) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [events, setEvents] = useState([]);
+  const {setUser, user} = useContext(UserContext);
 
   useEffect(() => {
     setIsLoading((value) => !value);
@@ -28,7 +29,7 @@ const Home = ({navigation}) => {
     const eventArray = Object.values(response.data.events);
     setEvents(eventArray);
     setIsLoading((value) => !value);
-  }
+  } 
 
   const convertDate = (dbDate) => {
     const date = new Date(dbDate);
@@ -38,6 +39,22 @@ const Home = ({navigation}) => {
   const getEventTime = (dbDate) => {
     const time = new Date(dbDate);
     return time.toLocaleTimeString().substring(0, 5);
+  }
+
+  const getUserResponse = (responses) => {
+    let userResponse;
+    if(responses.length === 0)
+    return null;
+    for (response of responses)
+      if (response.user === user._id) {
+        userResponse = response.response;
+        break;
+      }
+
+      if (userResponse === "yes") return <Yes />
+      else if (userResponse === "no") return <No />
+      else if (userResponse === "maybe") return <Maybe />
+      else return null;
   }
 
   // const maxResponses = () => {
@@ -57,12 +74,14 @@ const Home = ({navigation}) => {
   // }
 
   const Event = (props) => {
+    console.log(props.responses);
     return (
       <TouchableOpacity style={styles.eventCard}
-      onPress={() => navigation.navigate('Event')}>
+      onPress={() => navigation.navigate('Event',
+      {groupName: props.groupName, numberOfParticipants: props.numberOfParticipants, eventId: props.eventId})}>
         <View style={styles.headingComponent}>
           <Text style={styles.eventHeading}>{props.eventName}</Text>
-          <View style={styles.bubble}><No /></View>
+          <View style={styles.bubble}><Yes /></View>
         </View>
         <View style={styles.horizontalComponent}>
           <LocationLogo style={styles.location} />
@@ -76,7 +95,7 @@ const Home = ({navigation}) => {
           <Text style={styles.eventGroup}>{props.groupName}</Text>
           <View style={styles.responseComponent}>
             <Text style={styles.eventResponse}>Response</Text>
-            <View style={styles.bubble}><Yes /></View>
+            <View style={styles.bubble}>{getUserResponse(props.responses)}</View>
           </View>
         </View>
       </TouchableOpacity>
@@ -94,7 +113,7 @@ const Home = ({navigation}) => {
             :
             (<FlatList
               data={events}
-              renderItem={({item}) => <Event eventName={item.name} schedule={item.schedule} groupName={item.group[0].name} />}
+              renderItem={({item}) => <Event groupName={item.group[0].name} numberOfParticipants={item.group[0].members.length} eventId={item._id} eventName={item.name} schedule={item.schedule} responses={item.responses} />}
               keyExtractor={item => item._id}
               showsVerticalScrollIndicator ={false}>
                 
@@ -112,7 +131,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F8F8F8',
     padding: 20,
   },
   bubble: {
@@ -124,27 +143,28 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: '4%',
+    marginBottom: '1%',
   },
   heading: {
     fontSize: 35,
     fontWeight: "bold",
-    marginBottom: 30,
+    marginBottom: 27,
     paddingLeft: '9%'
   },
   eventCard: {
-    padding: '10%',
+    paddingHorizontal: '10%',
+    paddingVertical: '2%',
     backgroundColor: '#fff',
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: {width: 2, height: 3},
     shadowOpacity: 0.8,
     shadowRadius: 10,
-    elevation: 3,
-    marginBottom: '10%',
+    elevation: 2,
+    marginBottom: '6%',
   },
   eventHeading: {
-    fontSize: 25,
+    fontSize: 23,
     fontWeight: 'bold',
     marginRight: '3%',
   },
@@ -155,10 +175,10 @@ const styles = StyleSheet.create({
   },
   eventLocation: {
     color: PRIMARY,
-    fontSize: 16,
+    fontSize: 14,
   },
   verticalComponent: {
-    marginTop: '3%',
+    marginTop: '2%',
     marginBottom: '8%',
     
   },
@@ -176,7 +196,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: '5%',
+    marginTop: '2%',
   },
   eventResponse: {
     fontSize: 16,
