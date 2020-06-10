@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
-import AuthNavigator from './src/navigation/AuthNavigator';
+import AppNavigator from './src/navigation/AppNavigator';
 import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
   useEffect(() => {
     SplashScreen.hide();
-    }, []);
-  return <AuthNavigator />;
+  }, []);
+  return <AppNavigator />;
 };
 
 export default App;

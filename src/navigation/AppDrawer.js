@@ -1,9 +1,9 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import SideBar from '../components/SideBar';
-import Home from '../screens/Home';
+import Events from '../screens/Events';
 import Groups from '../screens/Groups';
 import Settings from '../screens/Settings';
 import Event from '../screens/Event';
@@ -15,22 +15,22 @@ const Stack = createStackNavigator();
 const EventStack = () => {
   return (
     <Stack.Navigator
-    initialRouteName="Home"
-    screenOptions={{
-      headerShown: false
-    }}>
-      <Stack.Screen name="Home" component={Home} /> 
+      initialRouteName="Events"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Events" component={Events} />
       <Stack.Screen name="Event" component={Event} />
     </Stack.Navigator>
   );
-}
+};
 
-const AppStack = () => {
+const AppDrawer = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator
         initialRouteName="EventStack"
-        backBehavior='initialRoute'
+        backBehavior="initialRoute"
         drawerContent={props => <SideBar {...props} />}
         drawerContentOptions={{
           activeTintColor: '#fff',
@@ -58,4 +58,4 @@ const AppStack = () => {
   );
 };
 
-export default AppStack;
+export default AppDrawer;

@@ -28,7 +28,7 @@ export const event = async () => {
   return response;
 };
 
-export const oneEvent = async (eventId) => {
+export const oneEvent = async eventId => {
   const userToken = await getToken();
   const response = await api.get('/api/event/' + eventId, {
     headers: {
@@ -36,4 +36,16 @@ export const oneEvent = async (eventId) => {
     },
   });
   return response;
-}
+};
+
+export const updateResponse = async (eventId, userResponse) => {
+  const userToken = await getToken();
+  const response = api({
+    method: 'PATCH',
+    url: `api/event/${eventId}/${userResponse}`,
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  });
+  return response;
+};

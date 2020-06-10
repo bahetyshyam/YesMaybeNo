@@ -1,61 +1,63 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Button, SafeAreaView, FlatList, TouchableOpacity} from 'react-native';
-import {UserContext} from '../navigation/AuthNavigator';
-import {getToken, getUser} from '../utils/asynStorage';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import {UserContext} from '../navigation/AppNavigator';
 import {event} from '../api/index';
 import Header from '../components/Header';
-import {ScrollView } from 'react-native-gesture-handler';
-import {signOut} from '../utils/signOut';
 import LocationLogo from '../assets/images/Location.svg';
-import { PRIMARY, HEADING, PLACEHOLDER } from '../styles/colors';
+import {PRIMARY, HEADING, PLACEHOLDER} from '../styles/colors';
 import Yes from '../assets/images/Green bubble.svg';
 import Maybe from '../assets/images/Grey bubble.svg';
 import No from '../assets/images/Red bubble.svg';
 import LoadingScreen from '../components/LoadingScreen';
 
-const Home = ({navigation}) => {
-
+const Events = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [events, setEvents] = useState([]);
   const {setUser, user} = useContext(UserContext);
 
   useEffect(() => {
-    setIsLoading((value) => !value);
+    setIsLoading(value => !value);
     getEvent();
   }, []);
 
-  const getEvent = async () => { 
+  const getEvent = async () => {
     const response = await event();
     const eventArray = Object.values(response.data.events);
     setEvents(eventArray);
-    setIsLoading((value) => !value);
-  } 
+    setIsLoading(value => !value);
+  };
 
-  const convertDate = (dbDate) => {
+  const convertDate = dbDate => {
     const date = new Date(dbDate);
     return date.toDateString().substring(4);
   };
 
-  const getEventTime = (dbDate) => {
+  const getEventTime = dbDate => {
     const time = new Date(dbDate);
     return time.toLocaleTimeString().substring(0, 5);
-  }
+  };
 
-  const getUserResponse = (responses) => {
+  const getUserResponse = responses => {
     let userResponse;
-    if(responses.length === 0)
-    return null;
+    if (responses.length === 0) return null;
     for (response of responses)
       if (response.user === user._id) {
         userResponse = response.response;
         break;
       }
 
-      if (userResponse === "yes") return <Yes />
-      else if (userResponse === "no") return <No />
-      else if (userResponse === "maybe") return <Maybe />
-      else return null;
-  }
+    if (userResponse === 'yes') return <Yes />;
+    else if (userResponse === 'no') return <No />;
+    else if (userResponse === 'maybe') return <Maybe />;
+    else return null;
+  };
 
   // const maxResponses = () => {
   //   if (eventData.yes.length === eventData.no.length && eventData.no.length === eventData.maybe.length)
@@ -73,15 +75,22 @@ const Home = ({navigation}) => {
   //   return bubble;
   // }
 
-  const Event = (props) => {
-    console.log(props.responses);
+  const Event = props => {
     return (
-      <TouchableOpacity style={styles.eventCard}
-      onPress={() => navigation.navigate('Event',
-      {groupName: props.groupName, numberOfParticipants: props.numberOfParticipants, eventId: props.eventId})}>
+      <TouchableOpacity
+        style={styles.eventCard}
+        onPress={() =>
+          navigation.navigate('Event', {
+            groupName: props.groupName,
+            numberOfParticipants: props.numberOfParticipants,
+            eventId: props.eventId,
+          })
+        }>
         <View style={styles.headingComponent}>
           <Text style={styles.eventHeading}>{props.eventName}</Text>
-          <View style={styles.bubble}><Yes /></View>
+          <View style={styles.bubble}>
+            <Yes />
+          </View>
         </View>
         <View style={styles.horizontalComponent}>
           <LocationLogo style={styles.location} />
@@ -89,37 +98,52 @@ const Home = ({navigation}) => {
         </View>
         <View style={styles.eventData}>
           <View style={styles.verticalComponent}>
-            <Text style={styles.eventSchedule}>{convertDate(props.schedule)}</Text>
-            <Text style={styles.eventSchedule}>{getEventTime(props.schedule)}</Text>
+            <Text style={styles.eventSchedule}>
+              {convertDate(props.schedule)}
+            </Text>
+            <Text style={styles.eventSchedule}>
+              {getEventTime(props.schedule)}
+            </Text>
           </View>
           <Text style={styles.eventGroup}>{props.groupName}</Text>
           <View style={styles.responseComponent}>
             <Text style={styles.eventResponse}>Response</Text>
-            <View style={styles.bubble}>{getUserResponse(props.responses)}</View>
+            <View style={styles.bubble}>
+              {getUserResponse(props.responses)}
+            </View>
           </View>
         </View>
       </TouchableOpacity>
-    )
+    );
   };
 
   return (
     <>
       <View style={styles.screenContainer}>
         <Header navigation={navigation} />
-          <SafeAreaView style={styles.container}>
-            <Text style={styles.heading}>Events</Text>
+        <SafeAreaView style={styles.container}>
+          <Text style={styles.heading}>Events</Text>
 
-            {isLoading ? (<LoadingScreen visible={isLoading} />)
-            :
-            (<FlatList
+          {isLoading ? (
+            <LoadingScreen visible={isLoading} />
+          ) : (
+            <FlatList
               data={events}
-              renderItem={({item}) => <Event groupName={item.group[0].name} numberOfParticipants={item.group[0].members.length} eventId={item._id} eventName={item.name} schedule={item.schedule} responses={item.responses} />}
+              renderItem={({item}) => (
+                <Event
+                  groupName={item.group[0].name}
+                  numberOfParticipants={item.group[0].members.length}
+                  eventId={item._id}
+                  eventName={item.name}
+                  schedule={item.schedule}
+                  responses={item.responses}
+                />
+              )}
               keyExtractor={item => item._id}
-              showsVerticalScrollIndicator ={false}>
-                
-            </FlatList>
-            )}
-          </SafeAreaView>
+              showsVerticalScrollIndicator={false}
+            />
+          )}
+        </SafeAreaView>
       </View>
     </>
   );
@@ -147,9 +171,9 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 35,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 27,
-    paddingLeft: '9%'
+    paddingLeft: '9%',
   },
   eventCard: {
     paddingHorizontal: '10%',
@@ -180,7 +204,6 @@ const styles = StyleSheet.create({
   verticalComponent: {
     marginTop: '2%',
     marginBottom: '8%',
-    
   },
   eventSchedule: {
     fontSize: 16,
@@ -204,8 +227,8 @@ const styles = StyleSheet.create({
     color: HEADING,
   },
   eventData: {
-    marginLeft: 28
-  }, 
+    marginLeft: 28,
+  },
   lottie: {
     width: 70,
     height: 70,
@@ -214,7 +237,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     marginLeft: -15,
-  }
+  },
 });
 
-export default Home;
+export default Events;

@@ -1,10 +1,10 @@
 import React, {useState, useEffect, createContext} from 'react';
-import AppStack from './AppStack';
+import AppDrawer from './AppDrawer';
 import AuthStack from './AuthStack';
 import {getToken, getUser} from '../utils/asynStorage';
 export const UserContext = createContext({});
 
-const AuthNavigator = () => {
+const AppNavigator = () => {
   const [user, setUser] = useState(false);
 
   const checkAsyncStorage = async () => {
@@ -13,7 +13,6 @@ const AuthNavigator = () => {
       const user = await getUser();
       if (user) {
         setUser(user);
-        console.log(user);
       } else {
         setUser(false);
       }
@@ -31,7 +30,7 @@ const AuthNavigator = () => {
           user: user,
           setUser: setUser,
         }}>
-        <AppStack />
+        <AppDrawer />
       </UserContext.Provider>
     );
   } else {
@@ -47,4 +46,4 @@ const AuthNavigator = () => {
   }
 };
 
-export default AuthNavigator;
+export default AppNavigator;

@@ -7,7 +7,7 @@ import {
 } from '@react-navigation/drawer';
 import {View, StyleSheet, Text} from 'react-native';
 import {PRIMARY} from '../styles/colors';
-import {UserContext} from '../navigation/AuthNavigator';
+import {UserContext} from '../navigation/AppNavigator';
 import {signOut} from '../utils/signOut';
 
 const SideBar = props => {

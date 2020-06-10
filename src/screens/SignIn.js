@@ -4,7 +4,7 @@ import {PRIMARY} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import Error from '../components/Error';
-import {UserContext} from '../navigation/AuthNavigator';
+import {UserContext} from '../navigation/AppNavigator';
 import {signIn} from '../api/index';
 import {storeToken, storeUser} from '../utils/asynStorage';
 import LoadingScreen from '../components/LoadingScreen';
