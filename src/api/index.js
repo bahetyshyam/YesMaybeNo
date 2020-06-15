@@ -49,3 +49,13 @@ export const updateResponse = async (eventId, userResponse) => {
   });
   return response;
 };
+
+export const group = async () => {
+  const userToken = await getToken();
+  const response = await api.get('/api/group', {
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  });
+  return response;
+};
