@@ -8,6 +8,7 @@ import Groups from '../screens/Groups';
 import Settings from '../screens/Settings';
 import Event from '../screens/Event';
 import {PRIMARY} from '../styles/colors';
+import CreateEvent from '../screens/CreateEvent';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -49,6 +50,7 @@ const AppDrawer = () => {
         <Drawer.Screen name="Home" component={EventStack} />
         <Drawer.Screen name="Groups" component={Groups} />
         <Drawer.Screen name="Settings" component={Settings} />
+        <Drawer.Screen name="Create Event" component={CreateEvent} />
         {/* <Drawer.Screen name="Root" component={Root} /> */}
         {/* <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Event" component={Event} />
