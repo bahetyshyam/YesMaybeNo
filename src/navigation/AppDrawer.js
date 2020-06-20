@@ -26,6 +26,16 @@ const EventStack = () => {
   );
 };
 
+const GroupStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Groups"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Groups" component={Groups} />
+    </Stack.Navigator>
+  );
+};
+
 const AppDrawer = () => {
   return (
     <NavigationContainer>
@@ -48,7 +58,7 @@ const AppDrawer = () => {
         }}>
         {/* <Drawer.Screen name="Home" component={Home} /> */}
         <Drawer.Screen name="Home" component={EventStack} />
-        <Drawer.Screen name="Groups" component={Groups} />
+        <Drawer.Screen name="Groups" component={GroupStack} />
         <Drawer.Screen name="Settings" component={Settings} />
         <Drawer.Screen name="Create Event" component={CreateEvent} />
         {/* <Drawer.Screen name="Root" component={Root} /> */}
