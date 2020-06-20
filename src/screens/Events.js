@@ -58,6 +58,7 @@ const Events = ({navigation}) => {
                   eventName={item.name}
                   schedule={item.schedule}
                   responses={item.responses}
+                  navigation={navigation}
                 />
               )}
               keyExtractor={item => item._id}

@@ -38,7 +38,7 @@ const EventCard = props => {
     <TouchableOpacity
       style={styles.eventCard}
       onPress={() =>
-        navigation.navigate('Event', {
+        props.navigation.navigate('Event', {
           groupName: props.groupName,
           numberOfParticipants: props.numberOfParticipants,
           eventId: props.eventId,
