@@ -11,6 +11,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {PRIMARY, HEADING, PLACEHOLDER, SEPARATOR} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import Header from '../components/Header';
+import Separator from '../components/Separator';
 import FormButtonSmall from '../components/FormButtonSmall';
 import LoadingScreen from '../components/LoadingScreen';
 import LocationLogo from '../assets/images/Location.svg';
@@ -91,7 +92,7 @@ const CreateEvent = ({navigation}) => {
             ) : (
               <Text style={styles.textComponent}>{dateText}</Text>
             )}
-            <View style={styles.underline} />
+            <Separator />
           </TouchableOpacity>
           <Text style={styles.label}>Time</Text>
           <TouchableOpacity style={styles.component} onPress={showTimepicker}>
@@ -100,7 +101,7 @@ const CreateEvent = ({navigation}) => {
             ) : (
               <Text style={styles.textComponent}>{timeText}</Text>
             )}
-            <View style={styles.underline} />
+            <Separator />
           </TouchableOpacity>
           {show && (
             <DateTimePicker
@@ -166,11 +167,6 @@ const styles = StyleSheet.create({
   },
   horizontalComponent: {
     flexDirection: 'row',
-  },
-  underline: {
-    borderBottomColor: SEPARATOR,
-    borderBottomWidth: 1,
-    marginVertical: '2%',
   },
   component: {
     marginTop: 5,
