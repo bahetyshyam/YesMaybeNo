@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
+import LoadingScreen from '../components/LoadingScreen';
 import {StyleSheet, Text, View, SafeAreaView, FlatList} from 'react-native';
 import {event} from '../api/index';
 import Header from '../components/Header';
-import LoadingScreen from '../components/LoadingScreen';
 import EventCard from '../components/EventCard';
 
-const Events = ({navigation}) => {
+const Group = ({route, navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [events, setEvents] = useState([]);
+  const {groupName, groupId} = route.params;
 
   useEffect(() => {
     setIsLoading(value => !value);
@@ -17,32 +18,20 @@ const Events = ({navigation}) => {
   const getEvents = async () => {
     const response = await event();
     const eventArray = Object.values(response.data.events);
-    setEvents(eventArray);
+
+    const filteredEventArray = eventArray.filter(
+      item => item.group[0]._id === groupId,
+    );
+    setEvents(filteredEventArray);
     setIsLoading(value => !value);
   };
-
-  // const maxResponses = () => {
-  //   if (eventData.yes.length === eventData.no.length && eventData.no.length === eventData.maybe.length)
-  //     bubble = undefined;
-  //   else {
-  //     if (eventData.yes.length > eventData.no.length && eventData.yes.length > eventData.maybe.length)
-  //     bubble = '../assets/images/red.svg';
-  //     else if (eventData.yes.length > eventData.no.length && eventData.yes.length > eventData.maybe.length)
-  //       bubble = '../assets/images/red.svg';
-  //     else if (eventData.yes.length > eventData.no.length && eventData.yes.length > eventData.maybe.length)
-  //       bubble = '../assets/images/red.svg';
-  //     else
-  //       bubble = undefined;
-  //   }
-  //   return bubble;
-  // }
 
   return (
     <>
       <View style={styles.screenContainer}>
         <Header navigation={navigation} />
         <SafeAreaView style={styles.container}>
-          <Text style={styles.heading}>Events</Text>
+          <Text style={styles.heading}>{groupName}</Text>
 
           {isLoading ? (
             <LoadingScreen visible={isLoading} />
@@ -87,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Events;
+export default Group;

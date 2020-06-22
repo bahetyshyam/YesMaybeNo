@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {group} from '../api/index';
 import Header from '../components/Header';
-import {PRIMARY, HEADING, PLACEHOLDER} from '../styles/colors';
+import GroupCard from '../components/GroupCard';
 import LoadingScreen from '../components/LoadingScreen';
 
 const Events = ({navigation}) => {
@@ -31,22 +31,6 @@ const Events = ({navigation}) => {
     }
   };
 
-  const Group = props => {
-    return (
-      <TouchableOpacity
-        style={styles.groupCard}
-        onPress={() =>
-          navigation.navigate('Group', {
-            // groupName: props.groupName,
-            // numberOfParticipants: props.numberOfParticipants,
-            // eventId: props.eventId,
-          })
-        }>
-        <Text>{props.groupName}</Text>
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <>
       <View style={styles.screenContainer}>
@@ -58,7 +42,13 @@ const Events = ({navigation}) => {
           ) : (
             <FlatList
               data={groups}
-              renderItem={({item}) => <Group groupName={item.name} />}
+              renderItem={({item}) => (
+                <GroupCard
+                  groupName={item.name}
+                  groupId={item._id}
+                  navigation={navigation}
+                />
+              )}
               keyExtractor={item => item._id}
               showsVerticalScrollIndicator={false}
             />
@@ -106,57 +96,6 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 2,
     marginBottom: '6%',
-  },
-  eventHeading: {
-    fontSize: 23,
-    fontWeight: 'bold',
-    marginRight: '3%',
-  },
-  horizontalComponent: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  eventLocation: {
-    color: PRIMARY,
-    fontSize: 14,
-  },
-  verticalComponent: {
-    marginTop: '2%',
-    marginBottom: '8%',
-  },
-  eventSchedule: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: HEADING,
-    paddingTop: 5,
-  },
-  eventGroup: {
-    fontSize: 14,
-    color: PLACEHOLDER,
-  },
-  responseComponent: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: '2%',
-  },
-  eventResponse: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: HEADING,
-  },
-  eventData: {
-    marginLeft: 28,
-  },
-  lottie: {
-    width: 70,
-    height: 70,
-  },
-  location: {
-    width: 45,
-    height: 45,
-    marginLeft: -15,
   },
 });
 

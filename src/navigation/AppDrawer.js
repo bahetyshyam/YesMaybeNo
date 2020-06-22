@@ -2,12 +2,13 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
+import {PRIMARY} from '../styles/colors';
 import SideBar from '../components/SideBar';
 import Events from '../screens/Events';
 import Groups from '../screens/Groups';
 import Settings from '../screens/Settings';
 import Event from '../screens/Event';
-import {PRIMARY} from '../styles/colors';
+import Group from '../screens/Group';
 import CreateEvent from '../screens/CreateEvent';
 
 const Drawer = createDrawerNavigator();
@@ -32,6 +33,7 @@ const GroupStack = () => {
       initialRouteName="Groups"
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Groups" component={Groups} />
+      <Stack.Screen name="Group" component={Group} />
     </Stack.Navigator>
   );
 };
