@@ -34,6 +34,7 @@ const GroupStack = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Groups" component={Groups} />
       <Stack.Screen name="Group" component={Group} />
+      <Stack.Screen name="Event" component={Event} />
     </Stack.Navigator>
   );
 };
