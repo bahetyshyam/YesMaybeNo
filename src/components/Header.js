@@ -10,7 +10,12 @@ const Header = ({navigation}) => {
       <TouchableOpacity
         style={styles.hamburgerTouchableOpacity}
         onPress={() => navigation.openDrawer()}>
-        <Icon name="bars" size={32} color={PLACEHOLDER} />
+        <Icon
+          name="bars"
+          size={25}
+          color={PLACEHOLDER}
+          style={styles.hamburger}
+        />
       </TouchableOpacity>
       <View style={styles.logoView}>
         <HeaderLogo />
@@ -38,6 +43,9 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 23,
     textAlign: 'center',
+  },
+  hamburger: {
+    marginTop: 4,
   },
 });
 

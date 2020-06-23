@@ -1,18 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  FlatList,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, View, SafeAreaView, FlatList} from 'react-native';
 import {group} from '../api/index';
 import Header from '../components/Header';
 import GroupCard from '../components/GroupCard';
 import LoadingScreen from '../components/LoadingScreen';
+import AddButton from '../assets/images/add.svg';
 
-const Events = ({navigation}) => {
+const Groups = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [groups, setGroups] = useState([]);
 
@@ -53,6 +47,7 @@ const Events = ({navigation}) => {
               showsVerticalScrollIndicator={false}
             />
           )}
+          <AddButton style={styles.addButton} />
         </SafeAreaView>
       </View>
     </>
@@ -68,35 +63,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8F8',
     padding: 20,
   },
-  bubble: {
-    width: 55,
-    height: 55,
-    marginTop: 5,
-  },
-  headingComponent: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: '1%',
-  },
   heading: {
     fontSize: 35,
     fontWeight: 'bold',
-    marginBottom: 27,
+    marginBottom: '13%',
     paddingLeft: '9%',
   },
-  groupCard: {
-    paddingHorizontal: '10%',
-    paddingVertical: '2%',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {width: 2, height: 3},
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
-    elevation: 2,
-    marginBottom: '6%',
+  addButton: {
+    width: 60,
+    height: 60,
+    alignSelf: 'flex-end',
   },
 });
 
-export default Events;
+export default Groups;

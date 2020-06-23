@@ -60,7 +60,7 @@ const AppDrawer = () => {
           },
         }}>
         {/* <Drawer.Screen name="Home" component={Home} /> */}
-        <Drawer.Screen name="Home" component={EventStack} />
+        <Drawer.Screen name="Events" component={EventStack} />
         <Drawer.Screen name="Groups" component={GroupStack} />
         <Drawer.Screen name="Settings" component={Settings} />
         <Drawer.Screen name="Create Event" component={CreateEvent} />

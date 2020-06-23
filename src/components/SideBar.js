@@ -31,14 +31,12 @@ const SideBar = props => {
 
 const styles = StyleSheet.create({
   boxContainer: {
-    height: '20%',
-    backgroundColor: PRIMARY,
+    height: '25%',
+    padding: 20,
     flexDirection: 'column-reverse',
-    padding: 16,
   },
   userText: {
     fontSize: 24,
-    color: '#fff',
     fontWeight: 'bold',
   },
 });
