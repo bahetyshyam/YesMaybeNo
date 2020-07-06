@@ -25,6 +25,7 @@
     "react-native-gesture-handler": "^1.6.1",
     "react-native-modal-datetime-picker": "^8.7.1",
     "react-native-paper": "^3.10.1",
+    "react-native-raw-bottom-sheet": "^2.2.0",
     "react-native-reanimated": "^1.9.0",
     "react-native-safe-area-context": "^2.0.2",
     "react-native-screens": "^2.8.0",

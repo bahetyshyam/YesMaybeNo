@@ -10,6 +10,7 @@ import Settings from '../screens/Settings';
 import Event from '../screens/Event';
 import Group from '../screens/Group';
 import CreateEvent from '../screens/CreateEvent';
+import CreateGroup from '../screens/CreateGroup';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -35,6 +36,7 @@ const GroupStack = () => {
       <Stack.Screen name="Groups" component={Groups} />
       <Stack.Screen name="Group" component={Group} />
       <Stack.Screen name="Event" component={Event} />
+      <Stack.Screen name="CreateGroup" component={CreateGroup} />
     </Stack.Navigator>
   );
 };

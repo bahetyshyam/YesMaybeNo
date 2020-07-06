@@ -12,20 +12,20 @@ const FormButtonSmall = ({buttonTitle, ...rest}) => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    marginTop: 15,
+    marginTop: 25,
     alignSelf: 'center',
-    width: '42%',
-    height: 42,
+    width: '35%',
+    height: 48,
     padding: 5,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
     backgroundColor: PRIMARY,
     elevation: 3,
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
   },
   buttonText: {
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: 'bold',
     color: '#fff',
   },

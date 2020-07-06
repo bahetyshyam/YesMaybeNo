@@ -59,3 +59,30 @@ export const group = async () => {
   });
   return response;
 };
+
+export const addGroup = async (name, members) => {
+  const userToken = await getToken();
+  const response = await api.post(
+    '/api/group/',
+    {
+      name: name,
+      members: members,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    },
+  );
+  return response;
+};
+
+export const searchUsers = async searchTerm => {
+  const userToken = await getToken();
+  const response = await api.get('/api/search/' + searchTerm, {
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  });
+  return response;
+};

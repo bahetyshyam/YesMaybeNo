@@ -47,7 +47,10 @@ const Groups = ({navigation}) => {
               showsVerticalScrollIndicator={false}
             />
           )}
-          <AddButton style={styles.addButton} />
+          <AddButton
+            style={styles.addButton}
+            onPress={() => navigation.navigate('CreateGroup')}
+          />
         </SafeAreaView>
       </View>
     </>

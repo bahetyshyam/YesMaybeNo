@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     marginLeft: 15,
-    marginBottom: 15,
+    marginBottom: 22,
     fontSize: 32,
     fontWeight: 'bold',
     paddingHorizontal: '5%',
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   label: {
-    fontSize: 21,
+    fontSize: 19,
   },
   horizontalComponent: {
     flexDirection: 'row',
