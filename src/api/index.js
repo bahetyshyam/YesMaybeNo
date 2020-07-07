@@ -59,3 +59,33 @@ export const group = async () => {
   });
   return response;
 };
+
+export const createEvent = async (
+  name,
+  schedule,
+  latitude,
+  longitude,
+  locationName,
+  description,
+  groupId,
+) => {
+  const userToken = await getToken();
+  const response = await api.post(
+    '/api/event',
+    {
+      name,
+      schedule,
+      latitude,
+      longitude,
+      locationName,
+      description,
+      group: groupId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    },
+  );
+  return response;
+};

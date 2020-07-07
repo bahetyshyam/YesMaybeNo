@@ -4,6 +4,7 @@ import {StyleSheet, Text, View, SafeAreaView, FlatList} from 'react-native';
 import {event} from '../api/index';
 import Header from '../components/Header';
 import EventCard from '../components/EventCard';
+import AddButton from '../assets/images/add.svg';
 
 const Group = ({route, navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +54,14 @@ const Group = ({route, navigation}) => {
               showsVerticalScrollIndicator={false}
             />
           )}
+          <AddButton
+            onPress={() =>
+              navigation.navigate('Create Event', {
+                groupId,
+              })
+            }
+            style={styles.addButton}
+          />
         </SafeAreaView>
       </View>
     </>
@@ -73,6 +82,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 27,
     paddingLeft: '9%',
+  },
+  addButton: {
+    width: 60,
+    height: 60,
+    bottom: '2%',
+    right: '5%',
+    position: 'absolute',
   },
 });
 
