@@ -1,5 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, SafeAreaView, FlatList} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  FlatList,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {oneEvent, updateResponse} from '../api/index';
 import Header from '../components/Header';
 import LocationLogo from '../assets/images/Location.svg';
@@ -10,6 +17,7 @@ import No from '../assets/images/Red bubble.svg';
 import LoadingScreen from '../components/LoadingScreen';
 import {RadioButton} from 'react-native-paper';
 import FormButtonSmall from '../components/FormButtonSmall';
+import ResponsesBottomSheet from '../components/ResponsesBottomSheet';
 
 const Event = ({route, navigation}) => {
   const [event, setEvent] = useState([]);
@@ -20,11 +28,16 @@ const Event = ({route, navigation}) => {
   const [numberOfParticipants, setNumberOfParticipants] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [checked, setChecked] = useState('');
+  const [responseYes, setResponseYes] = useState([]);
+  const [responseMaybe, setResponseMaybe] = useState([]);
+  const [responseNo, setResponseNo] = useState([]);
 
   useEffect(() => {
     setIsLoading(value => !value);
     getEvent();
   }, []);
+
+  const refRBSheet = useRef();
 
   const getEvent = async () => {
     const {groupName, numberOfParticipants, eventId} = route.params;
@@ -51,6 +64,11 @@ const Event = ({route, navigation}) => {
     let yes = 0,
       no = 0,
       maybe = 0;
+
+    let rYes = [],
+      rNo = [],
+      rMaybe = [];
+
     event[0].responses.map(response => {
       if (response.response === 'yes') yes += 1;
       else if (response.response === 'no') no += 1;
@@ -60,6 +78,13 @@ const Event = ({route, navigation}) => {
     setNumberYes(yes);
     setNumberMaybe(maybe);
     setNumberNo(no);
+  };
+
+  const onPress = () => {
+    console.log(1);
+    refRBSheet.current.open();
+    // <ResponsesBottomSheet />;
+    console.log(2);
   };
 
   const handleUpdateResponse = async () => {
@@ -114,13 +139,17 @@ const Event = ({route, navigation}) => {
               <Maybe />
             </View>
             {numberMaybe === 1 ? (
-              <Text style={styles.eventResponse}>
-                {numberMaybe} has responded Maybe
-              </Text>
+              <TouchableWithoutFeedback onPress={() => onPress()}>
+                <Text style={styles.eventResponse}>
+                  {numberMaybe} has responded Maybe
+                </Text>
+              </TouchableWithoutFeedback>
             ) : (
-              <Text style={styles.eventResponse}>
-                {numberMaybe} have responded Maybe
-              </Text>
+              <TouchableWithoutFeedback onPress={() => onPress()}>
+                <Text style={styles.eventResponse}>
+                  {numberMaybe} have responded Maybe
+                </Text>
+              </TouchableWithoutFeedback>
             )}
           </View>
           <View style={styles.responseComponent}>
@@ -182,6 +211,26 @@ const Event = ({route, navigation}) => {
           }}
           buttonTitle={'Respond'}
         />
+        {/* <RBSheet
+          ref={refRBSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          animationType={'slide'}
+          openDuration={250}
+          closeDuration={250}
+          customStyles={{
+            wrapper: {
+              backgroundColor: 'transparent',
+            },
+            draggableIcon: {
+              backgroundColor: '#000',
+            },
+          }}>
+          <View>
+            <Text>Hello World!</Text>
+          </View>
+        </RBSheet> */}
+        <ResponsesBottomSheet reference={refRBSheet} />
       </View>
     );
   };
