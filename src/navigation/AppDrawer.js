@@ -37,6 +37,7 @@ const GroupStack = () => {
       <Stack.Screen name="Group" component={Group} />
       <Stack.Screen name="Event" component={Event} />
       <Stack.Screen name="CreateGroup" component={CreateGroup} />
+      <Stack.Screen name="Create Event" component={CreateEvent} />
     </Stack.Navigator>
   );
 };
@@ -65,7 +66,7 @@ const AppDrawer = () => {
         <Drawer.Screen name="Events" component={EventStack} />
         <Drawer.Screen name="Groups" component={GroupStack} />
         <Drawer.Screen name="Settings" component={Settings} />
-        <Drawer.Screen name="Create Event" component={CreateEvent} />
+
         {/* <Drawer.Screen name="Root" component={Root} /> */}
         {/* <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Event" component={Event} />

@@ -4,50 +4,55 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   ScrollView,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {PRIMARY, HEADING, PLACEHOLDER, SEPARATOR} from '../styles/colors';
+import {PLACEHOLDER} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import Header from '../components/Header';
 import Separator from '../components/Separator';
 import FormButtonSmall from '../components/FormButtonSmall';
 import LoadingScreen from '../components/LoadingScreen';
 import LocationLogo from '../assets/images/Location.svg';
-import {TextInput} from 'react-native-paper';
+import {createEvent} from '../api/index';
 
-const CreateEvent = ({navigation}) => {
+const CreateEvent = ({route, navigation}) => {
   const [eventName, setEventName] = useState('');
-  const [location, setLocation] = useState('');
+  const [locationName, setLocationName] = useState('');
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const [dateText, setDateText] = useState('Pick a date');
-  const [timeText, setTimeText] = useState('Pick a time');
-  const [description, setDescription] = useState('');
+  const [dateTextShow, setDateTextShow] = useState('Pick a date');
+  const [timeTextShow, setTimeTextShow] = useState('Pick a time');
+  const [dateValue, setDateValue] = useState(null);
+  const [timeValue, setTimeValue] = useState(null);
+  const [description, setDescription] = useState('Test Description');
+  const [latitude, setLatidude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleDateText = eventDate => {
-    if (eventDate.length > 0) setDateText(eventDate);
-    else setDateText('Pick a date');
+  const handleDateTextShow = eventDate => {
+    if (eventDate.length > 0) setDateTextShow(eventDate);
+    else setDateTextShow('Pick a date');
   };
 
-  const handleTimeText = eventTime => {
-    if (eventTime.length > 0) setTimeText(eventTime);
-    else setTimeText('Pick a time');
+  const handleTimeTextShow = eventTime => {
+    if (eventTime.length > 0) setTimeTextShow(eventTime);
+    else setTimeTextShow('Pick a time');
   };
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     const eventSchedule = '';
-    console.log(currentDate);
     setShow(Platform.OS === 'ios');
     if (mode == 'date') {
       const eventDate = currentDate.toDateString().substring(4);
-      handleDateText(eventDate);
+      handleDateTextShow(eventDate);
+      setDateValue(currentDate);
     } else {
       const eventTime = currentDate.toLocaleTimeString().substring(0, 5);
-      handleTimeText(eventTime);
+      handleTimeTextShow(eventTime);
+      setTimeValue(currentDate);
     }
   };
 
@@ -64,56 +69,88 @@ const CreateEvent = ({navigation}) => {
     showMode('time');
   };
 
+  const handleSubmit = async () => {
+    const dateObject = new Date(dateValue);
+    const timeObject = new Date(timeValue);
+    const finalDate = new Date(
+      dateObject.getFullYear(),
+      dateObject.getMonth(),
+      dateObject.getDate(),
+      timeObject.getHours(),
+      timeObject.getMinutes(),
+    ).toISOString();
+
+    try {
+      setIsLoading(value => !value);
+      const response = await createEvent(
+        eventName,
+        finalDate,
+        latitude,
+        longitude,
+        locationName,
+        description,
+        route.params.groupId,
+      );
+      console.log(response.data);
+      setIsLoading(value => !value);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <ScrollView style={styles.screenContainer}>
       <Header navigation={navigation} />
       <View style={styles.container}>
         <Text style={styles.heading}>Create an Event</Text>
-        <View style={styles.box}>
-          <Text style={styles.label}>Event name</Text>
-          <FormInput
-            value={eventName}
-            onChangeText={name => setEventName(name)}
-            placeholder={'Play football'}
-          />
-          <Text style={styles.label}>Location</Text>
-          <View style={styles.horizontalComponent}>
+        {isLoading ? (
+          <LoadingScreen visible={isLoading} />
+        ) : (
+          <View style={styles.box}>
+            <Text style={styles.label}>Event name</Text>
             <FormInput
-              value={location}
-              onChangeText={name => setLocation(name)}
-              placeholder={'Rush Arena, Jayanagar'}
+              value={eventName}
+              onChangeText={name => setEventName(name)}
+              placeholder={'Play football'}
             />
-            <LocationLogo style={styles.location} />
-          </View>
-          <Text style={styles.label}>Date</Text>
-          <TouchableOpacity style={styles.component} onPress={showDatepicker}>
-            {dateText === 'Pick a date' ? (
-              <Text style={styles.placeholderComponent}>{dateText}</Text>
-            ) : (
-              <Text style={styles.textComponent}>{dateText}</Text>
+            <Text style={styles.label}>Location</Text>
+            <View style={styles.horizontalComponent}>
+              <FormInput
+                value={locationName}
+                onChangeText={name => setLocationName(name)}
+                placeholder={'Rush Arena, Jayanagar'}
+              />
+              <LocationLogo style={styles.location} />
+            </View>
+            <Text style={styles.label}>Date</Text>
+            <TouchableOpacity style={styles.component} onPress={showDatepicker}>
+              {dateTextShow === 'Pick a date' ? (
+                <Text style={styles.placeholderComponent}>{dateTextShow}</Text>
+              ) : (
+                <Text style={styles.textComponent}>{dateTextShow}</Text>
+              )}
+              <Separator />
+            </TouchableOpacity>
+            <Text style={styles.label}>Time</Text>
+            <TouchableOpacity style={styles.component} onPress={showTimepicker}>
+              {timeTextShow === 'Pick a time' ? (
+                <Text style={styles.placeholderComponent}>{timeTextShow}</Text>
+              ) : (
+                <Text style={styles.textComponent}>{timeTextShow}</Text>
+              )}
+              <Separator />
+            </TouchableOpacity>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
             )}
-            <Separator />
-          </TouchableOpacity>
-          <Text style={styles.label}>Time</Text>
-          <TouchableOpacity style={styles.component} onPress={showTimepicker}>
-            {timeText === 'Pick a time' ? (
-              <Text style={styles.placeholderComponent}>{timeText}</Text>
-            ) : (
-              <Text style={styles.textComponent}>{timeText}</Text>
-            )}
-            <Separator />
-          </TouchableOpacity>
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              display="default"
-              onChange={onChange}
-            />
-          )}
-          {/* <Text style={styles.label}>Description</Text>
+            {/* <Text style={styles.label}>Description</Text>
           <TextInput
             multiline
             value={description}
@@ -121,13 +158,14 @@ const CreateEvent = ({navigation}) => {
             onChangeText={text => setDescription(text)}
             placeholder="Provide a description for the event"
           /> */}
-          <FormButtonSmall
-            // onPress={() => {
-            //   handleUpdateResponse();
-            // }}
-            buttonTitle={'Create'}
-          />
-        </View>
+            <FormButtonSmall
+              onPress={() => {
+                handleSubmit();
+              }}
+              buttonTitle={'Create'}
+            />
+          </View>
+        )}
       </View>
     </ScrollView>
   );
