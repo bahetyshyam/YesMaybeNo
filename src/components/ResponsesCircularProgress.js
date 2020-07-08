@@ -2,14 +2,14 @@ import React from 'react';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {PRIMARY, HEADING, PLACEHOLDER, SECONDARY} from '../styles/colors';
 
-const ResponsesCircularProgress = () => {
+const ResponsesCircularProgress = ({number, color}) => {
   return (
     <AnimatedCircularProgress
       size={130}
       width={20}
       backgroundWidth={10}
-      fill={33}
-      tintColor={PLACEHOLDER}
+      fill={number}
+      tintColor={color}
       backgroundColor={HEADING}
       rotation={0}
       duration={1500}

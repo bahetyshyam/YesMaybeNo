@@ -4,7 +4,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import {HEADING} from '../styles/colors';
 import ResponsesCircularProgress from '../components/ResponsesCircularProgress';
 
-const ResponsesBottomSheet = ({reference}) => {
+const ResponsesBottomSheet = ({reference, category, number, color}) => {
   return (
     <RBSheet
       ref={reference}
@@ -13,7 +13,6 @@ const ResponsesBottomSheet = ({reference}) => {
       animationType={'slide'}
       openDuration={300}
       closeDuration={300}
-      // height={550}
       customStyles={{
         wrapper: {
           backgroundColor: 'rgba(52, 52, 52, 0.7)',
@@ -28,8 +27,8 @@ const ResponsesBottomSheet = ({reference}) => {
       }}>
       <View style={styles.mainContainer}>
         <View style={styles.progressBar}>
-          <ResponsesCircularProgress />
-          <Text style={styles.progressText}>Maybe</Text>
+          <ResponsesCircularProgress number={number} color={color} />
+          <Text style={styles.progressText}>{category}</Text>
         </View>
       </View>
     </RBSheet>

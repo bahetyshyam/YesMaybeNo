@@ -10,7 +10,7 @@ import {
 import {oneEvent, updateResponse} from '../api/index';
 import Header from '../components/Header';
 import LocationLogo from '../assets/images/Location.svg';
-import {PRIMARY, HEADING, PLACEHOLDER} from '../styles/colors';
+import {PRIMARY, HEADING, PLACEHOLDER, SECONDARY} from '../styles/colors';
 import Yes from '../assets/images/Green bubble.svg';
 import Maybe from '../assets/images/Grey bubble.svg';
 import No from '../assets/images/Red bubble.svg';
@@ -37,7 +37,9 @@ const Event = ({route, navigation}) => {
     getEvent();
   }, []);
 
-  const refRBSheet = useRef();
+  const refRBSheetYes = useRef();
+  const refRBSheetMaybe = useRef();
+  const refRBSheetNo = useRef();
 
   const getEvent = async () => {
     const {groupName, numberOfParticipants, eventId} = route.params;
@@ -80,11 +82,16 @@ const Event = ({route, navigation}) => {
     setNumberNo(no);
   };
 
-  const onPress = () => {
-    console.log(1);
-    refRBSheet.current.open();
-    // <ResponsesBottomSheet />;
-    console.log(2);
+  const onYesResponses = () => {
+    refRBSheetYes.current.open();
+  };
+
+  const onNoResponses = () => {
+    refRBSheetNo.current.open();
+  };
+
+  const onMaybeResponses = () => {
+    refRBSheetMaybe.current.open();
   };
 
   const handleUpdateResponse = async () => {
@@ -125,13 +132,17 @@ const Event = ({route, navigation}) => {
               <Yes />
             </View>
             {numberYes === 1 ? (
-              <Text style={styles.eventResponse}>
-                {numberYes} has responded Yes
-              </Text>
+              <TouchableWithoutFeedback onPress={() => onYesResponses()}>
+                <Text style={styles.eventResponse}>
+                  {numberYes} has responded Yes
+                </Text>
+              </TouchableWithoutFeedback>
             ) : (
-              <Text style={styles.eventResponse}>
-                {numberYes} have responded Yes
-              </Text>
+              <TouchableWithoutFeedback onPress={() => onYesResponses()}>
+                <Text style={styles.eventResponse}>
+                  {numberYes} have responded Yes
+                </Text>
+              </TouchableWithoutFeedback>
             )}
           </View>
           <View style={styles.responseComponent}>
@@ -139,13 +150,13 @@ const Event = ({route, navigation}) => {
               <Maybe />
             </View>
             {numberMaybe === 1 ? (
-              <TouchableWithoutFeedback onPress={() => onPress()}>
+              <TouchableWithoutFeedback onPress={() => onMaybeResponses()}>
                 <Text style={styles.eventResponse}>
                   {numberMaybe} has responded Maybe
                 </Text>
               </TouchableWithoutFeedback>
             ) : (
-              <TouchableWithoutFeedback onPress={() => onPress()}>
+              <TouchableWithoutFeedback onPress={() => onMaybeResponses()}>
                 <Text style={styles.eventResponse}>
                   {numberMaybe} have responded Maybe
                 </Text>
@@ -157,13 +168,17 @@ const Event = ({route, navigation}) => {
               <No />
             </View>
             {numberNo === 1 ? (
-              <Text style={styles.eventResponse}>
-                {numberNo} has responded No
-              </Text>
+              <TouchableWithoutFeedback onPress={() => onNoResponses()}>
+                <Text style={styles.eventResponse}>
+                  {numberNo} has responded No
+                </Text>
+              </TouchableWithoutFeedback>
             ) : (
-              <Text style={styles.eventResponse}>
-                {numberNo} have responded No
-              </Text>
+              <TouchableWithoutFeedback onPress={() => onNoResponses()}>
+                <Text style={styles.eventResponse}>
+                  {numberNo} have responded No
+                </Text>
+              </TouchableWithoutFeedback>
             )}
           </View>
           {numberOfParticipants - (numberYes + numberMaybe + numberNo) === 1 ? (
@@ -211,26 +226,24 @@ const Event = ({route, navigation}) => {
           }}
           buttonTitle={'Respond'}
         />
-        {/* <RBSheet
-          ref={refRBSheet}
-          closeOnDragDown={true}
-          closeOnPressMask={true}
-          animationType={'slide'}
-          openDuration={250}
-          closeDuration={250}
-          customStyles={{
-            wrapper: {
-              backgroundColor: 'transparent',
-            },
-            draggableIcon: {
-              backgroundColor: '#000',
-            },
-          }}>
-          <View>
-            <Text>Hello World!</Text>
-          </View>
-        </RBSheet> */}
-        <ResponsesBottomSheet reference={refRBSheet} />
+        <ResponsesBottomSheet
+          reference={refRBSheetYes}
+          category={'Yes'}
+          number={(numberYes / numberOfParticipants) * 100}
+          color={SECONDARY}
+        />
+        <ResponsesBottomSheet
+          reference={refRBSheetMaybe}
+          category={'Maybe'}
+          number={(numberMaybe / numberOfParticipants) * 100}
+          color={PLACEHOLDER}
+        />
+        <ResponsesBottomSheet
+          reference={refRBSheetNo}
+          category={'No'}
+          number={(numberNo / numberOfParticipants) * 100}
+          color={PRIMARY}
+        />
       </View>
     );
   };
