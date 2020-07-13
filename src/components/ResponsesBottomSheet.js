@@ -1,10 +1,27 @@
 import React, {useRef} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {HEADING} from '../styles/colors';
+import {HEADING, PLACEHOLDER} from '../styles/colors';
 import ResponsesCircularProgress from '../components/ResponsesCircularProgress';
+import Separator from '../components/Separator';
 
-const ResponsesBottomSheet = ({reference, category, number, color}) => {
+const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
+  const UserSearchView = ({name, email}) => {
+    return (
+      <View style={styles.userSearchCard}>
+        <Image
+          source={require('../assets/images/user.jpg')}
+          style={styles.userPicture}
+        />
+        <View style={styles.infoCard}>
+          <Text style={styles.userName}>{name}</Text>
+          <Text style={styles.userEmail}>{email}</Text>
+        </View>
+        <Separator />
+      </View>
+    );
+  };
+
   return (
     <RBSheet
       ref={reference}
@@ -30,6 +47,13 @@ const ResponsesBottomSheet = ({reference, category, number, color}) => {
           <ResponsesCircularProgress number={number} color={color} />
           <Text style={styles.progressText}>{category}</Text>
         </View>
+        <FlatList
+          data={users}
+          renderItem={({item}) => (
+            <UserSearchView name={item[1]} email={item[2]} />
+          )}
+          keyExtractor={item => item[0]}
+        />
       </View>
     </RBSheet>
   );
@@ -38,18 +62,41 @@ const ResponsesBottomSheet = ({reference, category, number, color}) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    // justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: '10%',
   },
   progressBar: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: '10%',
   },
   progressText: {
     fontSize: 20,
     fontWeight: 'bold',
     paddingLeft: '5%',
+  },
+  userSearchCard: {
+    marginTop: '10%',
+    marginBottom: '5%',
+    flexDirection: 'row',
+  },
+  userPicture: {
+    width: 60,
+    height: 60,
+    borderRadius: 70,
+  },
+  infoCard: {
+    flexDirection: 'column',
+    marginLeft: '5%',
+    marginTop: '2%',
+  },
+  userName: {
+    fontSize: 17,
+    color: HEADING,
+  },
+  userEmail: {
+    fontSize: 13,
+    color: PLACEHOLDER,
   },
 });
 

@@ -41,6 +41,10 @@ const Event = ({route, navigation}) => {
   const refRBSheetMaybe = useRef();
   const refRBSheetNo = useRef();
 
+  let rYes = [],
+    rNo = [],
+    rMaybe = [];
+
   const getEvent = async () => {
     const {groupName, numberOfParticipants, eventId} = route.params;
     const response = await oneEvent(eventId);
@@ -67,15 +71,34 @@ const Event = ({route, navigation}) => {
       no = 0,
       maybe = 0;
 
-    let rYes = [],
-      rNo = [],
-      rMaybe = [];
-
     event[0].responses.map(response => {
-      if (response.response === 'yes') yes += 1;
-      else if (response.response === 'no') no += 1;
-      else if (response.response === 'maybe') maybe += 1;
+      if (response.response === 'yes') {
+        rYes.push([
+          response.user[0]._id,
+          response.user[0].name,
+          response.user[0].email,
+        ]);
+        yes += 1;
+      } else if (response.response === 'no') {
+        rNo.push([
+          response.user[0]._id,
+          response.user[0].name,
+          response.user[0].email,
+        ]);
+        no += 1;
+      } else if (response.response === 'maybe') {
+        rMaybe.push([
+          response.user[0]._id,
+          response.user[0].name,
+          response.user[0].email,
+        ]);
+        maybe += 1;
+      }
     });
+
+    // setResponseYes(rYes);
+    // setResponseMaybe(rMaybe);
+    // setResponseNo(rNo);
 
     setNumberYes(yes);
     setNumberMaybe(maybe);
@@ -230,18 +253,21 @@ const Event = ({route, navigation}) => {
           reference={refRBSheetYes}
           category={'Yes'}
           number={(numberYes / numberOfParticipants) * 100}
+          users={rYes}
           color={SECONDARY}
         />
         <ResponsesBottomSheet
           reference={refRBSheetMaybe}
           category={'Maybe'}
           number={(numberMaybe / numberOfParticipants) * 100}
+          users={rMaybe}
           color={PLACEHOLDER}
         />
         <ResponsesBottomSheet
           reference={refRBSheetNo}
           category={'No'}
           number={(numberNo / numberOfParticipants) * 100}
+          users={rNo}
           color={PRIMARY}
         />
       </View>
