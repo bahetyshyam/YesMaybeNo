@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     height: 60,
     padding: 15,
     backgroundColor: '#fff',
-    elevation: 5,
+    elevation: 3,
   },
   hamburgerView: {},
   logoView: {

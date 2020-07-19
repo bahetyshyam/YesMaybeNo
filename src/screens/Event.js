@@ -14,6 +14,7 @@ import {PRIMARY, HEADING, PLACEHOLDER, SECONDARY} from '../styles/colors';
 import Yes from '../assets/images/Green bubble.svg';
 import Maybe from '../assets/images/Grey bubble.svg';
 import No from '../assets/images/Red bubble.svg';
+import MoreInformation from '../assets/images/more.svg';
 import LoadingScreen from '../components/LoadingScreen';
 import {RadioButton} from 'react-native-paper';
 import FormButtonSmall from '../components/FormButtonSmall';
@@ -28,9 +29,6 @@ const Event = ({route, navigation}) => {
   const [numberOfParticipants, setNumberOfParticipants] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [checked, setChecked] = useState('');
-  const [responseYes, setResponseYes] = useState([]);
-  const [responseMaybe, setResponseMaybe] = useState([]);
-  const [responseNo, setResponseNo] = useState([]);
 
   useEffect(() => {
     setIsLoading(value => !value);
@@ -57,7 +55,10 @@ const Event = ({route, navigation}) => {
 
   const convertDate = dbDate => {
     const date = new Date(dbDate);
-    return date.toDateString().substring(4);
+    return [
+      date.toDateString().substring(0, 3),
+      date.toDateString().substring(4),
+    ];
   };
 
   const getEventTime = dbDate => {
@@ -128,26 +129,37 @@ const Event = ({route, navigation}) => {
   };
 
   const DetailedEvent = ({eventName, schedule, hostedBy}) => {
+    const [day, date] = convertDate(schedule);
+
     return (
       <View style={styles.eventCard}>
         <Text style={styles.eventHeading}>{eventName}</Text>
+        {/* <View style={styles.moreInformation}>
+          <MoreInformation />
+        </View> */}
+
         <View style={styles.horizontalComponent}>
           <LocationLogo style={styles.location} />
           <Text style={styles.eventLocation}>No location</Text>
         </View>
-        <View style={styles.eventData}>
-          <View style={styles.verticalComponent}>
-            <Text style={styles.eventSchedule}>{convertDate(schedule)}</Text>
-            <Text style={styles.eventSchedule}>{getEventTime(schedule)}</Text>
+        <View style={styles.eventSchedule}>
+          <View style={styles.eventDateComponent}>
+            <Text style={styles.eventDay}>{day}</Text>
+            <Text style={styles.eventDate}>{date}</Text>
           </View>
-          <View>
+          <View style={styles.eventTimeComponent}>
+            <Text style={styles.eventTime}>{getEventTime(schedule)}</Text>
+            <Text style={styles.eventDuration}>45 mins</Text>
+          </View>
+        </View>
+
+        {/* <View>
             <Text style={styles.eventGroup}>Hosted by {hostedBy}</Text>
             <Text style={styles.eventGroup}>Hosted on {groupName}</Text>
             <Text style={styles.eventGroup}>
               Number of participants are {numberOfParticipants}
             </Text>
-          </View>
-        </View>
+          </View> */}
         <View style={styles.responsesComponent}>
           <Text style={styles.responseHeading}>Responses</Text>
           <View style={styles.responseComponent}>
@@ -326,12 +338,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: '10%',
     paddingVertical: '6%',
     backgroundColor: '#fff',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {width: 2, height: 3},
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
-    elevation: 2,
+    borderRadius: 7,
     marginBottom: '6%',
   },
   eventHeading: {
@@ -346,18 +353,19 @@ const styles = StyleSheet.create({
   },
   eventLocation: {
     color: PRIMARY,
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   verticalComponent: {
     marginTop: '2%',
     marginBottom: '8%',
   },
-  eventSchedule: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: HEADING,
-    paddingTop: 5,
-  },
+  // eventSchedule: {
+  //   fontSize: 16,
+  //   fontWeight: 'bold',
+  //   color: HEADING,
+  //   paddingTop: 5,
+  // },
   eventGroup: {
     fontSize: 14,
     color: PLACEHOLDER,
@@ -377,13 +385,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: HEADING,
-    marginBottom: 8,
+    marginVertical: '3%',
   },
   eventData: {
     marginLeft: 28,
   },
   eventResponse: {
-    fontSize: 15,
+    fontSize: 16,
   },
   yetToRespond: {
     textAlign: 'right',
@@ -409,6 +417,46 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     marginLeft: -15,
+  },
+  moreInformation: {
+    width: '10%',
+  },
+  eventSchedule: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: '7%',
+  },
+  eventDateComponent: {
+    padding: '5%',
+    borderLeftColor: PRIMARY,
+    borderLeftWidth: 10,
+    borderBottomLeftRadius: 5,
+    borderTopLeftRadius: 5,
+  },
+  eventTimeComponent: {
+    padding: '5%',
+    borderLeftColor: SECONDARY,
+    borderLeftWidth: 10,
+    borderBottomLeftRadius: 5,
+    borderTopLeftRadius: 5,
+  },
+  eventDay: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: HEADING,
+  },
+  eventDate: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  eventTime: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  eventDuration: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: HEADING,
   },
 });
 

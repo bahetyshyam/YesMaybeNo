@@ -14,6 +14,7 @@ import Separator from '../components/Separator';
 import FormButtonSmall from '../components/FormButtonSmall';
 import LoadingScreen from '../components/LoadingScreen';
 import LocationLogo from '../assets/images/Location.svg';
+import Calender from '../assets/images/Camera-Dark.svg';
 import {createEvent} from '../api/index';
 
 const CreateEvent = ({route, navigation}) => {
@@ -125,7 +126,12 @@ const CreateEvent = ({route, navigation}) => {
             <Text style={styles.label}>Date</Text>
             <TouchableOpacity style={styles.component} onPress={showDatepicker}>
               {dateTextShow === 'Pick a date' ? (
-                <Text style={styles.placeholderComponent}>{dateTextShow}</Text>
+                <View>
+                  <Text style={styles.placeholderComponent}>
+                    {dateTextShow}
+                  </Text>
+                  {/* <Calender style={styles.calender} /> */}
+                </View>
               ) : (
                 <Text style={styles.textComponent}>{dateTextShow}</Text>
               )}
@@ -193,12 +199,7 @@ const styles = StyleSheet.create({
     paddingBottom: '7%',
     paddingLeft: '10%',
     backgroundColor: '#fff',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {width: 2, height: 3},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
+    borderRadius: 7,
   },
   label: {
     fontSize: 19,
@@ -224,6 +225,12 @@ const styles = StyleSheet.create({
     height: 45,
     marginLeft: '-15%',
     marginTop: '2%',
+  },
+  calender: {
+    width: 45,
+    height: 45,
+    marginTop: '2%',
+    alignSelf: 'flex-end',
   },
 });
 

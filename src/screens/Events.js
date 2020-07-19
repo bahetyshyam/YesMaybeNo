@@ -21,22 +21,6 @@ const Events = ({navigation}) => {
     setIsLoading(value => !value);
   };
 
-  // const maxResponses = () => {
-  //   if (eventData.yes.length === eventData.no.length && eventData.no.length === eventData.maybe.length)
-  //     bubble = undefined;
-  //   else {
-  //     if (eventData.yes.length > eventData.no.length && eventData.yes.length > eventData.maybe.length)
-  //     bubble = '../assets/images/red.svg';
-  //     else if (eventData.yes.length > eventData.no.length && eventData.yes.length > eventData.maybe.length)
-  //       bubble = '../assets/images/red.svg';
-  //     else if (eventData.yes.length > eventData.no.length && eventData.yes.length > eventData.maybe.length)
-  //       bubble = '../assets/images/red.svg';
-  //     else
-  //       bubble = undefined;
-  //   }
-  //   return bubble;
-  // }
-
   return (
     <>
       <View style={styles.screenContainer}>

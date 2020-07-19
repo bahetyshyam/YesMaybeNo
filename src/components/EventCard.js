@@ -1,14 +1,20 @@
-import React, {useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Yes from '../assets/images/Green bubble.svg';
 import Maybe from '../assets/images/Grey bubble.svg';
 import No from '../assets/images/Red bubble.svg';
+import YesNo from '../assets/images/Yes-No.svg';
+import NoMaybe from '../assets/images/No-Maybe.svg';
+import YesMaybe from '../assets/images/Yes-Maybe.svg';
+import YesMaybeNo from '../assets/images/Yes-Maybe-No.svg';
 import {PRIMARY, HEADING, PLACEHOLDER} from '../styles/colors';
 import LocationLogo from '../assets/images/Location.svg';
 import {UserContext} from '../navigation/AppNavigator';
+import {max} from 'react-native-reanimated';
 
 const EventCard = props => {
   const {setUser, user} = useContext(UserContext);
+  const [bubble, setBubble] = useState('');
 
   const convertDate = dbDate => {
     const date = new Date(dbDate);
@@ -34,6 +40,38 @@ const EventCard = props => {
     else if (userResponse === 'maybe') return <Maybe />;
     else return null;
   };
+
+  const maxResponses = responses => {
+    let yes = 0,
+      maybe = 0,
+      no = 0;
+
+    if (responses.length === 0) return null;
+    for (response of responses) {
+      if (response.response == 'yes') yes += 1;
+      else if (response.response == 'maybe') maybe += 1;
+      else if (response.response == 'no') no += 1;
+    }
+
+    if (yes === maybe && maybe === no) return <YesMaybeNo />;
+    else {
+      if (yes === maybe) {
+        if (yes > no) return <YesMaybe />;
+        else return <No />;
+      } else if (no === maybe) {
+        if (no > yes) return <NoMaybe />;
+        else return <Yes />;
+      } else if (yes === no) {
+        if (yes > maybe) return <YesNo />;
+        else return <Maybe />;
+      } else {
+        if (yes > maybe && yes > no) return <Yes />;
+        else if (maybe > yes && maybe > no) return <Maybe />;
+        else return <No />;
+      }
+    }
+  };
+
   return (
     <TouchableOpacity
       style={styles.eventCard}
@@ -46,9 +84,7 @@ const EventCard = props => {
       }>
       <View style={styles.headingComponent}>
         <Text style={styles.eventHeading}>{props.eventName}</Text>
-        <View style={styles.bubble}>
-          <Yes />
-        </View>
+        <View style={styles.bubble}>{maxResponses(props.responses)}</View>
       </View>
       <View style={styles.horizontalComponent}>
         <LocationLogo style={styles.location} />
@@ -88,12 +124,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: '10%',
     paddingVertical: '2%',
     backgroundColor: '#fff',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {width: 2, height: 3},
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
-    elevation: 2,
+    borderRadius: 8,
+    // shadowColor: '#000',
+    // shadowOffset: {width: 2, height: 3},
+    // shadowOpacity: 0.8,
+    // shadowRadius: 10,
+    // elevation: 2,
     marginBottom: '6%',
   },
   eventHeading: {
@@ -108,7 +144,8 @@ const styles = StyleSheet.create({
   },
   eventLocation: {
     color: PRIMARY,
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   verticalComponent: {
     marginTop: '2%',

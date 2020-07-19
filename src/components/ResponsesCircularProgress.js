@@ -6,11 +6,11 @@ const ResponsesCircularProgress = ({number, color}) => {
   return (
     <AnimatedCircularProgress
       size={130}
-      width={20}
-      backgroundWidth={10}
+      width={15}
+      backgroundWidth={5}
       fill={number}
       tintColor={color}
-      backgroundColor={HEADING}
+      backgroundColor="#F0F0F0"
       rotation={0}
       duration={1500}
     />
