@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import LoadingScreen from '../components/LoadingScreen';
-import {StyleSheet, Text, View, SafeAreaView, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  FlatList,
+  Image,
+} from 'react-native';
 import {event} from '../api/index';
 import Header from '../components/Header';
 import EventCard from '../components/EventCard';
@@ -32,7 +39,13 @@ const Group = ({route, navigation}) => {
       <View style={styles.screenContainer}>
         <Header navigation={navigation} />
         <SafeAreaView style={styles.container}>
-          <Text style={styles.heading}>{groupName}</Text>
+          <View style={styles.groupHeadingComponent}>
+            <Image
+              source={require('../assets/images/group.jpg')}
+              style={styles.userPicture}
+            />
+            <Text style={styles.heading}>{groupName}</Text>
+          </View>
 
           {isLoading ? (
             <LoadingScreen visible={isLoading} />
@@ -80,8 +93,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 35,
     fontWeight: 'bold',
-    marginBottom: 27,
-    paddingLeft: '9%',
+    paddingLeft: '5%',
   },
   addButton: {
     width: 60,
@@ -89,6 +101,16 @@ const styles = StyleSheet.create({
     bottom: '2%',
     right: '5%',
     position: 'absolute',
+  },
+  userPicture: {
+    width: 100,
+    height: 100,
+    borderRadius: 70,
+  },
+  groupHeadingComponent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingBottom: '7%',
   },
 });
 

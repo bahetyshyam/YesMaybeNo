@@ -173,13 +173,6 @@ const Event = ({route, navigation}) => {
           </View>
         </View>
 
-        {/* <View>
-            <Text style={styles.eventGroup}>Hosted by {hostedBy}</Text>
-            <Text style={styles.eventGroup}>Hosted on {groupName}</Text>
-            <Text style={styles.eventGroup}>
-              Number of participants are {numberOfParticipants}
-            </Text>
-          </View> */}
         <View style={styles.responsesComponent}>
           <Text style={styles.responseHeading}>Responses</Text>
           <View style={styles.responseComponent}>
