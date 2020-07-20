@@ -10,15 +10,23 @@ import {
 import {oneEvent, updateResponse} from '../api/index';
 import Header from '../components/Header';
 import LocationLogo from '../assets/images/Location.svg';
-import {PRIMARY, HEADING, PLACEHOLDER, SECONDARY} from '../styles/colors';
+import {
+  PRIMARY,
+  HEADING,
+  PLACEHOLDER,
+  SECONDARY,
+  SEPARATOR,
+} from '../styles/colors';
 import Yes from '../assets/images/Green bubble.svg';
 import Maybe from '../assets/images/Grey bubble.svg';
 import No from '../assets/images/Red bubble.svg';
-import MoreInformation from '../assets/images/more.svg';
+// import More from '../assets/images/Camera-Dark.svg';
 import LoadingScreen from '../components/LoadingScreen';
 import {RadioButton} from 'react-native-paper';
 import FormButtonSmall from '../components/FormButtonSmall';
 import ResponsesBottomSheet from '../components/ResponsesBottomSheet';
+import MoreInformationSheet from '../components/MoreInformationSheet';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 const Event = ({route, navigation}) => {
   const [event, setEvent] = useState([]);
@@ -38,6 +46,7 @@ const Event = ({route, navigation}) => {
   const refRBSheetYes = useRef();
   const refRBSheetMaybe = useRef();
   const refRBSheetNo = useRef();
+  const refRBSheetMoreInfo = useRef();
 
   let rYes = [],
     rNo = [],
@@ -118,6 +127,10 @@ const Event = ({route, navigation}) => {
     refRBSheetMaybe.current.open();
   };
 
+  const moreInformation = () => {
+    refRBSheetMoreInfo.current.open();
+  };
+
   const handleUpdateResponse = async () => {
     setIsLoading(value => !value);
     try {
@@ -133,10 +146,17 @@ const Event = ({route, navigation}) => {
 
     return (
       <View style={styles.eventCard}>
-        <Text style={styles.eventHeading}>{eventName}</Text>
-        {/* <View style={styles.moreInformation}>
-          <MoreInformation />
-        </View> */}
+        <View style={styles.firstMenu}>
+          <Text style={styles.eventHeading}>{eventName}</Text>
+          <TouchableWithoutFeedback onPress={() => moreInformation()}>
+            <Icon
+              name="ellipsis-h"
+              size={45}
+              color={PLACEHOLDER}
+              style={styles.hamburger}
+            />
+          </TouchableWithoutFeedback>
+        </View>
 
         <View style={styles.horizontalComponent}>
           <LocationLogo style={styles.location} />
@@ -261,6 +281,13 @@ const Event = ({route, navigation}) => {
           }}
           buttonTitle={'Respond'}
         />
+        <MoreInformationSheet
+          reference={refRBSheetMoreInfo}
+          eventName={eventName}
+          hostedBy={hostedBy}
+          groupName={groupName}
+          numberOfParticipants={numberOfParticipants}
+        />
         <ResponsesBottomSheet
           reference={refRBSheetYes}
           category={'Yes'}
@@ -328,12 +355,6 @@ const styles = StyleSheet.create({
     height: 45,
     marginTop: 3,
   },
-  heading: {
-    fontSize: 35,
-    fontWeight: 'bold',
-    marginBottom: 27,
-    paddingLeft: '9%',
-  },
   eventCard: {
     paddingHorizontal: '10%',
     paddingVertical: '6%',
@@ -342,7 +363,7 @@ const styles = StyleSheet.create({
     marginBottom: '6%',
   },
   eventHeading: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: '5%',
   },
@@ -353,19 +374,8 @@ const styles = StyleSheet.create({
   },
   eventLocation: {
     color: PRIMARY,
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 18,
   },
-  verticalComponent: {
-    marginTop: '2%',
-    marginBottom: '8%',
-  },
-  // eventSchedule: {
-  //   fontSize: 16,
-  //   fontWeight: 'bold',
-  //   color: HEADING,
-  //   paddingTop: 5,
-  // },
   eventGroup: {
     fontSize: 14,
     color: PLACEHOLDER,
@@ -419,7 +429,8 @@ const styles = StyleSheet.create({
     marginLeft: -15,
   },
   moreInformation: {
-    width: '10%',
+    width: 40,
+    height: 40,
   },
   eventSchedule: {
     flexDirection: 'row',
@@ -457,6 +468,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
     color: HEADING,
+  },
+  firstMenu: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

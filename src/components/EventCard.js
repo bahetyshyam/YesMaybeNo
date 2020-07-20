@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Yes from '../assets/images/Green bubble.svg';
 import Maybe from '../assets/images/Grey bubble.svg';
@@ -10,11 +10,9 @@ import YesMaybeNo from '../assets/images/Yes-Maybe-No.svg';
 import {PRIMARY, HEADING, PLACEHOLDER} from '../styles/colors';
 import LocationLogo from '../assets/images/Location.svg';
 import {UserContext} from '../navigation/AppNavigator';
-import {max} from 'react-native-reanimated';
 
 const EventCard = props => {
   const {setUser, user} = useContext(UserContext);
-  const [bubble, setBubble] = useState('');
 
   const convertDate = dbDate => {
     const date = new Date(dbDate);
@@ -118,22 +116,17 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: '1%',
+    marginBottom: '2%',
   },
   eventCard: {
     paddingHorizontal: '10%',
     paddingVertical: '2%',
     backgroundColor: '#fff',
     borderRadius: 8,
-    // shadowColor: '#000',
-    // shadowOffset: {width: 2, height: 3},
-    // shadowOpacity: 0.8,
-    // shadowRadius: 10,
-    // elevation: 2,
     marginBottom: '6%',
   },
   eventHeading: {
-    fontSize: 23,
+    fontSize: 25,
     fontWeight: 'bold',
     marginRight: '3%',
   },
@@ -144,21 +137,19 @@ const styles = StyleSheet.create({
   },
   eventLocation: {
     color: PRIMARY,
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 17,
   },
   verticalComponent: {
     marginTop: '2%',
     marginBottom: '8%',
   },
   eventSchedule: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: HEADING,
+    fontSize: 17,
     paddingTop: 5,
+    fontWeight: 'bold',
   },
   eventGroup: {
-    fontSize: 14,
+    fontSize: 16,
     color: PLACEHOLDER,
   },
   responseComponent: {
@@ -168,7 +159,7 @@ const styles = StyleSheet.create({
     marginTop: '2%',
   },
   eventResponse: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     color: HEADING,
   },

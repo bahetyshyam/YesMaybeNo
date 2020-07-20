@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 35,
     fontWeight: 'bold',
-    marginBottom: 27,
+    marginBottom: '6%',
     paddingLeft: '9%',
   },
 });
