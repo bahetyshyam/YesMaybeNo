@@ -20,7 +20,6 @@ import {
 import Yes from '../assets/images/Green bubble.svg';
 import Maybe from '../assets/images/Grey bubble.svg';
 import No from '../assets/images/Red bubble.svg';
-// import More from '../assets/images/Camera-Dark.svg';
 import LoadingScreen from '../components/LoadingScreen';
 import {RadioButton} from 'react-native-paper';
 import FormButtonSmall from '../components/FormButtonSmall';
@@ -55,6 +54,7 @@ const Event = ({route, navigation}) => {
   const getEvent = async () => {
     const {groupName, numberOfParticipants, eventId} = route.params;
     const response = await oneEvent(eventId);
+    console.log(response.data.event);
     const eventArray = Object.values(response.data.event);
     setEvent(eventArray);
     setGroupName(groupName);
@@ -151,7 +151,7 @@ const Event = ({route, navigation}) => {
           <TouchableWithoutFeedback onPress={() => moreInformation()}>
             <Icon
               name="ellipsis-h"
-              size={45}
+              size={35}
               color={PLACEHOLDER}
               style={styles.hamburger}
             />

@@ -9,6 +9,7 @@ import Groups from '../screens/Groups';
 import Settings from '../screens/Settings';
 import Event from '../screens/Event';
 import Group from '../screens/Group';
+import GroupMembers from '../screens/GroupMembers';
 import CreateEvent from '../screens/CreateEvent';
 import CreateGroup from '../screens/CreateGroup';
 
@@ -35,6 +36,7 @@ const GroupStack = () => {
       screenOptions={{headerShown: false}}>
       <Stack.Screen name="Groups" component={Groups} />
       <Stack.Screen name="Group" component={Group} />
+      <Stack.Screen name="GroupMembers" component={GroupMembers} />
       <Stack.Screen name="Event" component={Event} />
       <Stack.Screen name="CreateGroup" component={CreateGroup} />
       <Stack.Screen name="Create Event" component={CreateEvent} />

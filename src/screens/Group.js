@@ -6,12 +6,15 @@ import {
   View,
   SafeAreaView,
   FlatList,
+  TouchableWithoutFeedback,
   Image,
 } from 'react-native';
 import {event} from '../api/index';
 import Header from '../components/Header';
 import EventCard from '../components/EventCard';
 import AddButton from '../assets/images/add.svg';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import {PLACEHOLDER} from '../styles/colors';
 
 const Group = ({route, navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,12 +42,28 @@ const Group = ({route, navigation}) => {
       <View style={styles.screenContainer}>
         <Header navigation={navigation} />
         <SafeAreaView style={styles.container}>
-          <View style={styles.groupHeadingComponent}>
-            <Image
-              source={require('../assets/images/group.jpg')}
-              style={styles.userPicture}
-            />
-            <Text style={styles.heading}>{groupName}</Text>
+          <View style={styles.firstMenu}>
+            <View style={styles.groupHeadingComponent}>
+              <Image
+                source={require('../assets/images/group.jpg')}
+                style={styles.userPicture}
+              />
+              <Text style={styles.heading}>{groupName}</Text>
+            </View>
+            <TouchableWithoutFeedback
+              onPress={() =>
+                navigation.navigate('GroupMembers', {
+                  groupName: groupName,
+                  groupId: groupId,
+                })
+              }>
+              <Icon
+                name="ellipsis-h"
+                size={35}
+                color={PLACEHOLDER}
+                style={styles.hamburger}
+              />
+            </TouchableWithoutFeedback>
           </View>
 
           {isLoading ? (
@@ -91,9 +110,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   heading: {
-    fontSize: 35,
+    fontSize: 25,
     fontWeight: 'bold',
-    paddingLeft: '5%',
+    marginLeft: '3%',
   },
   addButton: {
     width: 60,
@@ -103,14 +122,21 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   userPicture: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     borderRadius: 70,
   },
   groupHeadingComponent: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: '7%',
+  },
+  firstMenu: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  hamburger: {
+    marginTop: '7%',
   },
 });
 

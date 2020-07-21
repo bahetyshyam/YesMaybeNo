@@ -1,5 +1,6 @@
 import api from './axios';
 import {getToken} from '../utils/asynStorage';
+import GroupMembers from '../screens/GroupMembers';
 
 export const signIn = async (email, password) => {
   const response = await api.post('/api/auth/login', {
@@ -110,6 +111,16 @@ export const createEvent = async (
 export const searchUsers = async searchTerm => {
   const userToken = await getToken();
   const response = await api.get('/api/search/' + searchTerm, {
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  });
+  return response;
+};
+
+export const groupMembers = async groupId => {
+  const userToken = await getToken();
+  const response = await api.get('/api/user/' + groupId, {
     headers: {
       Authorization: `Bearer ${userToken}`,
     },
