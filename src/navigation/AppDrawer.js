@@ -15,12 +15,6 @@ import CreateEvent from '../screens/CreateEvent';
 import CreateGroup from '../screens/CreateGroup';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
-import EventIcon from '../assets/images/Groups-Dark.svg';
-import FontAwesome, {
-  SolidIcons,
-  RegularIcons,
-  BrandIcons,
-} from 'react-native-fontawesome';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -80,11 +74,6 @@ const AppDrawer = () => {
           options={{
             drawerIcon: config => (
               <Icon name={'calendar-day'} size={30} color="#000000" />
-              // <FontAwesome
-              //   style={{fontSize: 32}}
-              //   icon={SolidIcons.calendarDay}
-              // />
-              // <EventIcon style={styles.eventIconStyle} />
             ),
           }}
         />
@@ -94,7 +83,6 @@ const AppDrawer = () => {
           options={{
             drawerIcon: config => (
               <MaterialIcon name={'group'} size={35} color="#000000" />
-              // <EventIcon style={styles.eventIconStyle} />
             ),
           }}
         />
@@ -104,7 +92,6 @@ const AppDrawer = () => {
           options={{
             drawerIcon: config => (
               <Icon name={'cog'} size={30} color="#000000" />
-              // <EventIcon style={styles.eventIconStyle} />
             ),
           }}
         />
