@@ -2,6 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
+import {StyleSheet} from 'react-native';
 import {PRIMARY} from '../styles/colors';
 import SideBar from '../components/SideBar';
 import Events from '../screens/Events';
@@ -12,6 +13,14 @@ import Group from '../screens/Group';
 import GroupMembers from '../screens/GroupMembers';
 import CreateEvent from '../screens/CreateEvent';
 import CreateGroup from '../screens/CreateGroup';
+import MaterialIcon from 'react-native-vector-icons/dist/MaterialIcons';
+import Icon from 'react-native-vector-icons/dist/FontAwesome5';
+import EventIcon from '../assets/images/Groups-Dark.svg';
+import FontAwesome, {
+  SolidIcons,
+  RegularIcons,
+  BrandIcons,
+} from 'react-native-fontawesome';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -57,25 +66,58 @@ const AppDrawer = () => {
           inactiveTintColor: '#000',
           itemStyle: {
             marginHorizontal: 0,
-            paddingLeft: 10,
+            paddingVertical: 5,
+            paddingHorizontal: 10,
             borderRadius: 0,
           },
           labelStyle: {
-            fontSize: 18,
+            fontSize: 16,
           },
         }}>
-        {/* <Drawer.Screen name="Home" component={Home} /> */}
-        <Drawer.Screen name="Events" component={EventStack} />
-        <Drawer.Screen name="Groups" component={GroupStack} />
-        <Drawer.Screen name="Settings" component={Settings} />
-
-        {/* <Drawer.Screen name="Root" component={Root} /> */}
-        {/* <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Event" component={Event} />
-        </Stack.Navigator> */}
+        <Drawer.Screen
+          name="Events"
+          component={EventStack}
+          options={{
+            drawerIcon: config => (
+              <Icon name={'calendar-day'} size={30} color="#000000" />
+              // <FontAwesome
+              //   style={{fontSize: 32}}
+              //   icon={SolidIcons.calendarDay}
+              // />
+              // <EventIcon style={styles.eventIconStyle} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Groups"
+          component={GroupStack}
+          options={{
+            drawerIcon: config => (
+              <MaterialIcon name={'group'} size={35} color="#000000" />
+              // <EventIcon style={styles.eventIconStyle} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            drawerIcon: config => (
+              <Icon name={'cog'} size={30} color="#000000" />
+              // <EventIcon style={styles.eventIconStyle} />
+            ),
+          }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  eventIconStyle: {
+    width: 70,
+    height: 70,
+  },
+});
 
 export default AppDrawer;

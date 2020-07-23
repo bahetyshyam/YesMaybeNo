@@ -5,7 +5,7 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Image} from 'react-native';
 import {PRIMARY} from '../styles/colors';
 import {UserContext} from '../navigation/AppNavigator';
 import {signOut} from '../utils/signOut';
@@ -15,6 +15,10 @@ const SideBar = props => {
   return (
     <>
       <View style={styles.boxContainer}>
+        <Image
+          source={require('../assets/images/user-2.png')}
+          style={styles.userPicture}
+        />
         <Text style={styles.userText}>{user.name}</Text>
       </View>
       <DrawerContentScrollView {...props}>
@@ -31,13 +35,19 @@ const SideBar = props => {
 
 const styles = StyleSheet.create({
   boxContainer: {
-    height: '25%',
+    height: '27%',
     padding: 20,
-    flexDirection: 'column-reverse',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
   userText: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginTop: '5%',
+  },
+  userPicture: {
+    width: 100,
+    height: 100,
   },
 });
 

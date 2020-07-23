@@ -12,7 +12,7 @@ import {
 import {groupMembers} from '../api/index';
 import Header from '../components/Header';
 import AddButton from '../assets/images/add.svg';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 import {PLACEHOLDER, HEADING} from '../styles/colors';
 
 const GroupMembers = ({route, navigation}) => {
@@ -70,7 +70,7 @@ const GroupMembers = ({route, navigation}) => {
             }>
             <Icon
               name="ellipsis-h"
-              size={35}
+              size={30}
               color={PLACEHOLDER}
               style={styles.hamburger}
             />
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   hamburger: {
-    marginTop: '7%',
+    marginTop: '8%',
   },
   memberHeading: {
     fontSize: 22,

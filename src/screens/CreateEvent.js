@@ -16,6 +16,11 @@ import LoadingScreen from '../components/LoadingScreen';
 import LocationLogo from '../assets/images/Location.svg';
 import Calender from '../assets/images/Camera-Dark.svg';
 import {createEvent} from '../api/index';
+import FontAwesome, {
+  SolidIcons,
+  RegularIcons,
+  BrandIcons,
+} from 'react-native-fontawesome';
 
 const CreateEvent = ({route, navigation}) => {
   const [eventName, setEventName] = useState('');
@@ -131,6 +136,10 @@ const CreateEvent = ({route, navigation}) => {
                     {dateTextShow}
                   </Text>
                   {/* <Calender style={styles.calender} /> */}
+                  <FontAwesome
+                    style={styles.iconStyle}
+                    icon={SolidIcons.calendarDay}
+                  />
                 </View>
               ) : (
                 <Text style={styles.textComponent}>{dateTextShow}</Text>
@@ -231,6 +240,10 @@ const styles = StyleSheet.create({
     height: 45,
     marginTop: '2%',
     alignSelf: 'flex-end',
+  },
+  iconStyle: {
+    fontSize: 30,
+    color: 'black',
   },
 });
 

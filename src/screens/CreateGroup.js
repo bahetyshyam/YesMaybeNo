@@ -1,10 +1,5 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import {PRIMARY, HEADING, PLACEHOLDER} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import Header from '../components/Header';
@@ -85,7 +80,10 @@ const CreateGroup = ({navigation}) => {
   const UserSearchView = ({name, email, userId}) => {
     return (
       <View style={styles.userSearchCard}>
-        <Image source={require("../assets/images/user.jpg")} style={styles.userPicture} />
+        <Image
+          source={require('../assets/images/user.jpg')}
+          style={styles.userPicture}
+        />
         <View style={styles.infoCard}>
           <Text style={styles.userName}>{name}</Text>
           <Text style={styles.userEmail}>{email}</Text>

@@ -13,7 +13,7 @@ import {event} from '../api/index';
 import Header from '../components/Header';
 import EventCard from '../components/EventCard';
 import AddButton from '../assets/images/add.svg';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import {PLACEHOLDER} from '../styles/colors';
 
 const Group = ({route, navigation}) => {
@@ -58,7 +58,7 @@ const Group = ({route, navigation}) => {
                 })
               }>
               <Icon
-                name="ellipsis-h"
+                name="keyboard-arrow-right"
                 size={35}
                 color={PLACEHOLDER}
                 style={styles.hamburger}

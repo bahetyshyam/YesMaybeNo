@@ -31,9 +31,9 @@ const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
       openDuration={300}
       closeDuration={300}
       customStyles={{
-        wrapper: {
-          backgroundColor: 'rgba(52, 52, 52, 0.7)',
-        },
+        // wrapper: {
+        //   backgroundColor: 'rgba(52, 52, 52, 0.7)',
+        // },
         draggableIcon: {
           backgroundColor: HEADING,
         },
@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 17,
-    color: HEADING,
   },
   userEmail: {
     fontSize: 13,

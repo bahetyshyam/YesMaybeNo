@@ -25,7 +25,7 @@ import {RadioButton} from 'react-native-paper';
 import FormButtonSmall from '../components/FormButtonSmall';
 import ResponsesBottomSheet from '../components/ResponsesBottomSheet';
 import MoreInformationSheet from '../components/MoreInformationSheet';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 
 const Event = ({route, navigation}) => {
   const [event, setEvent] = useState([]);
@@ -151,7 +151,7 @@ const Event = ({route, navigation}) => {
           <TouchableWithoutFeedback onPress={() => moreInformation()}>
             <Icon
               name="ellipsis-h"
-              size={35}
+              size={30}
               color={PLACEHOLDER}
               style={styles.hamburger}
             />
