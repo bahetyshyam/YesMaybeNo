@@ -4,7 +4,12 @@ import {group} from '../api/index';
 import Header from '../components/Header';
 import GroupCard from '../components/GroupCard';
 import LoadingScreen from '../components/LoadingScreen';
-import AddButton from '../assets/images/add.svg';
+import Icon from 'react-native-vector-icons/dist/MaterialIcons';
+import {PRIMARY} from '../styles/colors';
+import {
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 
 const Groups = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,10 +52,16 @@ const Groups = ({navigation}) => {
               showsVerticalScrollIndicator={false}
             />
           )}
-          <AddButton
-            style={styles.addButton}
-            onPress={() => navigation.navigate('CreateGroup')}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate('CreateGroup')}>
+            <View style={styles.buttonBackground}>
+              <Icon
+                name="group-add"
+                size={40}
+                style={styles.icon}
+                color={'#FFFFFF'}
+              />
+            </View>
+          </TouchableOpacity>
         </SafeAreaView>
       </View>
     </>
@@ -72,10 +83,16 @@ const styles = StyleSheet.create({
     marginBottom: '13%',
     paddingLeft: '9%',
   },
-  addButton: {
-    width: 60,
-    height: 60,
+  icon: {
+    alignSelf: 'center',
+    marginVertical: '10%',
+  },
+  buttonBackground: {
+    backgroundColor: PRIMARY,
+    borderRadius: 70,
     alignSelf: 'flex-end',
+    height: 60,
+    width: 60,
   },
 });
 

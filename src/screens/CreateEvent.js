@@ -7,20 +7,15 @@ import {
   ScrollView,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {PLACEHOLDER} from '../styles/colors';
+import {PLACEHOLDER, HEADING} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import Header from '../components/Header';
 import Separator from '../components/Separator';
 import FormButtonSmall from '../components/FormButtonSmall';
 import LoadingScreen from '../components/LoadingScreen';
 import LocationLogo from '../assets/images/Location.svg';
-import Calender from '../assets/images/Camera-Dark.svg';
 import {createEvent} from '../api/index';
-import FontAwesome, {
-  SolidIcons,
-  RegularIcons,
-  BrandIcons,
-} from 'react-native-fontawesome';
+import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 
 const CreateEvent = ({route, navigation}) => {
   const [eventName, setEventName] = useState('');
@@ -131,14 +126,15 @@ const CreateEvent = ({route, navigation}) => {
             <Text style={styles.label}>Date</Text>
             <TouchableOpacity style={styles.component} onPress={showDatepicker}>
               {dateTextShow === 'Pick a date' ? (
-                <View>
+                <View style={styles.horizontalComponent}>
                   <Text style={styles.placeholderComponent}>
                     {dateTextShow}
                   </Text>
-                  {/* <Calender style={styles.calender} /> */}
-                  <FontAwesome
-                    style={styles.iconStyle}
-                    icon={SolidIcons.calendarDay}
+                  <Icon
+                    name="calendar-alt"
+                    size={25}
+                    color={HEADING}
+                    style={styles.hamburger}
                   />
                 </View>
               ) : (
@@ -149,9 +145,27 @@ const CreateEvent = ({route, navigation}) => {
             <Text style={styles.label}>Time</Text>
             <TouchableOpacity style={styles.component} onPress={showTimepicker}>
               {timeTextShow === 'Pick a time' ? (
-                <Text style={styles.placeholderComponent}>{timeTextShow}</Text>
+                <View style={styles.horizontalComponent}>
+                  <Text style={styles.placeholderComponent}>
+                    {timeTextShow}
+                  </Text>
+                  <Icon
+                    name="clock"
+                    size={25}
+                    color={HEADING}
+                    style={styles.hamburger}
+                  />
+                </View>
               ) : (
-                <Text style={styles.textComponent}>{timeTextShow}</Text>
+                <View style={styles.horizontalComponent}>
+                  <Text style={styles.textComponent}>{timeTextShow}</Text>
+                  <Icon
+                    name="clock"
+                    size={25}
+                    color={HEADING}
+                    style={styles.hamburger}
+                  />
+                </View>
               )}
               <Separator />
             </TouchableOpacity>
@@ -215,6 +229,7 @@ const styles = StyleSheet.create({
   },
   horizontalComponent: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   component: {
     marginTop: 5,
@@ -232,7 +247,7 @@ const styles = StyleSheet.create({
   location: {
     width: 45,
     height: 45,
-    marginLeft: '-15%',
+    marginLeft: '-12%',
     marginTop: '2%',
   },
   calender: {
