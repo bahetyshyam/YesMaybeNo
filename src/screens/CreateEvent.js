@@ -92,7 +92,6 @@ const CreateEvent = ({route, navigation}) => {
         description,
         route.params.groupId,
       );
-      console.log(response.data);
       setIsLoading(value => !value);
     } catch (err) {
       console.log(err);

@@ -7,14 +7,15 @@ import {
   SafeAreaView,
   FlatList,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   Image,
 } from 'react-native';
 import {event} from '../api/index';
 import Header from '../components/Header';
 import EventCard from '../components/EventCard';
-import AddButton from '../assets/images/add.svg';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
-import {PLACEHOLDER} from '../styles/colors';
+import FAIcon from 'react-native-vector-icons/dist/FontAwesome5';
+import {PLACEHOLDER, PRIMARY} from '../styles/colors';
 
 const Group = ({route, navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -86,14 +87,21 @@ const Group = ({route, navigation}) => {
               showsVerticalScrollIndicator={false}
             />
           )}
-          <AddButton
+          <TouchableWithoutFeedback
             onPress={() =>
               navigation.navigate('Create Event', {
                 groupId,
               })
-            }
-            style={styles.addButton}
-          />
+            }>
+            <View style={styles.buttonBackground}>
+              <FAIcon
+                name="calendar-plus"
+                size={35}
+                style={styles.icon}
+                color={'#FFFFFF'}
+              />
+            </View>
+          </TouchableWithoutFeedback>
         </SafeAreaView>
       </View>
     </>
@@ -114,13 +122,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: '3%',
   },
-  addButton: {
-    width: 60,
-    height: 60,
-    bottom: '2%',
-    right: '5%',
-    position: 'absolute',
-  },
   userPicture: {
     width: 80,
     height: 80,
@@ -137,6 +138,19 @@ const styles = StyleSheet.create({
   },
   hamburger: {
     marginTop: '7%',
+  },
+  icon: {
+    alignSelf: 'center',
+    marginVertical: '20%',
+  },
+  buttonBackground: {
+    backgroundColor: PRIMARY,
+    borderRadius: 70,
+    bottom: '5%',
+    right: '7%',
+    position: 'absolute',
+    height: 70,
+    width: 70,
   },
 });
 

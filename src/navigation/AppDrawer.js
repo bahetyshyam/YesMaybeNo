@@ -13,6 +13,8 @@ import Group from '../screens/Group';
 import GroupMembers from '../screens/GroupMembers';
 import CreateEvent from '../screens/CreateEvent';
 import CreateGroup from '../screens/CreateGroup';
+import AddMember from '../screens/AddMember';
+import Dashboard from '../screens/Dashboard';
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 
@@ -40,6 +42,7 @@ const GroupStack = () => {
       <Stack.Screen name="Groups" component={Groups} />
       <Stack.Screen name="Group" component={Group} />
       <Stack.Screen name="GroupMembers" component={GroupMembers} />
+      <Stack.Screen name="AddMember" component={AddMember} />
       <Stack.Screen name="Event" component={Event} />
       <Stack.Screen name="CreateGroup" component={CreateGroup} />
       <Stack.Screen name="Create Event" component={CreateEvent} />
@@ -83,6 +86,15 @@ const AppDrawer = () => {
           options={{
             drawerIcon: config => (
               <MaterialIcon name={'group'} size={35} color="#000000" />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Dashboard"
+          component={Dashboard}
+          options={{
+            drawerIcon: config => (
+              <Icon name={'chart-pie'} size={30} color="#000000" />
             ),
           }}
         />

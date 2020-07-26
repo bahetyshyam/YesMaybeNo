@@ -127,3 +127,21 @@ export const groupMembers = async groupId => {
   });
   return response;
 };
+
+export const addMember = async (groupId, userId) => {
+  console.log(groupId);
+  console.log(userId);
+  const userToken = await getToken();
+  const response = await api.post(
+    '/api/user/' + groupId,
+    {
+      _id: userId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${userToken}`,
+      },
+    },
+  );
+  return response;
+};

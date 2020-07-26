@@ -7,13 +7,13 @@ import {
   SafeAreaView,
   FlatList,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   Image,
 } from 'react-native';
 import {groupMembers} from '../api/index';
 import Header from '../components/Header';
-import AddButton from '../assets/images/add.svg';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
-import {PLACEHOLDER, HEADING} from '../styles/colors';
+import {PLACEHOLDER, PRIMARY} from '../styles/colors';
 
 const GroupMembers = ({route, navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +26,6 @@ const GroupMembers = ({route, navigation}) => {
   }, []);
 
   const getMembers = async () => {
-    console.log(groupId);
     const response = await groupMembers(groupId);
     const members = Object.values(response.data.members);
 
@@ -90,6 +89,23 @@ const GroupMembers = ({route, navigation}) => {
             />
           </View>
         )}
+        <TouchableWithoutFeedback
+          onPress={() =>
+            navigation.navigate('AddMember', {
+              groupId,
+              groupName,
+              members,
+            })
+          }>
+          <View style={styles.buttonBackground}>
+            <Icon
+              name="user-plus"
+              size={30}
+              style={styles.icon}
+              color={'#FFFFFF'}
+            />
+          </View>
+        </TouchableWithoutFeedback>
       </SafeAreaView>
     </View>
   );
@@ -110,9 +126,7 @@ const styles = StyleSheet.create({
     marginLeft: '3%',
   },
   userSearchCard: {
-    marginTop: '3%',
-    marginBottom: '-25%',
-    height: 150,
+    marginTop: '5%',
     flexDirection: 'row',
   },
   groupPicture: {
@@ -153,6 +167,19 @@ const styles = StyleSheet.create({
   userEmail: {
     fontSize: 13,
     color: PLACEHOLDER,
+  },
+  icon: {
+    alignSelf: 'center',
+    marginVertical: '20%',
+  },
+  buttonBackground: {
+    backgroundColor: PRIMARY,
+    borderRadius: 70,
+    bottom: '5%',
+    right: '7%',
+    position: 'absolute',
+    height: 70,
+    width: 70,
   },
 });
 

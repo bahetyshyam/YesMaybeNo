@@ -4,6 +4,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import {HEADING, PLACEHOLDER} from '../styles/colors';
 import ResponsesCircularProgress from '../components/ResponsesCircularProgress';
 import Separator from '../components/Separator';
+import NoResult from '../assets/images/void.png';
 
 const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
   const UserSearchView = ({name, email}) => {
@@ -28,12 +29,9 @@ const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
       closeOnDragDown={true}
       closeOnPressMask={true}
       animationType={'slide'}
-      openDuration={300}
-      closeDuration={300}
+      openDuration={0}
+      closeDuration={0}
       customStyles={{
-        // wrapper: {
-        //   backgroundColor: 'rgba(52, 52, 52, 0.7)',
-        // },
         draggableIcon: {
           backgroundColor: HEADING,
         },
@@ -42,19 +40,31 @@ const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
           height: '70%',
         },
       }}>
-      <View style={styles.mainContainer}>
-        <View style={styles.progressBar}>
-          <ResponsesCircularProgress number={number} color={color} />
-          <Text style={styles.progressText}>{category}</Text>
+      {users.length === 0 ? (
+        <View style={styles.noResult}>
+          <Image
+            source={require('../assets/images/void.png')}
+            style={styles.noResultImage}
+          />
+          <Text style={styles.noResultText}>
+            Nobody has responded {category} yet
+          </Text>
         </View>
-        <FlatList
-          data={users}
-          renderItem={({item}) => (
-            <UserSearchView name={item[1]} email={item[2]} />
-          )}
-          keyExtractor={item => item[0]}
-        />
-      </View>
+      ) : (
+        <View style={styles.mainContainer}>
+          <View style={styles.progressBar}>
+            <ResponsesCircularProgress number={number} color={color} />
+            <Text style={styles.progressText}>{category}</Text>
+          </View>
+          <FlatList
+            data={users}
+            renderItem={({item}) => (
+              <UserSearchView name={item[1]} email={item[2]} />
+            )}
+            keyExtractor={item => item[0]}
+          />
+        </View>
+      )}
     </RBSheet>
   );
 };
@@ -96,6 +106,19 @@ const styles = StyleSheet.create({
   userEmail: {
     fontSize: 13,
     color: PLACEHOLDER,
+  },
+  noResult: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noResultImage: {
+    width: 350,
+    height: 350,
+  },
+  noResultText: {
+    fontSize: 16,
+    marginVertical: '5%',
   },
 });
 

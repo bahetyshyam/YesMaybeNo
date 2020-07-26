@@ -17,8 +17,8 @@ const MoreInformationSheet = ({
       closeOnDragDown={true}
       closeOnPressMask={true}
       animationType={'slide'}
-      openDuration={500}
-      closeDuration={500}
+      openDuration={1}
+      closeDuration={1}
       customStyles={{
         draggableIcon: {
           backgroundColor: HEADING,

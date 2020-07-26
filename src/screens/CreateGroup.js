@@ -13,6 +13,7 @@ import {addGroup} from '../api/index';
 import {getUser} from '../utils/asynStorage';
 import {FlatList} from 'react-native-gesture-handler';
 import CheckBox from 'react-native-check-box';
+import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 
 const CreateGroup = ({navigation}) => {
   const [groupName, setGroupName] = useState('');
@@ -127,7 +128,12 @@ const CreateGroup = ({navigation}) => {
             underlineColorAndroid="transparent"
           />
           <View style={styles.searchIconBackground}>
-            <SearchIcon style={styles.searchIcon} />
+            <Icon
+              name="search"
+              size={25}
+              color={'#FFFFFF'}
+              style={styles.searchIcon}
+            />
           </View>
         </View>
         <FlatList
@@ -185,10 +191,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   searchIcon: {
-    width: '40%',
-    height: '40%',
-    marginLeft: '30%',
-    marginTop: '20%',
+    marginVertical: '17%',
+    marginHorizontal: '30%',
   },
   searchPlaceholder: {
     color: HEADING,
