@@ -78,6 +78,7 @@ const EventCard = props => {
           groupName: props.groupName,
           numberOfParticipants: props.numberOfParticipants,
           eventId: props.eventId,
+          groupId: props.groupId,
         })
       }>
       <View style={styles.headingComponent}>

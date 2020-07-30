@@ -4,7 +4,6 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import {HEADING, PLACEHOLDER} from '../styles/colors';
 import ResponsesCircularProgress from '../components/ResponsesCircularProgress';
 import Separator from '../components/Separator';
-import NoResult from '../assets/images/void.png';
 
 const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
   const UserSearchView = ({name, email}) => {
@@ -43,11 +42,11 @@ const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
       {users.length === 0 ? (
         <View style={styles.noResult}>
           <Image
-            source={require('../assets/images/void.png')}
+            source={require('../assets/images/empty.png')}
             style={styles.noResultImage}
           />
           <Text style={styles.noResultText}>
-            Nobody has responded {category} yet
+            Looks like nobody has responded {category} yet
           </Text>
         </View>
       ) : (
@@ -113,12 +112,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noResultImage: {
-    width: 350,
-    height: 350,
+    width: 300,
+    height: 250,
   },
   noResultText: {
     fontSize: 16,
-    marginVertical: '5%',
+    marginVertical: '10%',
+    color: HEADING,
   },
 });
 

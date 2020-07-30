@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import LoadingScreen from '../components/LoadingScreen';
 import {
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  RefreshControl,
   Image,
 } from 'react-native';
 import {groupMembers} from '../api/index';
@@ -19,10 +20,18 @@ const GroupMembers = ({route, navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const {groupName, groupId} = route.params;
   const [members, setMembers] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     setIsLoading(value => !value);
     getMembers();
+  }, []);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getMembers();
+    setIsLoading(value => !value);
+    setRefreshing(false);
   }, []);
 
   const getMembers = async () => {
@@ -86,6 +95,13 @@ const GroupMembers = ({route, navigation}) => {
                 <UserSearchView name={item.name} email={item.email} />
               )}
               keyExtractor={item => item._id}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  tintColor={PRIMARY}
+                />
+              }
             />
           </View>
         )}

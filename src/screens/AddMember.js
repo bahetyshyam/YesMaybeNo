@@ -119,17 +119,29 @@ const AddMember = ({route, navigation}) => {
             />
           </View>
         </View>
-        <FlatList
-          data={searchResults}
-          renderItem={({item}) => (
-            <UserSearchView
-              name={item.name}
-              email={item.email}
-              userId={item._id}
+        {searchResults.length === 0 ? (
+          <View style={styles.noResult}>
+            <Image
+              source={require('../assets/images/search.png')}
+              style={styles.noResultImage}
             />
-          )}
-          keyExtractor={item => item._id}
-        />
+            {/* <Text style={styles.noResultText}>
+              Looks like you are not in any groups.
+            </Text> */}
+          </View>
+        ) : (
+          <FlatList
+            data={searchResults}
+            renderItem={({item}) => (
+              <UserSearchView
+                name={item.name}
+                email={item.email}
+                userId={item._id}
+              />
+            )}
+            keyExtractor={item => item._id}
+          />
+        )}
         <Modal
           isVisible={addMemberModalVisible}
           animationInTiming={300}
@@ -165,7 +177,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#FFFFFF',
     padding: '7%',
   },
   heading: {
@@ -195,7 +207,7 @@ const styles = StyleSheet.create({
   searchBox: {
     flexDirection: 'row',
     height: 55,
-    backgroundColor: '#ECECEC',
+    backgroundColor: '#F0F0F0',
     alignItems: 'center',
     marginVertical: '5%',
     borderRadius: 5,
@@ -258,6 +270,15 @@ const styles = StyleSheet.create({
     paddingTop: '10%',
     paddingBottom: '5%',
     fontWeight: 'bold',
+  },
+  noResult: {
+    flex: 1,
+    // justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noResultImage: {
+    width: 250,
+    height: 250,
   },
 });
 

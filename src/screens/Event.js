@@ -1,10 +1,11 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   SafeAreaView,
   FlatList,
+  RefreshControl,
   TouchableWithoutFeedback,
 } from 'react-native';
 import {oneEvent, updateResponse} from '../api/index';
@@ -27,6 +28,12 @@ import ResponsesBottomSheet from '../components/ResponsesBottomSheet';
 import MoreInformationSheet from '../components/MoreInformationSheet';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 
+const wait = timeout => {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+};
+
 const Event = ({route, navigation}) => {
   const [event, setEvent] = useState([]);
   const [numberYes, setNumberYes] = useState(0);
@@ -36,10 +43,17 @@ const Event = ({route, navigation}) => {
   const [numberOfParticipants, setNumberOfParticipants] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [checked, setChecked] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     setIsLoading(value => !value);
     getEvent();
+  }, []);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+
+    wait(2000).then(() => setRefreshing(false));
   }, []);
 
   const refRBSheetYes = useRef();
@@ -54,12 +68,26 @@ const Event = ({route, navigation}) => {
   const getEvent = async () => {
     const {groupName, numberOfParticipants, eventId} = route.params;
     const response = await oneEvent(eventId);
-    console.log(response.data.event);
     const eventArray = Object.values(response.data.event);
     setEvent(eventArray);
     setGroupName(groupName);
     setNumberOfParticipants(numberOfParticipants);
     setIsLoading(value => !value);
+  };
+
+  const getUserResponse = () => {
+    let userResponse;
+    if (event[0].responses.length === 0) return null;
+    for (response of event[0].responses)
+      if (response.user[0]._id === user._id) {
+        userResponse = response.response;
+        break;
+      }
+
+    if (userResponse === 'yes') return <Yes />;
+    else if (userResponse === 'no') return <No />;
+    else if (userResponse === 'maybe') return <Maybe />;
+    else return null;
   };
 
   const convertDate = dbDate => {
@@ -134,7 +162,11 @@ const Event = ({route, navigation}) => {
   const handleUpdateResponse = async () => {
     setIsLoading(value => !value);
     try {
-      const response = await updateResponse(route.params.eventId, checked);
+      const response = await updateResponse(
+        route.params.groupId,
+        route.params.eventId,
+        checked,
+      );
       getEvent();
     } catch (err) {
       console.log(err);
@@ -238,45 +270,62 @@ const Event = ({route, navigation}) => {
             </Text>
           )}
         </View>
-        <Text style={styles.responseHeading}>Your Response</Text>
-        <View style={styles.userResponseButtons}>
-          <RadioButton
-            value="yes"
-            status={checked === 'yes' ? 'checked' : 'unchecked'}
+        {/* {event[0].responses.length != 0 ? (
+          <View>
+            <Text style={styles.responseHeading}>Your Response</Text>
+            <View style={styles.bubble}>{getUserResponse()}</View>
+            <FormButtonSmall
+              onPress={() => {
+                handleUpdateResponse();
+              }}
+              buttonTitle={'Change'}
+            />
+          </View>
+        ) : ( */}
+        <View>
+          <Text style={styles.responseHeading}>Your Response</Text>
+          <View style={styles.userResponseButtons}>
+            <RadioButton
+              value="yes"
+              status={checked === 'yes' ? 'checked' : 'unchecked'}
+              onPress={() => {
+                setChecked('yes');
+              }}
+              color={PRIMARY}
+            />
+            <Text style={styles.userResponseLabel}>Yes</Text>
+            <RadioButton
+              value="maybe"
+              status={checked === 'maybe' ? 'checked' : 'unchecked'}
+              onPress={() => {
+                setChecked('maybe');
+              }}
+              color={PRIMARY}
+            />
+            <Text style={styles.userResponseLabel}>Maybe</Text>
+            <RadioButton
+              value="no"
+              status={checked === 'no' ? 'checked' : 'unchecked'}
+              onPress={() => {
+                setChecked('no');
+              }}
+              color={PRIMARY}
+            />
+            <Text style={styles.userResponseLabel}>No</Text>
+          </View>
+          <FormButtonSmall
             onPress={() => {
-              setChecked('yes');
+              handleUpdateResponse();
             }}
-            color={PRIMARY}
+            buttonTitle={'Respond'}
           />
-          <Text style={styles.userResponseLabel}>Yes</Text>
-          <RadioButton
-            value="maybe"
-            status={checked === 'maybe' ? 'checked' : 'unchecked'}
-            onPress={() => {
-              setChecked('maybe');
-            }}
-            color={PRIMARY}
-          />
-          <Text style={styles.userResponseLabel}>Maybe</Text>
-          <RadioButton
-            value="no"
-            status={checked === 'no' ? 'checked' : 'unchecked'}
-            onPress={() => {
-              setChecked('no');
-            }}
-            color={PRIMARY}
-          />
-          <Text style={styles.userResponseLabel}>No</Text>
         </View>
-        <FormButtonSmall
-          onPress={() => {
-            handleUpdateResponse();
-          }}
-          buttonTitle={'Respond'}
-        />
+        {/* )} */}
+
         <MoreInformationSheet
           reference={refRBSheetMoreInfo}
           eventName={eventName}
+          eventId={route.params.eventId}
           hostedBy={hostedBy}
           groupName={groupName}
           numberOfParticipants={numberOfParticipants}

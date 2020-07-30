@@ -6,8 +6,6 @@ import Header from '../components/Header';
 import Separator from '../components/Separator';
 import FormButtonSmall from '../components/FormButtonSmall';
 import LoadingScreen from '../components/LoadingScreen';
-import SearchIcon from '../assets/images/search.svg';
-import PeopleSearchImage from '../assets/images/peopleSearch.svg';
 import {searchUsers} from '../api/index';
 import {addGroup} from '../api/index';
 import {getUser} from '../utils/asynStorage';
@@ -24,7 +22,6 @@ const CreateGroup = ({navigation}) => {
   const [error, setError] = useState('');
 
   const searchUsersFilter = async searchField => {
-    <PeopleSearchImage style={styles.peopleSearchImage} />;
     setSearchField(searchField);
     try {
       const response = await searchUsers(searchField);
@@ -32,7 +29,6 @@ const CreateGroup = ({navigation}) => {
       setSearchResults(userArray);
     } catch (err) {
       setSearchResults([]);
-      <PeopleSearchImage style={styles.peopleSearchImage} />;
     }
   };
 
@@ -136,17 +132,29 @@ const CreateGroup = ({navigation}) => {
             />
           </View>
         </View>
-        <FlatList
-          data={searchResults}
-          renderItem={({item}) => (
-            <UserSearchView
-              name={item.name}
-              email={item.email}
-              userId={item._id}
+        {searchResults.length === 0 ? (
+          <View style={styles.noResult}>
+            <Image
+              source={require('../assets/images/search.png')}
+              style={styles.noResultImage}
             />
-          )}
-          keyExtractor={item => item._id}
-        />
+            {/* <Text style={styles.noResultText}>
+              Looks like you are not in any groups.
+            </Text> */}
+          </View>
+        ) : (
+          <FlatList
+            data={searchResults}
+            renderItem={({item}) => (
+              <UserSearchView
+                name={item.name}
+                email={item.email}
+                userId={item._id}
+              />
+            )}
+            keyExtractor={item => item._id}
+          />
+        )}
         <FormButtonSmall
           onPress={() => {
             handleCheckedUsers();
@@ -164,7 +172,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#FFFFFF',
     paddingVertical: '10%',
     paddingHorizontal: '8%',
   },
@@ -174,7 +182,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   label: {
-    fontSize: 19,
+    fontSize: 18,
   },
   addMembersText: {
     fontWeight: 'bold',
@@ -183,7 +191,7 @@ const styles = StyleSheet.create({
   searchBox: {
     flexDirection: 'row',
     height: 55,
-    backgroundColor: '#ECECEC',
+    backgroundColor: '#F0F0F0',
     alignItems: 'center',
     marginVertical: '5%',
     borderRadius: 5,
@@ -236,9 +244,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-end',
   },
-  peopleSearchImage: {
-    width: 300,
-    height: 300,
+  noResult: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noResultImage: {
+    width: 200,
+    height: 200,
   },
 });
 

@@ -39,11 +39,11 @@ export const oneEvent = async eventId => {
   return response;
 };
 
-export const updateResponse = async (eventId, userResponse) => {
+export const updateResponse = async (groupId, eventId, userResponse) => {
   const userToken = await getToken();
   const response = api({
     method: 'PATCH',
-    url: `api/event/${eventId}/${userResponse}`,
+    url: `api/event/${eventId}/${groupId}/${userResponse}`,
     headers: {
       Authorization: `Bearer ${userToken}`,
     },
@@ -129,8 +129,6 @@ export const groupMembers = async groupId => {
 };
 
 export const addMember = async (groupId, userId) => {
-  console.log(groupId);
-  console.log(userId);
   const userToken = await getToken();
   const response = await api.post(
     '/api/user/' + groupId,
@@ -143,5 +141,15 @@ export const addMember = async (groupId, userId) => {
       },
     },
   );
+  return response;
+};
+
+export const deleteEvent = async eventId => {
+  const userToken = await getToken();
+  const response = await api.delete('/api/event/' + eventId, {
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+  });
   return response;
 };

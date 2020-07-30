@@ -2,15 +2,23 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {HEADING, PRIMARY} from '../styles/colors';
+import deleteEvent from '../api/index';
 import FormButtonSmall from '../components/FormButtonSmall';
 
 const MoreInformationSheet = ({
   reference,
   eventName,
+  eventId,
   hostedBy,
   groupName,
   numberOfParticipants,
+  // navigation,
 }) => {
+  const handleDeleteEvent = async () => {
+    const response = await deleteEvent(eventId);
+    // navigation.navigate('Events');
+  };
+
   return (
     <RBSheet
       ref={reference}
@@ -36,9 +44,9 @@ const MoreInformationSheet = ({
           Number of participants are {numberOfParticipants}
         </Text>
         <FormButtonSmall
-          // onPress={() => {
-          //     handleUpdateResponse();
-          //   }}
+          onPress={() => {
+            handleDeleteEvent();
+          }}
           buttonTitle={'Delete'}
         />
       </View>

@@ -1,31 +1,36 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   SafeAreaView,
+  RefreshControl,
   FlatList,
   TouchableWithoutFeedback,
+  Image,
 } from 'react-native';
 import {group} from '../api/index';
 import Header from '../components/Header';
 import GroupCard from '../components/GroupCard';
 import LoadingScreen from '../components/LoadingScreen';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
-import {PRIMARY} from '../styles/colors';
-// import {
-//   TouchableWithoutFeedback,
-//   TouchableOpacity,
-// } from 'react-native-gesture-handler';
-import AddButton from '../assets/images/add.svg';
+import {PRIMARY, HEADING} from '../styles/colors';
 
 const Groups = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [groups, setGroups] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     setIsLoading(value => !value);
     getGroups();
+  }, []);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    getGroups();
+    setIsLoading(value => !value);
+    setRefreshing(false);
   }, []);
 
   const getGroups = async () => {
@@ -42,36 +47,75 @@ const Groups = ({navigation}) => {
     <>
       <View style={styles.screenContainer}>
         <Header navigation={navigation} />
-        <SafeAreaView style={styles.container}>
-          <Text style={styles.heading}>Groups</Text>
-          {isLoading ? (
+        {groups.length === 0 ? (
+          isLoading ? (
             <LoadingScreen visible={isLoading} />
           ) : (
-            <FlatList
-              data={groups}
-              renderItem={({item}) => (
-                <GroupCard
-                  groupName={item.name}
-                  groupId={item._id}
-                  navigation={navigation}
+            <SafeAreaView
+              style={{flex: 1, backgroundColor: '#FFFFFF', padding: 20}}>
+              <Text style={styles.heading}>Groups</Text>
+
+              <View style={styles.noResult}>
+                <Image
+                  source={require('../assets/images/no-groups.png')}
+                  style={styles.noResultImage}
                 />
-              )}
-              keyExtractor={item => item._id}
-              showsVerticalScrollIndicator={false}
-            />
-          )}
-          <TouchableWithoutFeedback
-            onPress={() => navigation.navigate('CreateGroup')}>
-            <View style={styles.buttonBackground}>
-              <Icon
-                name="group-add"
-                size={40}
-                style={styles.icon}
-                color={'#FFFFFF'}
+                <Text style={styles.noResultText}>
+                  Looks like you are not in any groups.
+                </Text>
+              </View>
+              <TouchableWithoutFeedback
+                onPress={() => navigation.navigate('CreateGroup')}>
+                <View style={styles.buttonBackground}>
+                  <Icon
+                    name="group-add"
+                    size={40}
+                    style={styles.icon}
+                    color={'#FFFFFF'}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+            </SafeAreaView>
+          )
+        ) : (
+          <SafeAreaView style={styles.container}>
+            <Text style={styles.heading}>Groups</Text>
+            {isLoading ? (
+              <LoadingScreen visible={isLoading} />
+            ) : (
+              <FlatList
+                data={groups}
+                renderItem={({item}) => (
+                  <GroupCard
+                    groupName={item.name}
+                    groupId={item._id}
+                    navigation={navigation}
+                  />
+                )}
+                keyExtractor={item => item._id}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    tintColor={PRIMARY}
+                  />
+                }
               />
-            </View>
-          </TouchableWithoutFeedback>
-        </SafeAreaView>
+            )}
+            <TouchableWithoutFeedback
+              onPress={() => navigation.navigate('CreateGroup')}>
+              <View style={styles.buttonBackground}>
+                <Icon
+                  name="group-add"
+                  size={40}
+                  style={styles.icon}
+                  color={'#FFFFFF'}
+                />
+              </View>
+            </TouchableWithoutFeedback>
+          </SafeAreaView>
+        )}
       </View>
     </>
   );
@@ -91,6 +135,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: '13%',
     paddingLeft: '9%',
+  },
+  noResult: {
+    flex: 1,
+    // justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noResultImage: {
+    width: 325,
+    height: 325,
+  },
+  noResultText: {
+    fontSize: 16,
+    marginVertical: '10%',
+    color: HEADING,
+    textAlign: 'center',
   },
   icon: {
     alignSelf: 'center',
