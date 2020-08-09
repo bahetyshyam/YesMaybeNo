@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback, useContext} from 'react';
 import LoadingScreen from '../components/LoadingScreen';
 import {
   StyleSheet,
@@ -10,21 +10,29 @@ import {
   TouchableOpacity,
   RefreshControl,
   Image,
+  Button,
 } from 'react-native';
-import {groupMembers} from '../api/index';
+import {groupMembers, updateAdmin, group} from '../api/index';
 import Header from '../components/Header';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 import {PLACEHOLDER, PRIMARY} from '../styles/colors';
+import {UserContext} from '../navigation/AppNavigator';
+import Modal from 'react-native-modal';
 
 const GroupMembers = ({route, navigation}) => {
+  const {user} = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const {groupName, groupId} = route.params;
   const [members, setMembers] = useState([]);
+  const [admins, setAdmins] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [isCurrentUserAdmin, setIsCurrentUserAdmin] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedMember, setSelectedMember] = useState({});
 
   useEffect(() => {
     setIsLoading(value => !value);
-    getMembers();
+    getMembersFirstCall();
   }, []);
 
   const onRefresh = useCallback(() => {
@@ -34,17 +42,63 @@ const GroupMembers = ({route, navigation}) => {
     setRefreshing(false);
   }, []);
 
+  const getMembersFirstCall = async () => {
+    const response = await groupMembers(groupId);
+    const members = Object.values(response.data.members);
+    setAdmins(Object.values(response.data.admins));
+    setMembers(members);
+    setIsCurrentUserAdmin(response.data.admins.includes(user._id));
+    setIsLoading(value => !value);
+  };
+
   const getMembers = async () => {
     const response = await groupMembers(groupId);
     const members = Object.values(response.data.members);
-
+    setAdmins(Object.values(response.data.admins));
     setMembers(members);
     setIsLoading(value => !value);
   };
 
-  const UserSearchView = ({name, email}) => {
+  const handleLongPress = userId => {
+    if (admins.includes(userId)) {
+      setSelectedMember({
+        userId: userId,
+        modalText: 'Remove Admin',
+        isAdmin: true,
+      });
+    } else {
+      setSelectedMember({
+        userId: userId,
+        modalText: 'Make Admin',
+        isAdmin: false,
+      });
+    }
+    setIsModalVisible(true);
+  };
+
+  const handleMakeRemovePress = async () => {
+    setIsModalVisible(false);
+    let type;
+    if (selectedMember.isAdmin) {
+      type = 'remove';
+    } else type = 'add';
+
+    try {
+      const response = await updateAdmin(groupId, type, selectedMember.userId);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.data);
+    }
+    onRefresh();
+  };
+
+  const UserSearchView = ({name, email, userId}) => {
     return (
-      <View style={styles.userSearchCard}>
+      <TouchableOpacity
+        onLongPress={
+          isCurrentUserAdmin ? () => handleLongPress(userId) : undefined
+        }
+        style={styles.userSearchCard}>
         <Image
           source={require('../assets/images/user.jpg')}
           style={styles.userPicture}
@@ -53,7 +107,7 @@ const GroupMembers = ({route, navigation}) => {
           <Text style={styles.userName}>{name}</Text>
           <Text style={styles.userEmail}>{email}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -92,7 +146,11 @@ const GroupMembers = ({route, navigation}) => {
             <FlatList
               data={members}
               renderItem={({item}) => (
-                <UserSearchView name={item.name} email={item.email} />
+                <UserSearchView
+                  name={item._id === user._id ? 'You' : item.name}
+                  email={item.email}
+                  userId={item._id}
+                />
               )}
               keyExtractor={item => item._id}
               refreshControl={
@@ -122,6 +180,26 @@ const GroupMembers = ({route, navigation}) => {
             />
           </View>
         </TouchableWithoutFeedback>
+        <Modal
+          isVisible={isModalVisible}
+          animationInTiming={200}
+          animationOutTiming={200}
+          onBackdropPress={() => setIsModalVisible(false)}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.makeRemoveAdminModal}
+              onPress={() => handleMakeRemovePress()}>
+              <Text style={styles.modalText}>{selectedMember.modalText}</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </SafeAreaView>
     </View>
   );
@@ -196,6 +274,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: 70,
     width: 70,
+  },
+  makeRemoveAdminModal: {
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+    width: '70%',
+    alignItems: 'center',
+    borderRadius: 2,
+  },
+  modalText: {
+    fontSize: 16,
   },
 });
 

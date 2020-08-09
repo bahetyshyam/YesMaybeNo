@@ -144,6 +144,22 @@ export const addMember = async (groupId, userId) => {
   return response;
 };
 
+export const updateAdmin = async (groupId, type, userId) => {
+  const userToken = await getToken();
+  const response = await api({
+    method: 'PATCH',
+    url: `api/user/${groupId}/updateAdmin`,
+    headers: {
+      Authorization: `Bearer ${userToken}`,
+    },
+    data: {
+      type: type,
+      userId: userId,
+    },
+  });
+  return response;
+};
+
 export const deleteEvent = async eventId => {
   const userToken = await getToken();
   const response = await api.delete('/api/event/' + eventId, {
