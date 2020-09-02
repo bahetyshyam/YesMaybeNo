@@ -61,6 +61,7 @@ const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
               <UserSearchView name={item[1]} email={item[2]} />
             )}
             keyExtractor={item => item[0]}
+            nestedScrollEnabled={true}
           />
         </View>
       )}
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     paddingLeft: '5%',
   },
   userSearchCard: {
-    marginTop: '10%',
+    marginTop: '5%',
     marginBottom: '5%',
     flexDirection: 'row',
   },

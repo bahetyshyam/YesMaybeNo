@@ -146,7 +146,9 @@ export const addMember = async (groupId, userId) => {
 
 export const deleteEvent = async eventId => {
   const userToken = await getToken();
-  const response = await api.delete('/api/event/' + eventId, {
+  const response = api({
+    method: 'DELETE',
+    url: `api/event/${eventId}`,
     headers: {
       Authorization: `Bearer ${userToken}`,
     },

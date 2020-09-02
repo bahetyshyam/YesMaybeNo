@@ -13,10 +13,10 @@ import FormInput from '../components/FormInput';
 import Header from '../components/Header';
 import Separator from '../components/Separator';
 import FormButtonSmall from '../components/FormButtonSmall';
+import CanelButtonSmall from '../components/CancelButtonSmall';
 import {searchUsers} from '../api/index';
 import {addMember} from '../api/index';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
-import FAIcon from 'react-native-vector-icons/dist/FontAwesome';
 import Modal from 'react-native-modal';
 
 const AddMember = ({route, navigation}) => {
@@ -148,20 +148,16 @@ const AddMember = ({route, navigation}) => {
           animationOutTiming={300}>
           <View>
             <View style={styles.addMemberModal}>
-              <TouchableOpacity onPress={toggleModal}>
-                <FAIcon
-                  name="window-close"
-                  size={40}
-                  style={styles.icon}
-                  color={PLACEHOLDER}
-                />
-              </TouchableOpacity>
               <Text style={styles.question}>
                 Do you wish to add {userToAdd[1]} to {groupName}?
               </Text>
               <FormButtonSmall
                 onPress={() => handleAddMember()}
                 buttonTitle={'Add'}
+              />
+              <CanelButtonSmall
+                onPress={() => toggleModal()}
+                buttonTitle={'Cancel'}
               />
             </View>
           </View>
@@ -261,14 +257,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 5,
   },
-  icon: {
-    alignSelf: 'flex-end',
-  },
+  // icon: {
+  //   alignSelf: 'flex-end',
+  // },
   question: {
-    fontSize: 16,
+    fontSize: 20,
     paddingHorizontal: '2%',
-    paddingTop: '10%',
-    paddingBottom: '5%',
+    paddingVertical: '5%',
     fontWeight: 'bold',
   },
   noResult: {

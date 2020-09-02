@@ -1,8 +1,8 @@
 import React from 'react';
-import {TouchableOpacity, TextInput, Text, StyleSheet} from 'react-native';
-import {PRIMARY} from '../styles/colors';
+import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {PRIMARY, PLACEHOLDER} from '../styles/colors';
 
-const FormButtonSmall = ({buttonTitle, ...rest}) => {
+const CancelButtonSmall = ({buttonTitle, ...rest}) => {
   return (
     <TouchableOpacity style={styles.buttonContainer} {...rest}>
       <Text style={styles.buttonText}>{buttonTitle}</Text>
@@ -16,13 +16,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
     height: 48,
-    padding: 5,
+    // padding: 5,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
-    backgroundColor: PRIMARY,
+    backgroundColor: PLACEHOLDER,
     elevation: 3,
-    // alignSelf: 'flex-end',
+    // alignSelf: 'flex-start',
   },
   buttonText: {
     fontSize: 17,
@@ -31,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FormButtonSmall;
+export default CancelButtonSmall;
