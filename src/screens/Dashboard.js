@@ -38,20 +38,22 @@ const Dashboard = ({navigation}) => {
   // };
 
   useEffect(() => {
-    setIsLoading(value => !value);
-    getEvents();
-  }, []);
+    // setIsLoading(value => !value);
+    // getEvents();
+    const unsubscribe = navigation.addListener('focus', () => {
+      getEvents();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const getEvents = async () => {
     const response = await event();
     const eventArray = Object.values(response.data.events);
     setEvents(eventArray);
     getUserResponse(eventArray);
-    setIsLoading(value => !value);
   };
 
   const getUserResponse = events => {
-    console.log(events);
     let userResponse;
     let yesCount = 0,
       noCount = 0,
