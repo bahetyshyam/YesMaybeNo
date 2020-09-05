@@ -145,7 +145,8 @@ const AddMember = ({route, navigation}) => {
         <Modal
           isVisible={addMemberModalVisible}
           animationInTiming={300}
-          animationOutTiming={300}>
+          animationOutTiming={300}
+          onBackdropPress={() => setAddMemberModalVisible(false)}>
           <View>
             <View style={styles.addMemberModal}>
               <Text style={styles.question}>
@@ -155,10 +156,10 @@ const AddMember = ({route, navigation}) => {
                 onPress={() => handleAddMember()}
                 buttonTitle={'Add'}
               />
-              <CanelButtonSmall
+              {/* <CanelButtonSmall
                 onPress={() => toggleModal()}
                 buttonTitle={'Cancel'}
-              />
+              /> */}
             </View>
           </View>
         </Modal>
@@ -261,10 +262,10 @@ const styles = StyleSheet.create({
   //   alignSelf: 'flex-end',
   // },
   question: {
-    fontSize: 20,
+    fontSize: 16,
     paddingHorizontal: '2%',
     paddingVertical: '5%',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
   },
   noResult: {
     flex: 1,

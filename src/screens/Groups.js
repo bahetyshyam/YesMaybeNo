@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
     bottom: '5%',
     right: '7%',
     position: 'absolute',
-    height: 70,
-    width: 70,
+    height: 60,
+    width: 60,
     elevation: 5,
   },
 });

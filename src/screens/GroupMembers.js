@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 import {PLACEHOLDER, PRIMARY} from '../styles/colors';
 import {UserContext} from '../navigation/AppNavigator';
 import Modal from 'react-native-modal';
+import FormButtonSmall from '../components/FormButtonSmall';
 
 const GroupMembers = ({route, navigation}) => {
   const {user} = useContext(UserContext);
@@ -93,6 +94,7 @@ const GroupMembers = ({route, navigation}) => {
   };
 
   const UserSearchView = ({name, email, userId}) => {
+    if (admins.includes(userId)) console.log(userId);
     return (
       <TouchableOpacity
         onLongPress={
@@ -103,6 +105,10 @@ const GroupMembers = ({route, navigation}) => {
           source={require('../assets/images/user.jpg')}
           style={styles.userPicture}
         />
+        {admins.includes(userId) ? (
+          <Icon name="crown" size={25} style={styles.admin} color={PRIMARY} />
+        ) : null}
+
         <View style={styles.infoCard}>
           <Text style={styles.userName}>{name}</Text>
           <Text style={styles.userEmail}>{email}</Text>
@@ -142,27 +148,27 @@ const GroupMembers = ({route, navigation}) => {
         {isLoading ? (
           <LoadingScreen visible={isLoading} />
         ) : (
-          <View style={styles.memberContainer}>
-            <Text style={styles.memberHeading}>Members</Text>
-            <FlatList
-              data={members}
-              renderItem={({item}) => (
-                <UserSearchView
-                  name={item._id === user._id ? 'You' : item.name}
-                  email={item.email}
-                  userId={item._id}
-                />
-              )}
-              keyExtractor={item => item._id}
-              refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                  tintColor={PRIMARY}
-                />
-              }
-            />
-          </View>
+          // <View style={styles.memberContainer}>
+
+          <FlatList
+            data={members}
+            renderItem={({item}) => (
+              <UserSearchView
+                name={item._id === user._id ? 'You' : item.name}
+                email={item.email}
+                userId={item._id}
+              />
+            )}
+            keyExtractor={item => item._id}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor={PRIMARY}
+              />
+            }
+          />
+          // {/* </View> */}
         )}
         <TouchableWithoutFeedback
           onPress={() =>
@@ -175,7 +181,7 @@ const GroupMembers = ({route, navigation}) => {
           <View style={styles.buttonBackground}>
             <Icon
               name="user-plus"
-              size={27}
+              size={25}
               style={styles.icon}
               color={'#FFFFFF'}
             />
@@ -186,19 +192,17 @@ const GroupMembers = ({route, navigation}) => {
           animationInTiming={200}
           animationOutTiming={200}
           onBackdropPress={() => setIsModalVisible(false)}>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <TouchableOpacity
+          <View style={styles.addMemberModal}>
+            {/* <TouchableOpacity
               activeOpacity={0.8}
               style={styles.makeRemoveAdminModal}
               onPress={() => handleMakeRemovePress()}>
               <Text style={styles.modalText}>{selectedMember.modalText}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <FormButtonSmall
+              onPress={() => handleMakeRemovePress()}
+              buttonTitle={'Make Admin'}
+            />
           </View>
         </Modal>
       </SafeAreaView>
@@ -273,8 +277,9 @@ const styles = StyleSheet.create({
     bottom: '5%',
     right: '7%',
     position: 'absolute',
-    height: 70,
-    width: 70,
+    height: 60,
+    width: 60,
+    elevation: 5,
   },
   makeRemoveAdminModal: {
     backgroundColor: '#FFFFFF',
@@ -285,6 +290,17 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 16,
+  },
+  addMemberModal: {
+    paddingHorizontal: '5%',
+    paddingBottom: '5%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 5,
+  },
+  admin: {
+    // justifyContent: 'flex-end',
+    marginLeft: '-5%',
+    marginTop: '-2%',
   },
 });
 
