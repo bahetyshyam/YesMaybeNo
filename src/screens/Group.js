@@ -80,6 +80,7 @@ const Group = ({route, navigation}) => {
                   eventName={item.name}
                   schedule={item.schedule}
                   responses={item.responses}
+                  location={item.location.locationName}
                   navigation={navigation}
                 />
               )}
@@ -96,7 +97,7 @@ const Group = ({route, navigation}) => {
             <View style={styles.buttonBackground}>
               <FAIcon
                 name="calendar-plus"
-                size={35}
+                size={30}
                 style={styles.icon}
                 color={'#FFFFFF'}
               />
@@ -149,8 +150,9 @@ const styles = StyleSheet.create({
     bottom: '5%',
     right: '7%',
     position: 'absolute',
-    height: 70,
-    width: 70,
+    height: 60,
+    width: 60,
+    elevation: 5,
   },
 });
 

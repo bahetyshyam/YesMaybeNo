@@ -117,7 +117,7 @@ const GroupMembers = ({route, navigation}) => {
           <View style={styles.buttonBackground}>
             <Icon
               name="user-plus"
-              size={27}
+              size={25}
               style={styles.icon}
               color={'#FFFFFF'}
             />
@@ -195,8 +195,9 @@ const styles = StyleSheet.create({
     bottom: '5%',
     right: '7%',
     position: 'absolute',
-    height: 70,
-    width: 70,
+    height: 60,
+    width: 60,
+    elevation: 5,
   },
 });
 

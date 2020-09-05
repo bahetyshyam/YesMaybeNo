@@ -61,7 +61,8 @@ const Events = ({navigation}) => {
                 style={styles.noResultImage}
               />
               <Text style={styles.noResultText}>
-                Looks like you are not in any events.
+                Looks like you are not in any events`v{'\n'}Create an event from
+                a group
               </Text>
             </View>
           </SafeAreaView>

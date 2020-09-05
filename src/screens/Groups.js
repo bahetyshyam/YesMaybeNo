@@ -69,7 +69,7 @@ const Groups = ({navigation}) => {
                 <View style={styles.buttonBackground}>
                   <Icon
                     name="group-add"
-                    size={40}
+                    size={32}
                     style={styles.icon}
                     color={'#FFFFFF'}
                   />
@@ -108,7 +108,7 @@ const Groups = ({navigation}) => {
               <View style={styles.buttonBackground}>
                 <Icon
                   name="group-add"
-                  size={35}
+                  size={32}
                   style={styles.icon}
                   color={'#FFFFFF'}
                 />
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
     bottom: '5%',
     right: '7%',
     position: 'absolute',
-    height: 70,
-    width: 70,
+    height: 60,
+    width: 60,
     elevation: 5,
   },
 });
