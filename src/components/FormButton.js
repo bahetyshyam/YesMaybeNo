@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 25,
     alignSelf: 'center',
-    width: '50%',
+    width: '100%',
     height: 55,
     padding: 5,
     justifyContent: 'center',

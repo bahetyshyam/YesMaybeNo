@@ -138,6 +138,7 @@ const GroupMembers = ({route, navigation}) => {
             />
           </TouchableWithoutFeedback>
         </View>
+        <Text style={styles.memberHeading}>Members</Text>
         {isLoading ? (
           <LoadingScreen visible={isLoading} />
         ) : (
@@ -174,7 +175,7 @@ const GroupMembers = ({route, navigation}) => {
           <View style={styles.buttonBackground}>
             <Icon
               name="user-plus"
-              size={30}
+              size={27}
               style={styles.icon}
               color={'#FFFFFF'}
             />
@@ -243,7 +244,7 @@ const styles = StyleSheet.create({
   memberHeading: {
     fontSize: 22,
     fontWeight: 'bold',
-    marginVertical: '5%',
+    marginVertical: '6%',
   },
   userPicture: {
     width: 60,
@@ -264,7 +265,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
-    marginVertical: '20%',
+    marginVertical: '22%',
   },
   buttonBackground: {
     backgroundColor: PRIMARY,

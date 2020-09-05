@@ -75,6 +75,7 @@ const EventCard = props => {
       style={styles.eventCard}
       onPress={() =>
         props.navigation.navigate('Event', {
+          hostedById: props.hostedById,
           groupName: props.groupName,
           numberOfParticipants: props.numberOfParticipants,
           eventId: props.eventId,
@@ -87,7 +88,7 @@ const EventCard = props => {
       </View>
       <View style={styles.horizontalComponent}>
         <LocationLogo style={styles.location} />
-        <Text style={styles.eventLocation}>No location</Text>
+        <Text style={styles.eventLocation}>{props.location}</Text>
       </View>
       <View style={styles.eventData}>
         <View style={styles.verticalComponent}>
@@ -107,6 +108,7 @@ const EventCard = props => {
     </TouchableOpacity>
   );
 };
+
 const styles = StyleSheet.create({
   bubble: {
     width: 55,
@@ -127,9 +129,10 @@ const styles = StyleSheet.create({
     marginBottom: '6%',
   },
   eventHeading: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: 'bold',
     marginRight: '3%',
+    maxWidth: '80%',
   },
   horizontalComponent: {
     flex: 1,
@@ -138,7 +141,7 @@ const styles = StyleSheet.create({
   },
   eventLocation: {
     color: PRIMARY,
-    fontSize: 17,
+    fontSize: 16,
   },
   verticalComponent: {
     marginTop: '2%',

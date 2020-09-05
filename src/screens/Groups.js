@@ -108,7 +108,7 @@ const Groups = ({navigation}) => {
               <View style={styles.buttonBackground}>
                 <Icon
                   name="group-add"
-                  size={40}
+                  size={35}
                   style={styles.icon}
                   color={'#FFFFFF'}
                 />
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#fff',
     padding: '7%',
   },
   heading: {
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
-    marginVertical: '18%',
+    marginVertical: '20%',
   },
   buttonBackground: {
     backgroundColor: PRIMARY,
@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: 70,
     width: 70,
+    elevation: 5,
   },
 });
 

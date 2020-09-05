@@ -1,8 +1,9 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {HEADING, PRIMARY} from '../styles/colors';
-import deleteEvent from '../api/index';
+import {deleteEvent} from '../api/index';
+import {getUser} from '../utils/asynStorage';
 import FormButtonSmall from '../components/FormButtonSmall';
 
 const MoreInformationSheet = ({
@@ -10,13 +11,31 @@ const MoreInformationSheet = ({
   eventName,
   eventId,
   hostedBy,
+  hostedById,
   groupName,
   numberOfParticipants,
-  // navigation,
+  navigation,
 }) => {
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+
+  useEffect(() => {
+    getLoggedInId();
+  }, []);
+
+  const getLoggedInId = async () => {
+    const userLoggedIn = await getUser();
+    if (userLoggedIn._id === hostedById) {
+      setUserLoggedIn(true);
+    }
+  };
+
   const handleDeleteEvent = async () => {
-    const response = await deleteEvent(eventId);
-    // navigation.navigate('Events');
+    try {
+      const response = await deleteEvent(eventId);
+      navigation.navigate('Events');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -32,24 +51,27 @@ const MoreInformationSheet = ({
           backgroundColor: HEADING,
         },
         container: {
-          borderRadius: 10,
+          borderTopLeftRadius: 10,
+          borderTopRightRadius: 10,
           height: '45%',
         },
       }}>
-      <View style={styles.mainContainer}>
+      <ScrollView style={styles.mainContainer}>
         <Text style={styles.eventHeading}>{eventName}</Text>
         <Text style={styles.eventGroup}>Hosted by {hostedBy}</Text>
         <Text style={styles.eventGroup}>Hosted on {groupName}</Text>
         <Text style={styles.eventGroup}>
           Number of participants are {numberOfParticipants}
         </Text>
-        <FormButtonSmall
-          onPress={() => {
-            handleDeleteEvent();
-          }}
-          buttonTitle={'Delete'}
-        />
-      </View>
+        {userLoggedIn ? (
+          <FormButtonSmall
+            onPress={() => {
+              handleDeleteEvent();
+            }}
+            buttonTitle={'Delete'}
+          />
+        ) : null}
+      </ScrollView>
     </RBSheet>
   );
 };
@@ -60,7 +82,7 @@ const styles = StyleSheet.create({
     padding: '10%',
   },
   eventHeading: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: '8%',
   },

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useCallback} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,9 @@ import {
   FlatList,
   RefreshControl,
   TouchableWithoutFeedback,
+  TouchableOpacity,
+  ScrollView,
+  SwitchComponent,
 } from 'react-native';
 import {oneEvent, updateResponse} from '../api/index';
 import Header from '../components/Header';
@@ -27,6 +30,13 @@ import FormButtonSmall from '../components/FormButtonSmall';
 import ResponsesBottomSheet from '../components/ResponsesBottomSheet';
 import MoreInformationSheet from '../components/MoreInformationSheet';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
+import MIcon from 'react-native-vector-icons/dist/MaterialIcons';
+import Modal from 'react-native-modal';
+import AutoScrolling from 'react-native-auto-scrolling';
+import {deleteEvent} from '../api/index';
+import {getUser} from '../utils/asynStorage';
+import CanelButtonSmall from '../components/CancelButtonSmall';
+import {UserContext} from '../navigation/AppNavigator';
 
 const wait = timeout => {
   return new Promise(resolve => {
@@ -36,6 +46,7 @@ const wait = timeout => {
 
 const Event = ({route, navigation}) => {
   const [event, setEvent] = useState([]);
+  const [eventId, setEventId] = useState('');
   const [numberYes, setNumberYes] = useState(0);
   const [numberNo, setNumberNo] = useState(0);
   const [numberMaybe, setNumberMaybe] = useState(0);
@@ -44,50 +55,68 @@ const Event = ({route, navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [checked, setChecked] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+  const [eventInfoModalVisible, setEventInfoModalVisible] = useState(false);
+  const [deleteEventModalVisible, setDeleteEventModalVisible] = useState(false);
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [responseExists, setResponseExists] = useState(false);
+  const {setUser, user} = useContext(UserContext);
 
   useEffect(() => {
     setIsLoading(value => !value);
     getEvent();
-  }, []);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-
-    wait(2000).then(() => setRefreshing(false));
+    // getLoggedInId();
   }, []);
 
   const refRBSheetYes = useRef();
   const refRBSheetMaybe = useRef();
   const refRBSheetNo = useRef();
   const refRBSheetMoreInfo = useRef();
+  const scrollRef = useRef();
 
   let rYes = [],
     rNo = [],
     rMaybe = [];
 
   const getEvent = async () => {
-    const {groupName, numberOfParticipants, eventId} = route.params;
+    const {
+      hostedById,
+      groupName,
+      numberOfParticipants,
+      eventId,
+      groupId,
+    } = route.params;
     const response = await oneEvent(eventId);
     const eventArray = Object.values(response.data.event);
     setEvent(eventArray);
+    console.log(eventArray[0].responses);
+    userResponseExists(eventArray[0].responses);
     setGroupName(groupName);
     setNumberOfParticipants(numberOfParticipants);
+    setEventId(eventId);
+    const userLoggedIn = await getUser();
+    if (userLoggedIn._id === hostedById) {
+      setUserLoggedIn(true);
+    }
     setIsLoading(value => !value);
   };
 
-  const getUserResponse = () => {
-    let userResponse;
-    if (event[0].responses.length === 0) return null;
-    for (response of event[0].responses)
-      if (response.user[0]._id === user._id) {
-        userResponse = response.response;
-        break;
-      }
+  // const getLoggedInId = async () => {
+  //   const host = event[0].createdBy[0]._id;
+  //   const userLoggedIn = await getUser();
+  //   if (userLoggedIn._id === host) {
+  //     setUserLoggedIn(true);
+  //   }
+  // };
 
-    if (userResponse === 'yes') return <Yes />;
-    else if (userResponse === 'no') return <No />;
-    else if (userResponse === 'maybe') return <Maybe />;
-    else return null;
+  const handleDeleteEvent = async () => {
+    try {
+      const response = await deleteEvent(eventId);
+      setEventInfoModalVisible(value => !value);
+      // navigation.navigate('Events');
+      navigation.goBack('Events');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const convertDate = dbDate => {
@@ -173,26 +202,144 @@ const Event = ({route, navigation}) => {
     }
   };
 
-  const DetailedEvent = ({eventName, schedule, hostedBy}) => {
+  const toggleEventInfoModal = () => {
+    setEventInfoModalVisible(!eventInfoModalVisible);
+  };
+
+  const getUserResponse = responses => {
+    let userResponse;
+    if (responses.length === 0) return null;
+    else {
+      for (response of responses)
+        if (response.user[0]._id === user._id) {
+          userResponse = response.response;
+          break;
+        }
+
+      if (userResponse === 'yes') {
+        setResponseExists(true);
+        return <Yes />;
+      } else if (userResponse === 'maybe') {
+        setResponseExists(true);
+        return <Maybe />;
+      } else if (userResponse === 'no') {
+        setResponseExists(true);
+        return <No />;
+      } else return null;
+    }
+  };
+
+  const SwitchComponent = () => {
+    userResponseExists(false);
+  };
+
+  const userResponseExists = responses => {
+    let userResponse;
+    if (responses[0].user.length === 0 || responses.length === 0)
+      setResponseExists(false);
+    else {
+      for (response of responses)
+        if (response.user[0]._id === user._id) {
+          console.log('Found');
+          userResponse = response.response;
+          break;
+        }
+
+      if (userResponse === 'yes') {
+        setResponseExists(true);
+      } else if (userResponse === 'maybe') {
+        setResponseExists(true);
+      } else if (userResponse === 'no') {
+        setResponseExists(true);
+      } else setResponseExists(false);
+    }
+  };
+
+  const UserHasResponded = ({responses}) => {
+    return (
+      <View>
+        <View style={styles.responseComponent}>
+          <Text style={styles.responseHeading}>Your Response</Text>
+          <View style={styles.bubble}>{getUserResponse(responses)}</View>
+        </View>
+        <FormButtonSmall
+          onPress={() => setResponseExists(false)}
+          buttonTitle={'Change Response'}
+        />
+      </View>
+    );
+  };
+
+  const UserHasNotResponded = () => {
+    return (
+      <View>
+        <Text style={styles.responseHeading}>Your Response</Text>
+        <View style={styles.userResponseButtons}>
+          <RadioButton
+            value="yes"
+            status={checked === 'yes' ? 'checked' : 'unchecked'}
+            onPress={() => {
+              setChecked('yes');
+            }}
+            color={PRIMARY}
+          />
+          <Text style={styles.userResponseLabel}>Yes</Text>
+          <RadioButton
+            value="maybe"
+            status={checked === 'maybe' ? 'checked' : 'unchecked'}
+            onPress={() => {
+              setChecked('maybe');
+            }}
+            color={PRIMARY}
+          />
+          <Text style={styles.userResponseLabel}>Maybe</Text>
+          <RadioButton
+            value="no"
+            status={checked === 'no' ? 'checked' : 'unchecked'}
+            onPress={() => {
+              setChecked('no');
+            }}
+            color={PRIMARY}
+          />
+          <Text style={styles.userResponseLabel}>No</Text>
+        </View>
+        <FormButtonSmall
+          onPress={() => {
+            handleUpdateResponse();
+          }}
+          buttonTitle={'Respond'}
+        />
+      </View>
+    );
+  };
+
+  const DetailedEvent = ({
+    eventName,
+    location,
+    schedule,
+    hostedBy,
+    responses,
+  }) => {
     const [day, date] = convertDate(schedule);
 
     return (
       <View style={styles.eventCard}>
         <View style={styles.firstMenu}>
           <Text style={styles.eventHeading}>{eventName}</Text>
-          <TouchableWithoutFeedback onPress={() => moreInformation()}>
+
+          <TouchableOpacity onPress={() => toggleEventInfoModal()}>
             <Icon
               name="ellipsis-h"
               size={30}
               color={PLACEHOLDER}
               style={styles.hamburger}
             />
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.horizontalComponent}>
           <LocationLogo style={styles.location} />
-          <Text style={styles.eventLocation}>No location</Text>
+          <Text style={styles.eventLocation}>{location}</Text>
         </View>
         <View style={styles.eventSchedule}>
           <View style={styles.eventDateComponent}>
@@ -270,66 +417,12 @@ const Event = ({route, navigation}) => {
             </Text>
           )}
         </View>
-        {/* {event[0].responses.length != 0 ? (
-          <View>
-            <Text style={styles.responseHeading}>Your Response</Text>
-            <View style={styles.bubble}>{getUserResponse()}</View>
-            <FormButtonSmall
-              onPress={() => {
-                handleUpdateResponse();
-              }}
-              buttonTitle={'Change'}
-            />
-          </View>
-        ) : ( */}
-        <View>
-          <Text style={styles.responseHeading}>Your Response</Text>
-          <View style={styles.userResponseButtons}>
-            <RadioButton
-              value="yes"
-              status={checked === 'yes' ? 'checked' : 'unchecked'}
-              onPress={() => {
-                setChecked('yes');
-              }}
-              color={PRIMARY}
-            />
-            <Text style={styles.userResponseLabel}>Yes</Text>
-            <RadioButton
-              value="maybe"
-              status={checked === 'maybe' ? 'checked' : 'unchecked'}
-              onPress={() => {
-                setChecked('maybe');
-              }}
-              color={PRIMARY}
-            />
-            <Text style={styles.userResponseLabel}>Maybe</Text>
-            <RadioButton
-              value="no"
-              status={checked === 'no' ? 'checked' : 'unchecked'}
-              onPress={() => {
-                setChecked('no');
-              }}
-              color={PRIMARY}
-            />
-            <Text style={styles.userResponseLabel}>No</Text>
-          </View>
-          <FormButtonSmall
-            onPress={() => {
-              handleUpdateResponse();
-            }}
-            buttonTitle={'Respond'}
-          />
-        </View>
-        {/* )} */}
+        {responseExists ? (
+          <UserHasResponded responses={responses} />
+        ) : (
+          <UserHasNotResponded />
+        )}
 
-        <MoreInformationSheet
-          reference={refRBSheetMoreInfo}
-          eventName={eventName}
-          eventId={route.params.eventId}
-          hostedBy={hostedBy}
-          groupName={groupName}
-          numberOfParticipants={numberOfParticipants}
-        />
         <ResponsesBottomSheet
           reference={refRBSheetYes}
           category={'Yes'}
@@ -351,6 +444,61 @@ const Event = ({route, navigation}) => {
           users={rNo}
           color={PRIMARY}
         />
+        <Modal
+          isVisible={eventInfoModalVisible}
+          animationInTiming={300}
+          animationOutTiming={4000}>
+          <View>
+            <View style={styles.addMemberModal}>
+              <View style={styles.firstMenu}>
+                <Text style={styles.eventHeading}>{eventName}</Text>
+
+                <TouchableWithoutFeedback
+                  onPress={() => toggleEventInfoModal()}>
+                  <MIcon
+                    name="keyboard-arrow-down"
+                    size={30}
+                    color={PLACEHOLDER}
+                    style={styles.hamburger}
+                  />
+                </TouchableWithoutFeedback>
+              </View>
+              <Text style={styles.eventGroup}>Hosted by {hostedBy}</Text>
+              <Text style={styles.eventGroup}>Hosted on {groupName}</Text>
+              <Text style={styles.eventGroup}>
+                Number of participants are {numberOfParticipants}
+              </Text>
+              {userLoggedIn ? (
+                <FormButtonSmall
+                  onPress={() => {
+                    handleDeleteEvent();
+                  }}
+                  buttonTitle={'Delete'}
+                />
+              ) : null}
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          isVisible={deleteEventModalVisible}
+          animationInTiming={300}
+          animationOutTiming={300}>
+          <View>
+            <View style={styles.addMemberModal}>
+              <Text style={styles.question}>
+                Do you wish to delete the event?
+              </Text>
+              <FormButtonSmall
+                onPress={() => handleDeleteEvent()}
+                buttonTitle={'Yes'}
+              />
+              <CanelButtonSmall
+                onPress={() => toggleModal()}
+                buttonTitle={'Cancel'}
+              />
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   };
@@ -367,8 +515,11 @@ const Event = ({route, navigation}) => {
             renderItem={({item}) => (
               <DetailedEvent
                 eventName={item.name}
+                location={item.location.locationName}
                 schedule={item.schedule}
                 hostedBy={item.createdBy[0].name}
+                responses={item.responses}
+                // hostedById={item.createdBy[0]._id}
               />
             )}
             keyExtractor={item => item._id}
@@ -405,9 +556,10 @@ const styles = StyleSheet.create({
     marginBottom: '6%',
   },
   eventHeading: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: '5%',
+    marginBottom: '10%',
+    maxWidth: '90%',
   },
   horizontalComponent: {
     flex: 1,
@@ -416,11 +568,10 @@ const styles = StyleSheet.create({
   },
   eventLocation: {
     color: PRIMARY,
-    fontSize: 18,
+    fontSize: 16,
   },
   eventGroup: {
     fontSize: 14,
-    color: PLACEHOLDER,
     paddingBottom: 7,
   },
   responsesComponent: {
@@ -434,10 +585,10 @@ const styles = StyleSheet.create({
     marginBottom: -5,
   },
   responseHeading: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: HEADING,
-    marginVertical: '3%',
+    marginVertical: '5%',
   },
   eventData: {
     marginLeft: 28,
@@ -514,6 +665,23 @@ const styles = StyleSheet.create({
   firstMenu: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  scrolling: {
+    paddingRight: 30,
+  },
+  addMemberModal: {
+    padding: '5%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 5,
+  },
+  // icon: {
+  //   alignSelf: 'flex-end',
+  // },
+  question: {
+    fontSize: 20,
+    paddingHorizontal: '2%',
+    paddingVertical: '5%',
+    fontWeight: 'bold',
   },
 });
 

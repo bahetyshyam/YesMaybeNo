@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,7 +12,9 @@ import {event} from '../api/index';
 import Header from '../components/Header';
 import LoadingScreen from '../components/LoadingScreen';
 import EventCard from '../components/EventCard';
-import {HEADING, PRIMARY} from '../styles/colors';
+import {HEADING, PRIMARY, SECONDARY, PLACEHOLDER} from '../styles/colors';
+import {useFocusEffect} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 
 const Events = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,9 +22,13 @@ const Events = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    setIsLoading(value => !value);
-    getEvents();
-  }, []);
+    // setIsLoading(value => !value);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getEvents();
+      setIsLoading(value => !value);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -35,7 +41,6 @@ const Events = ({navigation}) => {
     const response = await event();
     const eventArray = Object.values(response.data.events);
     setEvents(eventArray);
-    console.log(eventArray[0].group);
     setIsLoading(value => !value);
   };
 
@@ -43,25 +48,23 @@ const Events = ({navigation}) => {
     <>
       <View style={styles.screenContainer}>
         <Header navigation={navigation} />
-        {events.length === 0 ? (
-          isLoading ? (
-            <LoadingScreen visible={isLoading} />
-          ) : (
-            <SafeAreaView
-              style={{flex: 1, backgroundColor: '#FFFFFF', padding: 20}}>
-              <Text style={styles.heading}>Events</Text>
+        {isLoading ? (
+          <LoadingScreen visible={isLoading} />
+        ) : events.length === 0 ? (
+          <SafeAreaView
+            style={{flex: 1, backgroundColor: '#FFFFFF', padding: 20}}>
+            <Text style={styles.heading}>Events</Text>
 
-              <View style={styles.noResult}>
-                <Image
-                  source={require('../assets/images/no-events.png')}
-                  style={styles.noResultImage}
-                />
-                <Text style={styles.noResultText}>
-                  Looks like you are not in any events.
-                </Text>
-              </View>
-            </SafeAreaView>
-          )
+            <View style={styles.noResult}>
+              <Image
+                source={require('../assets/images/no-events.png')}
+                style={styles.noResultImage}
+              />
+              <Text style={styles.noResultText}>
+                Looks like you are not in any events.
+              </Text>
+            </View>
+          </SafeAreaView>
         ) : (
           <SafeAreaView style={styles.container}>
             <Text style={styles.heading}>Events</Text>
@@ -76,10 +79,12 @@ const Events = ({navigation}) => {
                     groupName={item.group[0].name}
                     numberOfParticipants={item.group[0].members.length}
                     eventId={item._id}
+                    hostedById={item.createdBy}
                     groupId={item.group[0]._id}
                     eventName={item.name}
                     schedule={item.schedule}
                     responses={item.responses}
+                    location={item.location.locationName}
                     navigation={navigation}
                   />
                 )}
