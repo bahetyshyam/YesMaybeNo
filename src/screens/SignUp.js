@@ -81,7 +81,7 @@ const SignUp = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f6f6f6',
     paddingLeft: '5%',
     paddingRight: '5%',
     paddingTop: '20%',
@@ -99,15 +99,15 @@ const styles = StyleSheet.create({
   box: {
     paddingTop: '15%',
     paddingRight: '10%',
-    paddingBottom: '7%',
+    paddingBottom: '5%',
     paddingLeft: '10%',
     backgroundColor: '#fff',
     borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {width: 2, height: 3},
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5,
+    // shadowColor: '#000',
+    // shadowOffset: {width: 2, height: 3},
+    // shadowOpacity: 0.8,
+    // shadowRadius: 2,
+    // elevation: 5,
   },
   label: {
     fontSize: 21,

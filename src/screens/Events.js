@@ -84,6 +84,7 @@ const Events = ({navigation}) => {
                     eventName={item.name}
                     schedule={item.schedule}
                     responses={item.responses}
+                    location={item.location.locationName}
                     navigation={navigation}
                   />
                 )}

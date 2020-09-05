@@ -313,7 +313,13 @@ const Event = ({route, navigation}) => {
     );
   };
 
-  const DetailedEvent = ({eventName, schedule, hostedBy, responses}) => {
+  const DetailedEvent = ({
+    eventName,
+    location,
+    schedule,
+    hostedBy,
+    responses,
+  }) => {
     const [day, date] = convertDate(schedule);
 
     return (
@@ -333,7 +339,7 @@ const Event = ({route, navigation}) => {
 
         <View style={styles.horizontalComponent}>
           <LocationLogo style={styles.location} />
-          <Text style={styles.eventLocation}>No location</Text>
+          <Text style={styles.eventLocation}>{location}</Text>
         </View>
         <View style={styles.eventSchedule}>
           <View style={styles.eventDateComponent}>
@@ -509,6 +515,7 @@ const Event = ({route, navigation}) => {
             renderItem={({item}) => (
               <DetailedEvent
                 eventName={item.name}
+                location={item.location.locationName}
                 schedule={item.schedule}
                 hostedBy={item.createdBy[0].name}
                 responses={item.responses}

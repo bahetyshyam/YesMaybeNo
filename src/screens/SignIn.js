@@ -76,7 +76,7 @@ const SignIn = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f6f6f6',
     paddingLeft: '5%',
     paddingRight: '5%',
     paddingTop: '20%',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   box: {
     paddingTop: '15%',
     paddingRight: '10%',
-    paddingBottom: '7%',
+    paddingBottom: '5%',
     paddingLeft: '10%',
     backgroundColor: '#fff',
     borderRadius: 10,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     // shadowOffset: {width: 0, height: 1},
     // shadowOpacity: 0.8,
     // shadowRadius: 2,
-    elevation: 5,
+    // elevation: 7,
   },
   label: {
     fontSize: 21,

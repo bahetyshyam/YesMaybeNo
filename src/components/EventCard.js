@@ -88,7 +88,7 @@ const EventCard = props => {
       </View>
       <View style={styles.horizontalComponent}>
         <LocationLogo style={styles.location} />
-        <Text style={styles.eventLocation}>No location</Text>
+        <Text style={styles.eventLocation}>{props.location}</Text>
       </View>
       <View style={styles.eventData}>
         <View style={styles.verticalComponent}>
