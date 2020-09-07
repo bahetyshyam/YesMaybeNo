@@ -13,8 +13,6 @@ import Header from '../components/Header';
 import LoadingScreen from '../components/LoadingScreen';
 import EventCard from '../components/EventCard';
 import {HEADING, PRIMARY, SECONDARY, PLACEHOLDER} from '../styles/colors';
-import {useFocusEffect} from '@react-navigation/native';
-import {useIsFocused} from '@react-navigation/native';
 
 const Events = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);

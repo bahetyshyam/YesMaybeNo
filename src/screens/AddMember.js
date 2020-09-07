@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
 import {PRIMARY, HEADING, PLACEHOLDER} from '../styles/colors';
 import FormInput from '../components/FormInput';
@@ -75,6 +76,7 @@ const AddMember = ({route, navigation}) => {
     console.log(userToAdd[0]);
     const response = await addMember(groupId, userToAdd[0]);
     setAddMemberModalVisible(value => !value);
+    ToastAndroid.show('Member Added', ToastAndroid.SHORT);
     navigation.navigate('GroupMembers', {
       groupName: groupName,
       groupId: groupId,

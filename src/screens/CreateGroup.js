@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, ToastAndroid} from 'react-native';
 import {PRIMARY, HEADING, PLACEHOLDER} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import Header from '../components/Header';
@@ -67,6 +67,8 @@ const CreateGroup = ({navigation}) => {
     }
     try {
       const response = await addGroup(groupName, users);
+      ToastAndroid.show('Group Created', ToastAndroid.SHORT);
+      navigation.navigate('Groups');
       console.log('Group added');
     } catch (err) {
       setError(err.response.data.message);

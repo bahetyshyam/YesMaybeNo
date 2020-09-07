@@ -22,9 +22,13 @@ const Groups = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    setIsLoading(value => !value);
-    getGroups();
-  }, []);
+    // setIsLoading(value => !value);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getGroups();
+      setIsLoading(value => !value);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);

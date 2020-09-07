@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  ToastAndroid,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {PLACEHOLDER, HEADING} from '../styles/colors';
@@ -16,6 +17,7 @@ import LoadingScreen from '../components/LoadingScreen';
 import LocationLogo from '../assets/images/Location.svg';
 import {createEvent} from '../api/index';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
+import Toast from 'react-native-root-toast';
 
 const CreateEvent = ({route, navigation}) => {
   const [eventName, setEventName] = useState('');
@@ -30,7 +32,9 @@ const CreateEvent = ({route, navigation}) => {
   const [description, setDescription] = useState('Test Description');
   const [latitude, setLatidude] = useState(0);
   const [longitude, setLongitude] = useState(0);
+  const [showFlash, setShowFlash] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const {groupName, groupId} = route.params;
 
   const handleDateTextShow = eventDate => {
     if (eventDate.length > 0) setDateTextShow(eventDate);
@@ -82,7 +86,7 @@ const CreateEvent = ({route, navigation}) => {
     ).toISOString();
 
     try {
-      setIsLoading(value => !value);
+      // setIsLoading(value => !value);
       const response = await createEvent(
         eventName,
         finalDate,
@@ -92,7 +96,12 @@ const CreateEvent = ({route, navigation}) => {
         description,
         route.params.groupId,
       );
-      setIsLoading(value => !value);
+      ToastAndroid.show('Event Created', ToastAndroid.SHORT);
+      navigation.navigate('Group', {
+        groupName: groupName,
+        groupId: groupId,
+      });
+      // setIsLoading(value => !value);
     } catch (err) {
       console.log(err);
     }
@@ -258,6 +267,14 @@ const styles = StyleSheet.create({
   iconStyle: {
     fontSize: 30,
     color: 'black',
+  },
+  flashMessageBox: {
+    width: '100%',
+    height: '10%',
+    backgroundColor: '#fff',
+  },
+  flashMessageText: {
+    fontSize: 16,
   },
 });
 

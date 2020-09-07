@@ -35,7 +35,7 @@ const Settings = ({navigation}) => {
             <Text style={styles.heading}>Settings</Text>
             <View style={styles.boxContainer}>
               <Image
-                source={require('../assets/images/user-2.png')}
+                source={require('../assets/images/user-3.jpg')}
                 style={styles.userPicture}
               />
               <View style={styles.userInfo}>

@@ -32,9 +32,13 @@ const GroupMembers = ({route, navigation}) => {
   const [selectedMember, setSelectedMember] = useState({});
 
   useEffect(() => {
-    setIsLoading(value => !value);
-    getMembersFirstCall();
-  }, []);
+    // setIsLoading(value => !value);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getMembersFirstCall();
+      setIsLoading(value => !value);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -102,7 +106,7 @@ const GroupMembers = ({route, navigation}) => {
         }
         style={styles.userSearchCard}>
         <Image
-          source={require('../assets/images/user.jpg')}
+          source={require('../assets/images/user-3.jpg')}
           style={styles.userPicture}
         />
         {admins.includes(userId) ? (

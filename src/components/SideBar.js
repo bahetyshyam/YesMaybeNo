@@ -16,7 +16,7 @@ const SideBar = props => {
     <>
       <View style={styles.boxContainer}>
         <Image
-          source={require('../assets/images/user-2.png')}
+          source={require('../assets/images/user-3.jpg')}
           style={styles.userPicture}
         />
         <Text style={styles.userText}>{user.name}</Text>

@@ -23,9 +23,13 @@ const Group = ({route, navigation}) => {
   const {groupName, groupId} = route.params;
 
   useEffect(() => {
-    setIsLoading(value => !value);
-    getEvents();
-  }, []);
+    // setIsLoading(value => !value);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getEvents();
+      setIsLoading(value => !value);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const getEvents = async () => {
     const response = await event();
@@ -91,6 +95,7 @@ const Group = ({route, navigation}) => {
           <TouchableWithoutFeedback
             onPress={() =>
               navigation.navigate('Create Event', {
+                groupName,
                 groupId,
               })
             }>
