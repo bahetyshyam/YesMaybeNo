@@ -15,6 +15,11 @@ import CreateEvent from '../screens/CreateEvent';
 import CreateGroup from '../screens/CreateGroup';
 import AddMember from '../screens/AddMember';
 import Dashboard from '../screens/Dashboard';
+
+import FirstIntroSheet from '../screens/FirstIntroSheet';
+import SecondIntroSheet from '../screens/SecondIntroSheet';
+import ThirdIntroSheet from '../screens/ThirdIntroSheet';
+
 import MaterialIcon from 'react-native-vector-icons/dist/MaterialIcons';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 
@@ -46,6 +51,19 @@ const GroupStack = () => {
       <Stack.Screen name="Event" component={Event} />
       <Stack.Screen name="CreateGroup" component={CreateGroup} />
       <Stack.Screen name="Create Event" component={CreateEvent} />
+    </Stack.Navigator>
+  );
+};
+
+const SettingsHelpStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="Settings"
+      screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="FirstIntroSheet" component={FirstIntroSheet} />
+      <Stack.Screen name="SecondIntroSheet" component={SecondIntroSheet} />
+      <Stack.Screen name="ThirdIntroSheet" component={ThirdIntroSheet} />
     </Stack.Navigator>
   );
 };
@@ -100,7 +118,7 @@ const AppDrawer = () => {
         />
         <Drawer.Screen
           name="Settings"
-          component={Settings}
+          component={SettingsHelpStack}
           options={{
             drawerIcon: config => (
               <Icon name={'cog'} size={30} color="#000000" />

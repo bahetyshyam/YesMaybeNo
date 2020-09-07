@@ -7,11 +7,13 @@ import {
   ScrollView,
   Image,
   Switch,
+  TouchableOpacity,
 } from 'react-native';
 import Header from '../components/Header';
 import {UserContext} from '../navigation/AppNavigator';
 import {HEADING, PRIMARY} from '../styles/colors';
 import {Dimensions} from 'react-native';
+import {TouchableHighlight} from 'react-native-gesture-handler';
 
 const Settings = ({navigation}) => {
   const {user, setUser} = useContext(UserContext);
@@ -72,6 +74,11 @@ const Settings = ({navigation}) => {
               </View>
             </View>
             <Text style={styles.about}>About the app</Text>
+            <TouchableOpacity
+              activeOpacity={0.2}
+              onPress={() => navigation.navigate('FirstIntroSheet')}>
+              <Text style={styles.about}>Help</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </View>
@@ -85,7 +92,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f8f8',
     padding: '7%',
     height: Dimensions.get('window').height,
   },
@@ -124,26 +131,30 @@ const styles = StyleSheet.create({
     paddingLeft: '5%',
   },
   notificationSettings: {
-    paddingHorizontal: '10%',
-    paddingVertical: '10%',
+    paddingHorizontal: '5%',
+    paddingVertical: '5%',
     backgroundColor: '#fff',
     borderRadius: 8,
-    marginBottom: '6%',
-    elevation: 7,
+    marginBottom: '10%',
   },
   setting: {
     marginVertical: '5%',
-    width: '90%',
+    width: '80%',
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   settingsText: {
     fontSize: 16,
   },
   about: {
-    marginVertical: '10%',
-    fontSize: 20,
+    marginTop: '5%',
+    fontSize: 18,
     color: HEADING,
     fontWeight: 'bold',
+    paddingLeft: '5%',
+  },
+  toggle: {
+    marginLeft: '5%',
   },
 });
 
