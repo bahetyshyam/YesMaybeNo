@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "776265301392",
+    "firebase_url": "https://yes-maybe-no-e0f0e.firebaseio.com",
+    "project_id": "yes-maybe-no-e0f0e",
+    "storage_bucket": "yes-maybe-no-e0f0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776265301392:android:87aa517b693dbc2cc58715",
+        "android_client_info": {
+          "package_name": "com.yesmaybeno"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776265301392-ktj94mlfpu03kv8h8e4p0trobfgpejvp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yesmaybeno",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "776265301392-9uql48a5l7lbejp1a35pkq0idc8jhu6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoruOoFf32Uq_PB4WtvyzK83Tl9zlep84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776265301392-9uql48a5l7lbejp1a35pkq0idc8jhu6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
