@@ -78,28 +78,30 @@ const CreateGroup = ({navigation}) => {
 
   const UserSearchView = ({name, email, userId}) => {
     return (
-      <View style={styles.userSearchCard}>
-        <Image
-          source={require('../assets/images/user.jpg')}
-          style={styles.userPicture}
-        />
-        <View style={styles.infoCard}>
-          <Text style={styles.userName}>{name}</Text>
-          <Text style={styles.userEmail}>{email}</Text>
+      <View>
+        <View style={styles.userSearchCard}>
+          <Image
+            source={require('../assets/images/user.jpg')}
+            style={styles.userPicture}
+          />
+          <View style={styles.infoCard}>
+            <Text style={styles.userName}>{name}</Text>
+            <Text style={styles.userEmail}>{email}</Text>
+          </View>
+          <CheckBox
+            style={styles.checkbox}
+            onClick={() => {
+              handleOnClickCheckBox(userId);
+            }}
+            isChecked={
+              usersSearchArray['' + userId + '']
+                ? usersSearchArray['' + userId + '']
+                : false
+            }
+            checkedCheckBoxColor={PRIMARY}
+            uncheckedCheckBoxColor={PLACEHOLDER}
+          />
         </View>
-        <CheckBox
-          style={styles.checkbox}
-          onClick={() => {
-            handleOnClickCheckBox(userId);
-          }}
-          isChecked={
-            usersSearchArray['' + userId + '']
-              ? usersSearchArray['' + userId + '']
-              : false
-          }
-          checkedCheckBoxColor={PRIMARY}
-          uncheckedCheckBoxColor={PLACEHOLDER}
-        />
         <Separator />
       </View>
     );

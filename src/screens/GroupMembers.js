@@ -19,6 +19,7 @@ import {PLACEHOLDER, PRIMARY} from '../styles/colors';
 import {UserContext} from '../navigation/AppNavigator';
 import Modal from 'react-native-modal';
 import FormButtonSmall from '../components/FormButtonSmall';
+import Separator from '../components/Separator';
 
 const GroupMembers = ({route, navigation}) => {
   const {user} = useContext(UserContext);
@@ -100,24 +101,27 @@ const GroupMembers = ({route, navigation}) => {
   const UserSearchView = ({name, email, userId}) => {
     if (admins.includes(userId)) console.log(userId);
     return (
-      <TouchableOpacity
-        onLongPress={
-          isCurrentUserAdmin ? () => handleLongPress(userId) : undefined
-        }
-        style={styles.userSearchCard}>
-        <Image
-          source={require('../assets/images/user-3.jpg')}
-          style={styles.userPicture}
-        />
-        {admins.includes(userId) ? (
-          <Icon name="crown" size={25} style={styles.admin} color={PRIMARY} />
-        ) : null}
+      <View>
+        <TouchableOpacity
+          onLongPress={
+            isCurrentUserAdmin ? () => handleLongPress(userId) : undefined
+          }
+          style={styles.userSearchCard}>
+          <Image
+            source={require('../assets/images/user-3.jpg')}
+            style={styles.userPicture}
+          />
+          {admins.includes(userId) ? (
+            <Icon name="crown" size={25} style={styles.admin} color={PRIMARY} />
+          ) : null}
 
-        <View style={styles.infoCard}>
-          <Text style={styles.userName}>{name}</Text>
-          <Text style={styles.userEmail}>{email}</Text>
-        </View>
-      </TouchableOpacity>
+          <View style={styles.infoCard}>
+            <Text style={styles.userName}>{name}</Text>
+            <Text style={styles.userEmail}>{email}</Text>
+          </View>
+        </TouchableOpacity>
+        <Separator />
+      </View>
     );
   };
 
@@ -230,6 +234,7 @@ const styles = StyleSheet.create({
   },
   userSearchCard: {
     marginTop: '5%',
+    marginBottom: '3%',
     flexDirection: 'row',
   },
   groupPicture: {

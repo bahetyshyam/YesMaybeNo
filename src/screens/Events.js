@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: 'bold',
     marginBottom: '6%',
-    paddingLeft: '9%',
+    // paddingLeft: '9%',
   },
   noResult: {
     flex: 1,

@@ -1,5 +1,12 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 import {PRIMARY, HEADING, PLACEHOLDER, SEPARATOR} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
@@ -9,8 +16,80 @@ import {signIn} from '../api/index';
 import {storeToken, storeUser} from '../utils/asynStorage';
 import LoadingScreen from '../components/LoadingScreen';
 import HeaderLogo from '../assets/images/logo.svg';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-community/google-signin';
 
 const SignInWithGoogle = ({navigation}) => {
+  const [userInfo, setUserInfo] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '776265301392-9uql48a5l7lbejp1a35pkq0idc8jhu6d.apps.googleusercontent.com', // client ID of type WEB for your server(needed to verify user ID and offline access)
+      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+      forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
+      accountName: '', // [Android] specifies an account name on the device that should be used
+    });
+  }, []);
+
+  const signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      setUserInfo(userInfo);
+      // console.log(userInfo);
+      setError(null);
+      setIsLoggedIn(true);
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // when user cancels sign in process,
+        Alert.alert('Process Cancelled');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // when in progress already
+        Alert.alert('Process in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // when play services not available
+        Alert.alert('Play services are not available');
+      } else {
+        // some other error
+        Alert.alert('Something else went wrong... ', error.toString());
+        setError(error);
+      }
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      setIsLoggedIn(false);
+    } catch (error) {
+      Alert.alert('Something else went wrong... ', error.toString());
+    }
+  };
+
+  const getCurrentUserInfo = async () => {
+    try {
+      const userInfo = await GoogleSignin.signInSilently();
+      setUserInfo(userInfo);
+      console.log(userInfo);
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+        // when user hasn't signed in yet
+        Alert.alert('Please Sign in');
+        setIsLoggedIn(false);
+      } else {
+        Alert.alert('Something else went wrong... ', error.toString());
+        setIsLoggedIn(false);
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.logoView}>
@@ -23,7 +102,9 @@ const SignInWithGoogle = ({navigation}) => {
       />
 
       <View style={styles.buttons}>
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => signIn()}>
           <Text style={styles.buttonText}>Sign in with Google</Text>
           <View style={styles.logoBackground}>
             <Image

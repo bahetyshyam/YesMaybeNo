@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
   underline: {
     borderBottomColor: SEPARATOR,
     borderBottomWidth: 1,
-    marginVertical: '2%',
   },
 });
 

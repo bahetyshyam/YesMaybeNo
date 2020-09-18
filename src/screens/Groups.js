@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 35,
     fontWeight: 'bold',
-    marginBottom: '13%',
-    paddingLeft: '9%',
+    marginBottom: '5%',
+    // paddingLeft: '9%',
   },
   noResult: {
     flex: 1,

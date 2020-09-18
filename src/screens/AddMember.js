@@ -65,8 +65,8 @@ const AddMember = ({route, navigation}) => {
             <Text style={styles.userName}>{name}</Text>
             <Text style={styles.userEmail}>{email}</Text>
           </View>
-          <Separator />
         </View>
+        <Separator />
       </TouchableOpacity>
     );
   };
