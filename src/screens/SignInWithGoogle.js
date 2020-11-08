@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Dimensions
 } from 'react-native';
 import {PRIMARY, HEADING, PLACEHOLDER, SEPARATOR} from '../styles/colors';
 import FormInput from '../components/FormInput';
@@ -15,6 +16,7 @@ import {UserContext} from '../navigation/AppNavigator';
 import {signIn} from '../api/index';
 import {storeToken, storeUser} from '../utils/asynStorage';
 import LoadingScreen from '../components/LoadingScreen';
+import MadeWithLove from '../components/MadeWithLove';
 import HeaderLogo from '../assets/images/logo.svg';
 import {
   GoogleSignin,
@@ -97,12 +99,11 @@ const SignInWithGoogle = ({navigation}) => {
       </View>
 
       <Image
-        source={require('../assets/images/login.png')}
+        source={require('../assets/images/auth.png')}
         style={styles.loginImage}
       />
-
-      <View style={styles.buttons}>
-        <TouchableOpacity
+      <View style={styles.buttons}> 
+        {/* <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => signIn()}>
           <Text style={styles.buttonText}>Sign in with Google</Text>
@@ -130,15 +131,27 @@ const SignInWithGoogle = ({navigation}) => {
                 fontWeight: 'bold',
                 color: PLACEHOLDER,
               }}>
-              Or
+              or
             </Text>
           </View>
           <View style={{flex: 1, height: 2, backgroundColor: SEPARATOR}} />
-        </View>
+        </View> */}
 
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
           <Text style={styles.buttonTextEmail}>Sign in with email</Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => navigation.navigate('SignIn')}>
+          <Text style={styles.buttonText}>Sign in with mail</Text>
+          <View style={styles.logoBackground}>
+            <Image
+              source={require('../assets/images/email.png')}
+              style={styles.googleLogo}
+            />
+          </View>
         </TouchableOpacity>
+        <MadeWithLove />
       </View>
     </View>
   );
@@ -148,17 +161,18 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
     alignItems: 'center',
+    height: Dimensions.get('window').height,
+    paddingTop: '5%'
   },
   logoView: {
     width: 310,
     height: 140,
+    alignSelf: 'center'
   },
   loginImage: {
-    width: 300,
-    height: 400,
-    marginVertical: '-5%',
+    width: 400,
+    height: 300,
   },
   buttons: {
     paddingVertical: '10%',
@@ -175,35 +189,36 @@ const styles = StyleSheet.create({
     paddingVertical: '5%',
     paddingRight: '5%',
     justifyContent: 'space-between',
-    borderRadius: 10,
-    backgroundColor: PRIMARY,
-    elevation: 5,
+    borderRadius: 80,
+    borderColor: SEPARATOR,
+    borderWidth: 3,
+    backgroundColor: '#fff',
     flexDirection: 'row',
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
+    color: HEADING,
   },
   buttonTextEmail: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: PRIMARY,
   },
-  logoBackground: {
-    backgroundColor: '#fff',
-    width: '30%',
-    height: '100%',
-    borderRadius: 5,
-    marginLeft: '20%',
-    elevation: 5,
-  },
+  // logoBackground: {
+  //   backgroundColor: '#fff',
+  //   width: '30%',
+  //   height: '100%',
+  //   borderRadius: 5,
+  //   marginLeft: '20%',
+  //   elevation: 5,
+  // },
   googleLogo: {
     width: 30,
     height: 30,
     alignSelf: 'center',
-    marginTop: '15%',
-  },
+    marginLeft: '20%'
+  }
 });
 
 export default SignInWithGoogle;

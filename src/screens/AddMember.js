@@ -124,12 +124,12 @@ const AddMember = ({route, navigation}) => {
         {searchResults.length === 0 ? (
           <View style={styles.noResult}>
             <Image
-              source={require('../assets/images/search.png')}
+              source={require('../assets/images/search-result.png')}
               style={styles.noResultImage}
             />
-            {/* <Text style={styles.noResultText}>
-              Looks like you are not in any groups.
-            </Text> */}
+            <Text style={styles.noResultText}>
+              It's all empty in here
+            </Text>
           </View>
         ) : (
           <FlatList
@@ -142,6 +142,7 @@ const AddMember = ({route, navigation}) => {
               />
             )}
             keyExtractor={item => item._id}
+            scrollEnabled={false}
           />
         )}
         <Modal
@@ -152,7 +153,7 @@ const AddMember = ({route, navigation}) => {
           <View>
             <View style={styles.addMemberModal}>
               <Text style={styles.question}>
-                Do you wish to add {userToAdd[1]} to {groupName}?
+                You sure you wanna add {userToAdd[1]} to {groupName}?
               </Text>
               <FormButtonSmall
                 onPress={() => handleAddMember()}
@@ -275,9 +276,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noResultImage: {
-    width: 250,
+    width: 400,
     height: 250,
   },
+  noResultText: {
+    marginTop: '5%',
+    fontSize: 14
+  }
 });
 
 export default AddMember;

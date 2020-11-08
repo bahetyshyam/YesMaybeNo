@@ -8,6 +8,7 @@ import {UserContext} from '../navigation/AppNavigator';
 import {signUp} from '../api/index';
 import {storeToken, storeUser} from '../utils/asynStorage';
 import LoadingScreen from '../components/LoadingScreen';
+import HeaderLogo from '../assets/images/logo.svg';
 
 const SignUp = ({navigation}) => {
   const [name, setName] = useState('');
@@ -40,6 +41,9 @@ const SignUp = ({navigation}) => {
   return (
     <View style={styles.container}>
       <LoadingScreen visible={isLoading} />
+      <View style={styles.logoView}>
+        <HeaderLogo />
+      </View>
       <Text style={styles.heading}>Get started</Text>
       <View style={styles.box}>
         <Text style={styles.label}>Name</Text>
@@ -84,14 +88,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
     paddingLeft: '5%',
     paddingRight: '5%',
-    paddingTop: '20%',
     paddingBottom: '20%',
     justifyContent: 'center',
   },
   heading: {
     marginLeft: 15,
     marginBottom: 15,
-    fontSize: 32,
+    fontSize: 25,
     fontWeight: 'bold',
     color: PRIMARY,
     paddingHorizontal: '5%',
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
     // elevation: 5,
   },
   label: {
-    fontSize: 21,
+    fontSize: 16,
   },
   signIn: {
     marginTop: 20,
@@ -118,14 +121,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   signInText: {
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: 'bold',
     color: HEADING,
   },
   signInNav: {
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: 'bold',
     color: PRIMARY,
+  },
+  logoView: {
+    width: 310,
+    height: 140,
+    alignSelf: 'center'
   },
 });
 

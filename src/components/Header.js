@@ -13,7 +13,7 @@ const Header = ({navigation}) => {
         <Icon
           name="bars"
           size={25}
-          color={PLACEHOLDER}
+          color={'#848484'}
           style={styles.hamburger}
         />
       </TouchableOpacity>
@@ -28,10 +28,10 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 60,
-    padding: 15,
+    height: 70,
+    padding: '5%',
     backgroundColor: '#fff',
-    elevation: 3,
+    // elevation: 3,
   },
   hamburgerView: {},
   logoView: {

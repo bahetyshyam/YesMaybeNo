@@ -15,7 +15,7 @@ import {
 import {groupMembers, updateAdmin, group} from '../api/index';
 import Header from '../components/Header';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
-import {PLACEHOLDER, PRIMARY} from '../styles/colors';
+import {HEADING, PLACEHOLDER, PRIMARY} from '../styles/colors';
 import {UserContext} from '../navigation/AppNavigator';
 import Modal from 'react-native-modal';
 import FormButtonSmall from '../components/FormButtonSmall';
@@ -189,7 +189,7 @@ const GroupMembers = ({route, navigation}) => {
           <View style={styles.buttonBackground}>
             <Icon
               name="user-plus"
-              size={25}
+              size={22}
               style={styles.icon}
               color={'#FFFFFF'}
             />
@@ -224,13 +224,13 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#fff',
     padding: '7%',
   },
   heading: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginLeft: '3%',
+    marginLeft: '5%',
   },
   userSearchCard: {
     marginTop: '5%',
@@ -255,9 +255,9 @@ const styles = StyleSheet.create({
     marginTop: '8%',
   },
   memberHeading: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginVertical: '6%',
+    marginVertical: '5%',
   },
   userPicture: {
     width: 60,
@@ -270,7 +270,8 @@ const styles = StyleSheet.create({
     marginTop: '2%',
   },
   userName: {
-    fontSize: 17,
+    fontSize: 16,
+    color: HEADING
   },
   userEmail: {
     fontSize: 13,
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
-    marginVertical: '22%',
+    marginVertical: '28%',
   },
   buttonBackground: {
     backgroundColor: PRIMARY,
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
   addMemberModal: {
     paddingHorizontal: '5%',
     paddingBottom: '5%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#161616',
     borderRadius: 5,
   },
   admin: {

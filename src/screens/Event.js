@@ -61,6 +61,21 @@ const Event = ({route, navigation}) => {
   const [responseExists, setResponseExists] = useState(false);
   const {setUser, user} = useContext(UserContext);
 
+  const DATA = [
+    {
+      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: 'First Item',
+    },
+    {
+      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+      title: 'Second Item',
+    },
+    {
+      id: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Third Item',
+    },
+  ];
+
   useEffect(() => {
     setIsLoading(value => !value);
     getEvent();
@@ -107,6 +122,14 @@ const Event = ({route, navigation}) => {
   //     setUserLoggedIn(true);
   //   }
   // };
+
+  const Item = ({title}) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{title}</Text>
+    </View>
+  );
+
+  const renderItem = ({item}) => <Item title={item.title} />;
 
   const handleDeleteEvent = async () => {
     try {
@@ -330,7 +353,7 @@ const Event = ({route, navigation}) => {
           <TouchableOpacity onPress={() => toggleEventInfoModal()}>
             <Icon
               name="ellipsis-h"
-              size={30}
+              size={25}
               color={PLACEHOLDER}
               style={styles.hamburger}
             />
@@ -338,7 +361,13 @@ const Event = ({route, navigation}) => {
         </View>
 
         <View style={styles.horizontalComponent}>
-          <LocationLogo style={styles.location} />
+          {/* <LocationLogo style={styles.location} /> */}
+          <Icon
+          name="map-marker-alt"
+          size={22}
+          color={'#000000'}
+          style={styles.hamburger}
+        />
           <Text style={styles.eventLocation}>{location}</Text>
         </View>
         <View style={styles.eventSchedule}>
@@ -468,6 +497,13 @@ const Event = ({route, navigation}) => {
               <Text style={styles.eventGroup}>
                 Number of participants are {numberOfParticipants}
               </Text>
+              <View style={styles.container1}>
+                <FlatList
+                  data={DATA}
+                  renderItem={renderItem}
+                  keyExtractor={item => item.id}
+                />
+              </View>
               {userLoggedIn ? (
                 <FormButtonSmall
                   onPress={() => {
@@ -537,7 +573,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#fff',
     padding: 20,
   },
   details: {
@@ -550,29 +586,31 @@ const styles = StyleSheet.create({
   },
   eventCard: {
     paddingHorizontal: '10%',
-    paddingVertical: '6%',
-    backgroundColor: '#fff',
+    paddingVertical: '10%',
+    backgroundColor: '#FFF4F4',
     borderRadius: 7,
     marginBottom: '6%',
   },
   eventHeading: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: '10%',
+    marginBottom: '7%',
     maxWidth: '90%',
   },
   horizontalComponent: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: '3%'
   },
   eventLocation: {
     color: PRIMARY,
-    fontSize: 16,
+    fontSize: 15,
   },
   eventGroup: {
     fontSize: 14,
     paddingBottom: 7,
+    color: HEADING
   },
   responsesComponent: {
     flex: 1,
@@ -585,7 +623,7 @@ const styles = StyleSheet.create({
     marginBottom: -5,
   },
   responseHeading: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: HEADING,
     marginVertical: '5%',
@@ -594,13 +632,13 @@ const styles = StyleSheet.create({
     marginLeft: 28,
   },
   eventResponse: {
-    fontSize: 16,
+    fontSize: 15,
   },
   yetToRespond: {
     textAlign: 'right',
     marginVertical: 10,
     color: PLACEHOLDER,
-    fontSize: 13,
+    fontSize: 14,
   },
   userResponseButtons: {
     flexDirection: 'row',
@@ -636,6 +674,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 10,
     borderBottomLeftRadius: 5,
     borderTopLeftRadius: 5,
+    marginTop: '5%'
   },
   eventTimeComponent: {
     padding: '5%',
@@ -643,24 +682,27 @@ const styles = StyleSheet.create({
     borderLeftWidth: 10,
     borderBottomLeftRadius: 5,
     borderTopLeftRadius: 5,
+    marginTop: '5%'
   },
   eventDay: {
     fontWeight: 'bold',
     fontSize: 14,
-    color: HEADING,
+    color: PLACEHOLDER,
   },
   eventDate: {
     fontWeight: 'bold',
     fontSize: 16,
+    color: HEADING
   },
   eventTime: {
     fontWeight: 'bold',
     fontSize: 16,
+    color: HEADING
   },
   eventDuration: {
     fontWeight: 'bold',
     fontSize: 14,
-    color: HEADING,
+    color: PLACEHOLDER
   },
   firstMenu: {
     flexDirection: 'row',
@@ -671,7 +713,7 @@ const styles = StyleSheet.create({
   },
   addMemberModal: {
     padding: '5%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#fff',
     borderRadius: 5,
   },
   // icon: {
@@ -683,6 +725,21 @@ const styles = StyleSheet.create({
     paddingVertical: '5%',
     fontWeight: 'bold',
   },
+  container1: {
+    flex: 1,
+  },
+  item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+  },
+  hamburger: {
+    marginRight: '3%'
+  }
 });
 
 export default Event;

@@ -10,6 +10,7 @@ import YesMaybeNo from '../assets/images/Yes-Maybe-No.svg';
 import {PRIMARY, HEADING, PLACEHOLDER} from '../styles/colors';
 import LocationLogo from '../assets/images/Location.svg';
 import {UserContext} from '../navigation/AppNavigator';
+import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 
 const EventCard = props => {
   const {setUser, user} = useContext(UserContext);
@@ -87,7 +88,13 @@ const EventCard = props => {
         <View style={styles.bubble}>{maxResponses(props.responses)}</View>
       </View>
       <View style={styles.horizontalComponent}>
-        <LocationLogo style={styles.location} />
+        {/* <LocationLogo style={styles.location} /> */}
+        <Icon
+          name="map-marker-alt"
+          size={22}
+          color={'#000'}
+          style={styles.hamburger}
+        />
         <Text style={styles.eventLocation}>{props.location}</Text>
       </View>
       <View style={styles.eventData}>
@@ -124,15 +131,16 @@ const styles = StyleSheet.create({
   eventCard: {
     paddingHorizontal: '10%',
     paddingVertical: '2%',
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF4F4',
     borderRadius: 8,
     marginBottom: '6%',
   },
   eventHeading: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: 'bold',
     marginRight: '3%',
     maxWidth: '80%',
+    marginVertical: '5%'
   },
   horizontalComponent: {
     flex: 1,
@@ -141,19 +149,19 @@ const styles = StyleSheet.create({
   },
   eventLocation: {
     color: PRIMARY,
-    fontSize: 16,
+    fontSize: 15,
   },
   verticalComponent: {
-    marginTop: '2%',
-    marginBottom: '8%',
+    marginTop: '5%',
+    marginBottom: '5%',
   },
   eventSchedule: {
-    fontSize: 17,
+    fontSize: 16,
     paddingTop: 5,
     fontWeight: 'bold',
   },
   eventGroup: {
-    fontSize: 16,
+    fontSize: 15,
     color: PLACEHOLDER,
   },
   responseComponent: {
@@ -163,9 +171,9 @@ const styles = StyleSheet.create({
     marginTop: '2%',
   },
   eventResponse: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: HEADING,
+    color: HEADING
   },
   eventData: {
     marginLeft: 28,
@@ -179,6 +187,9 @@ const styles = StyleSheet.create({
     height: 45,
     marginLeft: -15,
   },
+  hamburger: {
+    marginRight: '3%'
+  }
 });
 
 export default EventCard;

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, Image, ToastAndroid} from 'react-native';
+import {StyleSheet, Text, View, Image, ToastAndroid, ScrollView} from 'react-native';
 import {PRIMARY, HEADING, PLACEHOLDER} from '../styles/colors';
 import FormInput from '../components/FormInput';
 import Header from '../components/Header';
@@ -99,7 +99,7 @@ const CreateGroup = ({navigation}) => {
                 : false
             }
             checkedCheckBoxColor={PRIMARY}
-            uncheckedCheckBoxColor={PLACEHOLDER}
+            uncheckedCheckBoxColor={'#2F2F2F'}
           />
         </View>
         <Separator />
@@ -108,7 +108,7 @@ const CreateGroup = ({navigation}) => {
   };
 
   return (
-    <View style={styles.screenContainer}>
+    <>
       <Header navigation={navigation} />
       <View style={styles.container}>
         <Text style={styles.heading}>Create a group</Text>
@@ -130,7 +130,7 @@ const CreateGroup = ({navigation}) => {
           <View style={styles.searchIconBackground}>
             <Icon
               name="search"
-              size={25}
+              size={20}
               color={'#FFFFFF'}
               style={styles.searchIcon}
             />
@@ -139,11 +139,11 @@ const CreateGroup = ({navigation}) => {
         {searchResults.length === 0 ? (
           <View style={styles.noResult}>
             <Image
-              source={require('../assets/images/search.png')}
+              source={require('../assets/images/search-result.png')}
               style={styles.noResultImage}
             />
             {/* <Text style={styles.noResultText}>
-              Looks like you are not in any groups.
+              It's all empty in here
             </Text> */}
           </View>
         ) : (
@@ -166,7 +166,7 @@ const CreateGroup = ({navigation}) => {
           buttonTitle={'Create'}
         />
       </View>
-    </View>
+    </>
   );
 };
 
@@ -176,25 +176,25 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    paddingVertical: '10%',
+    backgroundColor: '#fff',
+    paddingVertical: '5%',
     paddingHorizontal: '8%',
   },
   heading: {
-    marginBottom: '12%',
-    fontSize: 32,
+    marginBottom: '10%',
+    fontSize: 30,
     fontWeight: 'bold',
   },
   label: {
-    fontSize: 18,
+    fontSize: 16,
   },
   addMembersText: {
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 22,
   },
   searchBox: {
     flexDirection: 'row',
-    height: 55,
+    height: 50,
     backgroundColor: '#F0F0F0',
     alignItems: 'center',
     marginVertical: '5%',
@@ -203,13 +203,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   searchIcon: {
-    marginVertical: '17%',
-    marginHorizontal: '30%',
+    marginVertical: '20%',
+    marginHorizontal: '35%',
   },
   searchPlaceholder: {
-    color: HEADING,
-    fontSize: 17,
-    paddingLeft: '10%',
+    // color: '#EDEDED',
+    fontSize: 15,
+    marginLeft: '5%'
   },
   searchIconBackground: {
     backgroundColor: PRIMARY,
@@ -237,16 +237,17 @@ const styles = StyleSheet.create({
     marginTop: '2%',
   },
   userName: {
-    fontSize: 17,
-    color: HEADING,
+    fontSize: 16,
+    // color: '#EDEDED',
   },
   userEmail: {
-    fontSize: 13,
+    fontSize: 12,
     color: PLACEHOLDER,
   },
   checkbox: {
     flex: 1,
     alignItems: 'flex-end',
+    marginTop: '5%'
   },
   noResult: {
     flex: 1,
@@ -254,9 +255,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noResultImage: {
-    width: 200,
-    height: 200,
+    width: 400,
+    height: 250,
   },
+  noResultText: {
+    marginTop: '5%'
+  }
 });
 
 export default CreateGroup;

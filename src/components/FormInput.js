@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     fontSize: 16,
+    color: '#000'
   },
 });
 

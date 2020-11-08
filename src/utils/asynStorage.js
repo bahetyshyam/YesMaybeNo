@@ -52,3 +52,23 @@ export const removeUser = async () => {
     // remove error
   }
 };
+
+export const storeLaunched = async () => {
+  try {
+    await AsyncStorage.setItem('alreadyLaunched', 'true');
+  } catch (error) {
+    return;
+  }
+};
+
+export const getLaunched = async () => {
+  try {
+    const token = await AsyncStorage.getItem('alreadyLaunched');
+    console.log(token);
+    if (token) {
+      return token;
+    }
+  } catch (error) {
+    // error reading value
+  }
+};

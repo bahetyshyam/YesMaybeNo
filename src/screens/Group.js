@@ -15,7 +15,7 @@ import Header from '../components/Header';
 import EventCard from '../components/EventCard';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import FAIcon from 'react-native-vector-icons/dist/FontAwesome5';
-import {PLACEHOLDER, PRIMARY} from '../styles/colors';
+import {PLACEHOLDER, PRIMARY, HEADING} from '../styles/colors';
 
 const Group = ({route, navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +35,18 @@ const Group = ({route, navigation}) => {
     const response = await event();
     const eventArray = Object.values(response.data.events);
 
-    const filteredEventArray = eventArray.filter(
+    const currentEvents = [];
+    let currentTime = new Date();
+    let eventTime;
+
+    for (let e of eventArray) {
+      eventTime = new Date(e.schedule);
+      console.log(currentTime);
+      if (eventTime >= currentTime)
+        currentEvents.push(e);
+    }
+
+    const filteredEventArray = currentEvents.filter(
       item => item.group[0]._id === groupId,
     );
     setEvents(filteredEventArray);
@@ -73,6 +84,16 @@ const Group = ({route, navigation}) => {
 
           {isLoading ? (
             <LoadingScreen visible={isLoading} />
+          ) : events.length === 0 ? (
+            <View style={styles.noResult}>
+              <Image
+                source={require('../assets/images/traveling.png')}
+                style={styles.noResultImage}
+              />
+              <Text style={styles.noResultText}>
+                Looks like there are no upcoming events in this group
+              </Text>
+            </View>
           ) : (
             <FlatList
               data={events}
@@ -102,7 +123,7 @@ const Group = ({route, navigation}) => {
             <View style={styles.buttonBackground}>
               <FAIcon
                 name="calendar-plus"
-                size={30}
+                size={27}
                 style={styles.icon}
                 color={'#FFFFFF'}
               />
@@ -120,13 +141,13 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#fff',
     padding: 20,
   },
   heading: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: 'bold',
-    marginLeft: '3%',
+    marginLeft: '5%',
   },
   userPicture: {
     width: 80,
@@ -147,7 +168,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
-    marginVertical: '20%',
+    marginVertical: '23%',
   },
   buttonBackground: {
     backgroundColor: PRIMARY,
@@ -158,6 +179,23 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     elevation: 5,
+  },
+  noResult: {
+    flex: 1,
+    // justifyContent: 'center',
+    marginTop: '10%',
+    alignItems: 'center',
+  },
+  noResultImage: {
+    width: 400,
+    height: 300,
+  },
+  noResultText: {
+    fontSize: 15,
+    marginVertical: '10%',
+    color: HEADING,
+    textAlign: 'center',
+    paddingHorizontal: '10%'
   },
 });
 

@@ -35,14 +35,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   groupNameText: {
-    fontSize: 19,
+    fontSize: 17,
     color: HEADING,
     paddingHorizontal: '5%',
   },
   userPicture: {
     width: 70,
     height: 70,
-    borderRadius: 70,
+    borderRadius: 50,
   },
   underline: {
     borderBottomColor: SEPARATOR,

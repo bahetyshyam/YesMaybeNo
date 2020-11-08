@@ -10,7 +10,7 @@ const ResponsesCircularProgress = ({number, color}) => {
       backgroundWidth={5}
       fill={number}
       tintColor={color}
-      backgroundColor="#F0F0F0"
+      backgroundColor="#DCDCDC"
       rotation={0}
       duration={1500}
     />

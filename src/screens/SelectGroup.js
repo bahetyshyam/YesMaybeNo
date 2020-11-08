@@ -51,39 +51,9 @@ const Groups = ({navigation}) => {
     <>
       <View style={styles.screenContainer}>
         <Header navigation={navigation} />
-        {groups.length === 0 ? (
-          isLoading ? (
-            <LoadingScreen visible={isLoading} />
-          ) : (
-            <SafeAreaView
-              style={{flex: 1, backgroundColor: '#FFFFFF', padding: 20}}>
-              <Text style={styles.heading}>Groups</Text>
 
-              <View style={styles.noResult}>
-                <Image
-                  source={require('../assets/images/team.png')}
-                  style={styles.noResultImage}
-                />
-                <Text style={styles.noResultText}>
-                  Looks like you are not in any groups.
-                </Text>
-              </View>
-              <TouchableWithoutFeedback
-                onPress={() => navigation.navigate('CreateGroup')}>
-                <View style={styles.buttonBackground}>
-                  <Icon
-                    name="group-add"
-                    size={40}
-                    style={styles.icon}
-                    color={'#FFFFFF'}
-                  />
-                </View>
-              </TouchableWithoutFeedback>
-            </SafeAreaView>
-          )
-        ) : (
           <SafeAreaView style={styles.container}>
-            <Text style={styles.heading}>Groups</Text>
+            <Text style={styles.heading}>Choose a group</Text>
             {isLoading ? (
               <LoadingScreen visible={isLoading} />
             ) : (
@@ -107,19 +77,7 @@ const Groups = ({navigation}) => {
                 }
               />
             )}
-            <TouchableWithoutFeedback
-              onPress={() => navigation.navigate('CreateGroup')}>
-              <View style={styles.buttonBackground}>
-                <Icon
-                  name="group-add"
-                  size={30}
-                  style={styles.icon}
-                  color={'#FFFFFF'}
-                />
-              </View>
-            </TouchableWithoutFeedback>
           </SafeAreaView>
-        )}
       </View>
     </>
   );
@@ -135,7 +93,7 @@ const styles = StyleSheet.create({
     padding: '7%',
   },
   heading: {
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
     marginBottom: '5%',
     // paddingLeft: '9%',
@@ -157,7 +115,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     alignSelf: 'center',
-    marginVertical: '23%',
+    marginVertical: '22%',
   },
   buttonBackground: {
     backgroundColor: PRIMARY,
@@ -165,8 +123,8 @@ const styles = StyleSheet.create({
     bottom: '5%',
     right: '7%',
     position: 'absolute',
-    height: 60,
-    width: 60,
+    height: 70,
+    width: 70,
     elevation: 5,
   },
 });

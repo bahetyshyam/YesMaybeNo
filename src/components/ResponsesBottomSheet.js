@@ -8,17 +8,19 @@ import Separator from '../components/Separator';
 const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
   const UserSearchView = ({name, email}) => {
     return (
+      <>
       <View style={styles.userSearchCard}>
         <Image
-          source={require('../assets/images/user.jpg')}
+          source={require('../assets/images/user-3.jpg')}
           style={styles.userPicture}
         />
         <View style={styles.infoCard}>
           <Text style={styles.userName}>{name}</Text>
           <Text style={styles.userEmail}>{email}</Text>
         </View>
-        <Separator />
       </View>
+      {/* <Separator /> */}
+      </>
     );
   };
 
@@ -42,7 +44,7 @@ const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
       {users.length === 0 ? (
         <View style={styles.noResult}>
           <Image
-            source={require('../assets/images/empty.png')}
+            source={require('../assets/images/not-found.png')}
             style={styles.noResultImage}
           />
           <Text style={styles.noResultText}>
@@ -61,7 +63,11 @@ const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
               <UserSearchView name={item[1]} email={item[2]} />
             )}
             keyExtractor={item => item[0]}
-            nestedScrollEnabled={true}
+            // nestedScrollEnabled={true}
+            // contentContainerStyle={{
+            //   flexGrow: 1,
+            // }}
+            // style={{flex: 1}}
           />
         </View>
       )}
@@ -71,9 +77,10 @@ const ResponsesBottomSheet = ({reference, category, number, users, color}) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1,
+    // flex: 1,
     alignItems: 'center',
     paddingVertical: '10%',
+    // paddingHorizontal: '20%'
   },
   progressBar: {
     flexDirection: 'row',
@@ -93,7 +100,7 @@ const styles = StyleSheet.create({
   userPicture: {
     width: 60,
     height: 60,
-    borderRadius: 70,
+    borderRadius: 10,
   },
   infoCard: {
     flexDirection: 'column',
@@ -102,6 +109,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 17,
+    // color: '#fff'
   },
   userEmail: {
     fontSize: 13,
@@ -113,13 +121,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noResultImage: {
-    width: 300,
+    width: 400,
     height: 250,
   },
   noResultText: {
     fontSize: 16,
     marginVertical: '10%',
-    color: HEADING,
   },
 });
 

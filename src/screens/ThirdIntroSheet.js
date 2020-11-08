@@ -15,8 +15,12 @@ const ThirdIntroSheet = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={require('../assets/images/ThirdIntroImage.png')}
+          source={require('../assets/images/birthday_.png')}
           style={styles.introImage}
+        />
+        <Image
+          source={require('../assets/images/3.png')}
+          style={styles.slider}
         />
       </View>
 
@@ -48,14 +52,15 @@ const styles = StyleSheet.create({
     // paddingHorizontal: '3%',
   },
   imageContainer: {
-    paddingVertical: '15%',
+    paddingTop: '15%',
+    paddingBottom: '5%',
     paddingHorizontal: '10%',
     backgroundColor: '#FFDCDC',
     alignItems: 'center',
   },
   introImage: {
-    width: 320,
-    height: 350,
+    width: 400,
+    height: 300,
     borderRadius: 10,
   },
   textArea: {
@@ -89,6 +94,11 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     elevation: 5,
+  },
+  slider: {
+    width: 50,
+    height: 20,
+    marginTop: '10%',
   },
 });
 

@@ -15,6 +15,7 @@ import CreateEvent from '../screens/CreateEvent';
 import CreateGroup from '../screens/CreateGroup';
 import AddMember from '../screens/AddMember';
 import Dashboard from '../screens/Dashboard';
+import SelectGroup from '../screens/SelectGroup';
 
 import FirstIntroSheet from '../screens/FirstIntroSheet';
 import SecondIntroSheet from '../screens/SecondIntroSheet';
@@ -35,6 +36,9 @@ const EventStack = () => {
       }}>
       <Stack.Screen name="Events" component={Events} />
       <Stack.Screen name="Event" component={Event} />
+      <Stack.Screen name="SelectGroup" component={SelectGroup} />
+      <Stack.Screen name="Group" component={Group} />
+      <Stack.Screen name="Create Event" component={CreateEvent} />
     </Stack.Navigator>
   );
 };
@@ -51,6 +55,7 @@ const GroupStack = () => {
       <Stack.Screen name="Event" component={Event} />
       <Stack.Screen name="CreateGroup" component={CreateGroup} />
       <Stack.Screen name="Create Event" component={CreateEvent} />
+      <Stack.Screen name="SelectGroup" component={SelectGroup} />
     </Stack.Navigator>
   );
 };
@@ -92,38 +97,38 @@ const AppDrawer = () => {
         <Drawer.Screen
           name="Events"
           component={EventStack}
-          options={{
-            drawerIcon: config => (
-              <Icon name={'calendar-day'} size={30} color="#000000" />
-            ),
-          }}
+          // options={{
+          //   drawerIcon: config => (
+          //     <Icon name={'calendar-day'} size={30} color="#000000" />
+          //   ),
+          // }}
         />
         <Drawer.Screen
           name="Groups"
           component={GroupStack}
-          options={{
-            drawerIcon: config => (
-              <MaterialIcon name={'group'} size={35} color="#000000" />
-            ),
-          }}
+          // options={{
+          //   drawerIcon: config => (
+          //     <MaterialIcon name={'group'} size={35} color="#000000" />
+          //   ),
+          // }}
         />
         <Drawer.Screen
           name="Dashboard"
           component={Dashboard}
-          options={{
-            drawerIcon: config => (
-              <Icon name={'chart-pie'} size={30} color="#000000" />
-            ),
-          }}
+          // options={{
+          //   drawerIcon: config => (
+          //     <Icon name={'chart-pie'} size={30} color="#000000" />
+          //   ),
+          // }}
         />
         <Drawer.Screen
           name="Settings"
           component={SettingsHelpStack}
-          options={{
-            drawerIcon: config => (
-              <Icon name={'cog'} size={30} color="#000000" />
-            ),
-          }}
+          // options={{
+          //   drawerIcon: config => (
+          //     <Icon name={'cog'} size={30} color="#000000" />
+          //   ),
+          // }}
         />
       </Drawer.Navigator>
     </NavigationContainer>

@@ -8,15 +8,18 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 import {PLACEHOLDER, PRIMARY, HEADING} from '../styles/colors';
-import FirstIntroImage from '../assets/images/FirstIntroImage.svg';
 
 const SecondIntroSheet = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={require('../assets/images/SecondIntroImage.png')}
+          source={require('../assets/images/nav.png')}
           style={styles.introImage}
+        />
+        <Image
+          source={require('../assets/images/2.png')}
+          style={styles.slider}
         />
       </View>
 
@@ -50,14 +53,15 @@ const styles = StyleSheet.create({
     // paddingHorizontal: '3%',
   },
   imageContainer: {
-    paddingVertical: '15%',
+    paddingTop: '15%',
+    paddingBottom: '5%',
     paddingHorizontal: '10%',
     backgroundColor: '#FFDCDC',
     alignItems: 'center',
   },
   introImage: {
-    width: 320,
-    height: 350,
+    width: 400,
+    height: 300,
     borderRadius: 10,
   },
   textArea: {
@@ -91,6 +95,11 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     elevation: 5,
+  },
+  slider: {
+    width: 50,
+    height: 20,
+    marginTop: '10%',
   },
 });
 

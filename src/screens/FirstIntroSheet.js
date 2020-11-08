@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 import {PLACEHOLDER, PRIMARY, HEADING} from '../styles/colors';
-import FIrstIntroImage from '../assets/images/FirstIntroImage.svg';
+import FirstIntro from '../assets/images/Artboard – 1.svg';
 
 const FirstIntroSheet = ({navigation}) => {
   return (
@@ -16,8 +16,13 @@ const FirstIntroSheet = ({navigation}) => {
       <View style={styles.imageContainer}>
         {/* <FIrstIntroImage style={styles.introImage} /> */}
         <Image
-          source={require('../assets/images/FirstIntroImage.png')}
+          source={require('../assets/images/user_group.png')}
           style={styles.introImage}
+        />
+        {/* <FirstIntro style={styles.nav} /> */}
+        <Image
+          source={require('../assets/images/1.png')}
+          style={styles.slider}
         />
       </View>
 
@@ -50,14 +55,15 @@ const styles = StyleSheet.create({
     // paddingHorizontal: '3%',
   },
   imageContainer: {
-    paddingVertical: '15%',
+    paddingTop: '15%',
+    paddingBottom: '5%',
     paddingHorizontal: '10%',
     backgroundColor: '#FFDCDC',
     alignItems: 'center',
   },
   introImage: {
-    width: 320,
-    height: 350,
+    width: 400,
+    height: 300,
     borderRadius: 10,
   },
   textArea: {
@@ -91,6 +97,15 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     elevation: 5,
+  },
+  nav: {
+    width: 60,
+    height: '10%',
+  },
+  slider: {
+    width: 50,
+    height: 20,
+    marginTop: '10%',
   },
 });
 

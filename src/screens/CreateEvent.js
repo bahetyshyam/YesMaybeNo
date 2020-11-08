@@ -18,6 +18,7 @@ import LocationLogo from '../assets/images/Location.svg';
 import {createEvent} from '../api/index';
 import Icon from 'react-native-vector-icons/dist/FontAwesome5';
 import Toast from 'react-native-root-toast';
+import {Dimensions} from 'react-native';
 
 const CreateEvent = ({route, navigation}) => {
   const [eventName, setEventName] = useState('');
@@ -214,26 +215,24 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#F8F8F8',
-    padding: 20,
+    backgroundColor: '#fff',
+    padding: '5%',
   },
   heading: {
-    marginLeft: 15,
-    marginBottom: 22,
-    fontSize: 32,
+    marginBottom: '5%',
+    fontSize: 30,
     fontWeight: 'bold',
-    paddingHorizontal: '5%',
+    // paddingHorizontal: '5%',
   },
   box: {
-    paddingTop: '12%',
-    paddingRight: '10%',
-    paddingBottom: '7%',
-    paddingLeft: '10%',
-    backgroundColor: '#fff',
+    paddingHorizontal: '10%',
+    paddingVertical: '10%',
+    backgroundColor: '#FFF4F4',
     borderRadius: 7,
+    marginVertical: '5%'
   },
   label: {
-    fontSize: 19,
+    fontSize: 16,
   },
   horizontalComponent: {
     flexDirection: 'row',

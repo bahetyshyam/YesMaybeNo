@@ -6,7 +6,7 @@ const LoadingScreen = (props) => {
     return (
         <AnimatedLoader
               visible={props.visible}
-              overlayColor="rgba(83, 83, 83,0.90)"
+              overlayColor="rgba(0, 0, 0,0.90)"
               source={require('../assets/images/loading animation.json')}
               animationStyle={styles.lottie}
               speed={1}

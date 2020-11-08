@@ -23,19 +23,12 @@ const Dashboard = ({navigation}) => {
   const [yesPercentage, setYesPercentage] = useState(0);
   const [maybePercentage, setMaybePercentage] = useState(0);
   const [noPercentage, setNoPercentage] = useState(0);
+  const [yesCount, setYesCount] = useState(0);
+  const [maybeCount, setMaybeCount] = useState(0);
+  const [noCount, setNoCount] = useState(0);
+  const [notRespondedCount, setNotRespondedCount] = useState(0);
   const {setUser, user} = useContext(UserContext);
   const windowHeight = Dimensions.get('window').height;
-
-  // const chartConfig = {
-  //   backgroundGradientFrom: '#1E2923',
-  //   backgroundGradientFromOpacity: 0,
-  //   backgroundGradientTo: '#08130D',
-  //   backgroundGradientToOpacity: 0.5,
-  //   color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-  //   strokeWidth: 2, // optional, default 3
-  //   barPercentage: 0.5,
-  //   useShadowColorFromDataset: false, // optional
-  // };
 
   useEffect(() => {
     // setIsLoading(value => !value);
@@ -61,7 +54,6 @@ const Dashboard = ({navigation}) => {
       notResponded = 0;
 
     for (e of events) {
-      console.log(e + '\n');
       if (e.responses.length === 0) notResponded += 1;
       for (response of e.responses)
         if (response.user === user._id) {
@@ -77,6 +69,11 @@ const Dashboard = ({navigation}) => {
 
     let totalCount = yesCount + noCount + maybeCount + notResponded;
 
+    setYesCount(yesCount);
+    setNoCount(noCount);
+    setMaybeCount(maybeCount);
+    setNotRespondedCount(notResponded);
+
     const responseStats = [
       {name: 'Yes', number: yesCount, color: SECONDARY},
       {name: 'No', number: noCount, color: PRIMARY},
@@ -86,25 +83,23 @@ const Dashboard = ({navigation}) => {
     setResponseChart(responseStats);
 
     setYesPercentage(
-      (
+      Math.round(
         (yesCount / (yesCount + noCount + maybeCount + notResponded)) *
         100
-      ).toFixed(1),
+      )
     );
     setMaybePercentage(
-      (
+      Math.round(
         (maybeCount / (yesCount + noCount + maybeCount + notResponded)) *
         100
-      ).toFixed(1),
+      )
     );
     setNoPercentage(
-      (
+      Math.round(
         (noCount / (yesCount + noCount + maybeCount + notResponded)) *
         100
-      ).toFixed(1),
+      )
     );
-
-    console.log(yesPercentage);
   };
 
   return (
@@ -113,7 +108,7 @@ const Dashboard = ({navigation}) => {
         <Header navigation={navigation} />
         <ScrollView>
           <View style={styles.container}>
-            <Text style={styles.heading}>Dashboard</Text>
+            {/* <Text style={styles.heading}>Dashboard</Text> */}
             <Text style={styles.subHeading}>Responses Overview</Text>
             {/* <PieChart
               data={data}
@@ -124,59 +119,129 @@ const Dashboard = ({navigation}) => {
               hasLegend={false}
               style={styles.pieChart}
             /> */}
-
-            <View style={styles.yesCircle}>
-              <AnimatedCircularProgress
-                size={270}
-                width={15}
-                backgroundWidth={5}
-                fill={yesPercentage}
-                tintColor={SECONDARY}
-                backgroundColor="#F0F0F0"
-                rotation={0}
-                duration={1500}
-                // lineCap={'round'}
-              />
-              <View style={styles.out}>
+            <View style={styles.responsesOverview}>
+              <View style={styles.yesCircle}>
                 <AnimatedCircularProgress
-                  size={200}
+                  size={280}
                   width={15}
                   backgroundWidth={5}
-                  fill={maybePercentage}
-                  tintColor={PLACEHOLDER}
-                  backgroundColor="#F0F0F0"
+                  fill={yesPercentage}
+                  tintColor={SECONDARY}
+                  backgroundColor="#F2F2F2"
                   rotation={0}
-                  duration={1500}
+                  duration={0}
                   // lineCap={'round'}
                 />
-                <View style={styles.in}>
+                <View style={styles.out}>
                   <AnimatedCircularProgress
-                    size={130}
+                    size={210}
                     width={15}
                     backgroundWidth={5}
-                    fill={noPercentage}
-                    tintColor={PRIMARY}
-                    backgroundColor="#F0F0F0"
+                    fill={maybePercentage}
+                    tintColor={PLACEHOLDER}
+                    backgroundColor="#F2F2F2"
+                    rotation={0}
+                    duration={0}
+                    // lineCap={'round'}
+                  />
+                  <View style={styles.in}>
+                    <AnimatedCircularProgress
+                      size={135}
+                      width={15}
+                      backgroundWidth={5}
+                      fill={noPercentage}
+                      tintColor={PRIMARY}
+                      backgroundColor="#F2F2F2"
+                      rotation={0}
+                      duration={0}
+                      // lineCap={'round'}
+                    />
+                  </View>
+                </View>
+              </View>
+
+              <View style={styles.legend}>
+                <View style={styles.bubble}>
+                  <Yes />
+                  <Text style={styles.percentage}>{yesPercentage}%</Text>
+                </View>
+                <View style={styles.bubble}>
+                  <Maybe />
+                  <Text style={styles.percentage}>{maybePercentage}%</Text>
+                </View>
+                <View style={styles.bubble}>
+                  <No />
+                  <Text style={styles.percentage}>{noPercentage}%</Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.eventHistory}>
+              <Text style={styles.subHeading}>Events History</Text>
+              <View style={styles.yesEventHistory}>
+                <View style={styles.yesEventHistoryText}>
+                  <Text style={styles.yesEventHistoryTextHeading}>Yes</Text>
+                  <Text style={styles.yesEventHistoryTextDesc}>
+                    You've responded yes to {yesCount} out of{' '}
+                    {yesCount + noCount + maybeCount + notRespondedCount} events
+                  </Text>
+                </View>
+                <View style={styles.progress}>
+                  <AnimatedCircularProgress
+                    size={100}
+                    width={12}
+                    backgroundWidth={5}
+                    fill={yesPercentage}
+                    tintColor={SECONDARY}
+                    backgroundColor="#fff"
                     rotation={0}
                     duration={1500}
                     // lineCap={'round'}
                   />
                 </View>
               </View>
-            </View>
-
-            <View style={styles.legend}>
-              <View style={styles.bubble}>
-                <Yes />
-                <Text style={styles.percentage}>{yesPercentage}%</Text>
+              <View style={styles.maybeEventHistory}>
+                <View style={styles.yesEventHistoryText}>
+                  <Text style={styles.yesEventHistoryTextHeading}>Maybe</Text>
+                  <Text style={styles.yesEventHistoryTextDesc}>
+                    You've responded yes to {maybeCount} out of{' '}
+                    {yesCount + noCount + maybeCount + notRespondedCount} events
+                  </Text>
+                </View>
+                <View style={styles.progress}>
+                  <AnimatedCircularProgress
+                    size={100}
+                    width={12}
+                    backgroundWidth={5}
+                    fill={maybePercentage}
+                    tintColor={PLACEHOLDER}
+                    backgroundColor="#fff"
+                    rotation={0}
+                    duration={1500}
+                    // lineCap={'round'}
+                  />
+                </View>
               </View>
-              <View style={styles.bubble}>
-                <Maybe />
-                <Text style={styles.percentage}>{maybePercentage}%</Text>
-              </View>
-              <View style={styles.bubble}>
-                <No />
-                <Text style={styles.percentage}>{noPercentage}%</Text>
+              <View style={styles.noEventHistory}>
+                <View style={styles.yesEventHistoryText}>
+                  <Text style={styles.yesEventHistoryTextHeading}>No</Text>
+                  <Text style={styles.yesEventHistoryTextDesc}>
+                    You've responded yes to {noCount} out of{' '}
+                    {yesCount + noCount + maybeCount + notRespondedCount} events
+                  </Text>
+                </View>
+                <View style={styles.progress}>
+                  <AnimatedCircularProgress
+                    size={100}
+                    width={12}
+                    backgroundWidth={5}
+                    fill={noPercentage}
+                    tintColor={PRIMARY}
+                    backgroundColor="#fff"
+                    rotation={0}
+                    duration={1500}
+                    // lineCap={'round'}
+                  />
+                </View>
               </View>
             </View>
           </View>
@@ -192,28 +257,34 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: '#fff',
-    padding: '10%',
-    height: Dimensions.get('window').height,
+    padding: '7%',
+    // height: Dimensions.get('window').height,
   },
   heading: {
     fontSize: 35,
     fontWeight: 'bold',
-    marginBottom: '13%',
+    marginBottom: '10%',
   },
   subHeading: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: 'bold',
-    color: HEADING,
+    marginBottom: '5%',
   },
   pieChart: {
     padding: '10%',
     elevation: 10,
   },
+  responsesOverview: {
+    backgroundColor: '#fff',
+    paddingHorizontal: '10%',
+    paddingVertical: '5%',
+    borderRadius: 10,
+  },
   legend: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginVertical: '22%',
-    marginLeft: '-15%',
+    marginTop: '20%',
+    marginLeft: '-20%',
   },
   bubble: {
     width: 50,
@@ -225,26 +296,74 @@ const styles = StyleSheet.create({
   percentage: {
     marginVertical: '25%',
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 14,
   },
   yesCircle: {
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginVertical: '10%',
+    marginBottom: '15%',
+    marginTop: '5%',
   },
   out: {
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: '-75%',
+    marginTop: '-90%',
   },
   in: {
     width: 100,
     height: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '-47%',
+    marginTop: '-57%',
+  },
+  eventHistory: {
+    marginVertical: '10%',
+  },
+  yesEventHistory: {
+    flexDirection: 'row',
+    backgroundColor: '#E6FFE5',
+    paddingHorizontal: '7%',
+    paddingVertical: '5%',
+    marginBottom: '5%',
+    borderRadius: 5,
+    borderBottomColor: SECONDARY,
+    borderBottomWidth: 3
+  },
+  maybeEventHistory: {
+    flexDirection: 'row',
+    backgroundColor: '#F2F2F2',
+    paddingHorizontal: '7%',
+    paddingVertical: '5%',
+    marginBottom: '5%',
+    borderRadius: 5,
+    borderBottomColor: PLACEHOLDER,
+    borderBottomWidth: 3
+  },
+  noEventHistory: {
+    flexDirection: 'row',
+    backgroundColor: '#FFDBDB',
+    paddingHorizontal: '7%',
+    paddingVertical: '5%',
+    borderRadius: 5,
+    borderBottomColor: PRIMARY,
+    borderBottomWidth: 3,
+  },
+  yesEventHistoryText: {
+    paddingVertical: '5%',
+  },
+  yesEventHistoryTextHeading: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: '3%',
+  },
+  yesEventHistoryTextDesc: {
+    fontSize: 14,
+    width: '60%',
+  },
+  progress: {
+    marginLeft: '-25%',
   },
 });
 

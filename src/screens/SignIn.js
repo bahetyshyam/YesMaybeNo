@@ -8,6 +8,7 @@ import {UserContext} from '../navigation/AppNavigator';
 import {signIn} from '../api/index';
 import {storeToken, storeUser} from '../utils/asynStorage';
 import LoadingScreen from '../components/LoadingScreen';
+import HeaderLogo from '../assets/images/logo.svg';
 
 const SignIn = ({navigation}) => {
   const [email, setEmail] = useState('');
@@ -41,7 +42,10 @@ const SignIn = ({navigation}) => {
   return (
     <View style={styles.container}>
       <LoadingScreen visible={isLoading} />
-      <Text style={styles.heading}>Sign In</Text>
+      <View style={styles.logoView}>
+        <HeaderLogo />
+      </View>
+      <Text style={styles.heading}>Sign in</Text>
       <View style={styles.box}>
         <Text style={styles.label}>Email</Text>
         <FormInput
@@ -76,17 +80,17 @@ const SignIn = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f6f6',
+    backgroundColor: '#f8f8f8',
     paddingLeft: '5%',
     paddingRight: '5%',
-    paddingTop: '20%',
+    // paddingTop: '20%',
     paddingBottom: '20%',
     justifyContent: 'center',
   },
   heading: {
     marginLeft: 15,
     marginBottom: 15,
-    fontSize: 32,
+    fontSize: 25,
     fontWeight: 'bold',
     color: PRIMARY,
     paddingHorizontal: '5%',
@@ -105,7 +109,7 @@ const styles = StyleSheet.create({
     // elevation: 7,
   },
   label: {
-    fontSize: 21,
+    fontSize: 16,
   },
   signUp: {
     marginTop: 20,
@@ -113,9 +117,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   signUpText: {
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: 'bold',
     color: PRIMARY,
+  },
+  logoView: {
+    width: 310,
+    height: 140,
+    alignSelf: 'center'
   },
 });
 
